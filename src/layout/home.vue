@@ -25,8 +25,9 @@
             </div>
         </div>
         <div id="center">
-            <div id="background">
-            </div>
+            <el-scrollbar>
+                <div id="background"></div>
+            </el-scrollbar>
         </div>
     </div>
 </template>
@@ -58,6 +59,8 @@
         overflow-y: scroll;
     }
 
+    #center::-webkit-scrollbar { width: 0 !important }
+
     #heard-container {
         width: 80%;
         display: flex;
@@ -65,7 +68,7 @@
         justify-content: space-between;
     }
 
-    #heard-info{
+    #heard-info {
         height: 100%;
         display: flex;
         align-items: center;
@@ -79,7 +82,7 @@
         text-align: center;
     }
 
-    #description{
+    #description {
         font-size: 3px;
     }
 
@@ -94,7 +97,7 @@
         margin: 0 8px;
     }
 
-    #heard-functions{
+    #heard-functions {
         display: flex;
         color: white;
     }
@@ -109,7 +112,7 @@
 
     }
 
-    #background{
+    #background {
         background-image: url("../assets/background.jpg");
         width: 100%;
         height: 400px;

@@ -10,4 +10,5 @@
 </script>
 
 <style>
+    @import "../src/style/cover.css";
 </style>
