@@ -45,7 +45,7 @@
             </el-collapse-transition>
             <el-row>
                 <el-col :span="6" v-for="o in 8" :key="o">
-                    <el-card :body-style="{ padding: '0px' }" style="margin: 10px;" shadow="hover">
+                    <el-card :body-style="{ padding: '0px' }" style="margin: 10px;" shadow="hover" @click.native="$router.push('/store')">
                         <img src="https://images.nomadguide.cn/2021/4/2QF5sQd0pAyu8sT73gAra3cjZTygbDEc.jpeg"
                              class="image" style="height: 170px">
                         <div class="store-info">
