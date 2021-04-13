@@ -75,10 +75,11 @@
         width: 100%;
         display: flex;
         justify-content: center;
-        background-color: aliceblue;
+        background-color: #e4e7ed;
     }
 
     .center-container {
+        background-color: white;
         width: 80%;
         height: 100%;
         display: flex;
@@ -94,6 +95,7 @@
         height: 100%;
         background-color: white;
         margin-top: 20px;
+        padding: 0 15px;
     }
 
     .rank-title {

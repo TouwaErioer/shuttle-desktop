@@ -43,29 +43,35 @@
                     <el-button class="item">应用</el-button>
                 </div>
             </el-collapse-transition>
-            <el-row>
-                <el-col :span="6" v-for="o in 8" :key="o">
-                    <el-card :body-style="{ padding: '0px' }" style="margin: 10px;" shadow="hover" @click.native="$router.push('/store')">
-                        <img src="https://images.nomadguide.cn/2021/4/2QF5sQd0pAyu8sT73gAra3cjZTygbDEc.jpeg"
+            <el-row v-if="stores.length !== 0">
+                <el-col :span="6" v-for="store in stores" :key="store.id">
+                    <el-card :body-style="{ padding: '0px' }" style="margin: 10px;" shadow="hover"
+                             @click.native="$router.push('/store')">
+                        <img :src="store.image"
                              class="image" style="height: 170px">
                         <div class="store-info">
                             <div class="store-title">
-                                <span> 好吃的汉堡 </span>
-                                <el-tag size="mini" effect="dark">一食堂</el-tag>
+                                <span v-text="store.name"></span>
+                                <el-tag size="mini" effect="dark">比奇堡</el-tag>
                             </div>
-                            <el-rate v-model="value" disabled show-score text-color="#ff9900"></el-rate>
-                            <div class="sales"><i class="el-icon-medal"></i> 销量：1</div>
+                            <el-rate v-model="store.rate" disabled show-score text-color="#ff9900"></el-rate>
+                            <div class="sales"> 销量：<i class="el-icon-medal"></i><span v-text="store.sales"></span></div>
                         </div>
                     </el-card>
                 </el-col>
             </el-row>
+            <Empty :description="'该服务暂无商店'" :svg="require('@/assets/undraw_mpty_street.svg')"
+                   style="height: unset;" v-if="stores.length === 0"/>
         </div>
     </div>
 </template>
 
 <script>
+    import Empty from "@/components/empty";
+
     export default {
         name: "service",
+        components: {Empty},
         props: {title: String, icon: String},
         data() {
             return {
@@ -73,7 +79,16 @@
                 filter: false,
                 category: '全部',
                 sort: '最新',
-                advanced: '正序'
+                advanced: '正序',
+                stores: [
+                    {
+                        id: 1,
+                        name: '蟹堡王',
+                        image: 'https://upload.wikimedia.org/wikipedia/zh/3/33/Krusty_Krab_230b.png',
+                        rate: 3,
+                        sales: 1
+                    }
+                ]
             }
         }
     }
