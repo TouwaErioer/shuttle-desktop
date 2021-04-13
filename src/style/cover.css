@@ -28,6 +28,10 @@
     color: #f2f6fc!important;
 }
 
-.el-textarea__inner{
-    border: 0!important;
+/*.el-textarea__inner{*/
+/*    border: 0!important;*/
+/*}*/
+
+.el-divider--horizontal{
+    margin-bottom: 20px!important;
 }

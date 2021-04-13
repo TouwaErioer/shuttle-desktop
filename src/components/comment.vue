@@ -1,11 +1,14 @@
 <template>
     <div class="container">
         <div class="input-container">
-            <div class="input">
-                <el-input type="textarea" v-model="content" rows="5" placeholder="请输入评论" class="textarea"/>
-                <div class="operate">
-                    <el-button @click="send">提交</el-button>
-                </div>
+            <div>
+                <el-input type="textarea" v-model="content" rows="5" placeholder="请输入评论"/>
+                <!--                <div class="operate">-->
+                <!--                    <el-button @click="send">提交</el-button>-->
+                <!--                </div>-->
+            </div>
+            <div class="operate">
+                <el-button @click="send">提交</el-button>
             </div>
         </div>
         <div class="comments">
@@ -23,7 +26,9 @@
                 </div>
                 <div class="content-container">
                     <div class="content" v-text="item.content"></div>
-                    <div><el-button type="text" class="delete" @click="del(item.id)">删除</el-button></div>
+                    <div>
+                        <el-button type="text" class="delete" @click="del(item.id)">删除</el-button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -58,7 +63,7 @@
                     date: '1小时前'
                 })
             },
-            del(id){
+            del(id) {
                 this.$confirm('此操作将永久删除该评论, 是否继续?', '提示', {
                     confirmButtonText: '确定',
                     cancelButtonText: '取消',
@@ -104,7 +109,7 @@
     .operate {
         display: flex;
         justify-content: flex-end;
-        padding: 10px;
+        padding: 10px 0;
     }
 
     .textarea {
@@ -144,7 +149,7 @@
         color: #f56c6c;
     }
 
-    .content-container{
+    .content-container {
         display: flex;
         justify-content: space-between;
     }

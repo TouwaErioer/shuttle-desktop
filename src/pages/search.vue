@@ -36,7 +36,7 @@
 </template>
 
 <script>
-    import common from "@/common";
+    import common from "@/utils/common";
     import {searchProduct} from "@/utils/api/product";
     import PopularItem from "@/components/popular-item";
 

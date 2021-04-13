@@ -1,0 +1,228 @@
+<template>
+    <Page>
+        <PageHeader slot="header"/>
+        <div class="box-container" slot="center">
+            <div class="box">
+                <div class="left" v-if="getCount !== 0">
+                    <el-scrollbar class="product">
+                        <CartItem :item="item[1]" v-for="item in cart" :key="item[1].id" :count="item[1].count"/>
+                    </el-scrollbar>
+                </div>
+                <Empty class="left" description="购物车暂无商品" :svg="require('@/assets/undraw_empty_cart_co35.svg')"
+                       v-if="getCount === 0"/>
+                <div class="right">
+                    <div class="center" style="flex:1">
+                        <div class="cart-info">
+                            <el-divider><i class="el-icon-view"></i> 用户信息</el-divider>
+                            <div class="user">
+                                <div><i class="el-icon-user"> 昵称</i></div>
+                                <div>guest</div>
+                            </div>
+                            <div class="address">
+                                <div><i class="el-icon-school"> 地址</i></div>
+                                <div>guest</div>
+                            </div>
+                        </div>
+                        <div class="expand">
+                                <el-divider class="divider"><i class="el-icon-setting"> 可选操作</i></el-divider>
+                                <el-input
+                                        class="option"
+                                        type="textarea"
+                                        :rows="2"
+                                        placeholder="备注">
+                                </el-input>
+                                <el-switch
+                                        class="option"
+                                        v-model="expired"
+                                        active-text="自动取消（超过15分钟未有人接单）">
+                                </el-switch>
+                        </div>
+                    </div>
+                    <div class="operate">
+                        <div class="total">
+                            <div class="total-info"><i class="el-icon-price-tag"> 商品金额（运费 ¥1）</i></div>
+                            <div class="total-txt"><span>共计：</span><span class="count-text">¥{{totalPrice}}</span>
+                            </div>
+                        </div>
+                        <el-button class="operate-btn" type="primary" :disabled="$store.getters.getCount === 0">下单
+                        </el-button>
+                        <el-button class="operate-btn" type="success" :disabled="$store.getters.getCount === 0"
+                                   @click="clearCart">清空购物车
+                        </el-button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </Page>
+</template>
+
+<script>
+    import Page from "@/layout/page";
+    import PageHeader from "@/layout/page-header";
+    import CartItem from "@/components/cart-item";
+    import common from "@/utils/common";
+    import Empty from "@/components/empty";
+
+    export default {
+        name: "cart",
+        components: {Empty, CartItem, PageHeader, Page},
+        data() {
+            return {
+                cart: Array.from(this.$store.getters.getCartMap),
+                expired: false
+            }
+        },
+        computed: {
+            getCount() {
+                return this.$store.getters.getCount;
+            },
+            totalPrice() {
+                if (this.getCount !== 0) {
+                    let count = 0;
+                    this.$store.getters.getCartMap.forEach(function (product) {
+                        count += product.count * product.price + 100
+                    });
+                    return common.changePrice(count);
+                } else return '0.00'
+            },
+        },
+        methods: {
+            clearCart() {
+                this.$store.commit('clear');
+                this.cart = [];
+                this.$notify({
+                    title: '成功',
+                    message: '清空购物车成功！',
+                    type: 'success',
+                    duration: 2000,
+                    position: 'bottom-left'
+                });
+            }
+        }
+    }
+</script>
+
+<style scoped>
+
+    .background {
+        background-image: url("../assets/login-background.jpg");
+        width: 100%;
+        height: 400px;
+        background-size: cover;
+        background-position: center;
+    }
+
+    .box-container {
+        background-color: #e4e7ed;
+        height: 100%;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+    }
+
+    .box {
+        width: 80%;
+        height: 100%;
+        display: flex;
+    }
+
+    .left {
+        padding: 10px;
+        width: 70%;
+        background-color: white;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .right {
+        width: 30%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+        background-color: white;
+    }
+
+    .cart-info {
+        padding: 30px 0 0 0;
+        width: 100%;
+    }
+
+    .cart-info > div {
+        margin: 10px 0;
+    }
+
+    .user {
+        padding: 3px 0;
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .address {
+        padding: 3px 0;
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .expand {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .expand::after {
+        height: 2px;
+        background: -webkit-repeating-linear-gradient(135deg, #ff6c6c 0, #ff6c6c 20%, transparent 0, transparent 25%, #1989fa 0, #1989fa 45%, transparent 0, transparent 50%);
+        background: repeating-linear-gradient(-45deg, #ff6c6c 0, #ff6c6c 20%, transparent 0, transparent 25%, #1989fa 0, #1989fa 45%, transparent 0, transparent 50%);
+        background-size: 80px;
+        content: '';
+    }
+
+    .option{
+        margin-bottom: 10px;
+    }
+
+    .total {
+        padding: 10px 0;
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .operate {
+        width: 80%;
+        display: flex;
+        flex-direction: column;
+        padding: 10px;
+    }
+
+    .operate-btn {
+        width: 100%;
+        margin: 3px 0;
+    }
+
+    .center {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .product {
+        flex: 1;
+        overflow-y: scroll
+    }
+
+    .product::-webkit-scrollbar {
+        width: 0 !important
+    }
+
+    .count-text {
+        color: #f56c6c;
+    }
+
+    .option{
+        margin-bottom: 20px;
+    }
+</style>

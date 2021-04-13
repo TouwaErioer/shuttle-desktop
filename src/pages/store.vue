@@ -2,12 +2,12 @@
     <Page>
         <PageHeader slot="header"/>
         <el-scrollbar slot="center">
-            <div class="background"></div>
             <div class="center-container">
                 <div class="box">
                     <div class="store-box">
                         <div class="product">
-                            <Product title="产品" icon="el-icon-goods"/>
+                            <Product v-for="product in products" :key="product.id" title="产品" icon="el-icon-goods"
+                                     :product="product"/>
                         </div>
                         <div class="store-info">
                             <div class="info">
@@ -54,7 +54,23 @@
         components: {Comment, Product, Page, PageHeader},
         data() {
             return {
-                value: 3
+                value: 3,
+                products: [
+                    {
+                        'id': 1,
+                        'image': 'https://4.bp.blogspot.com/-lDiaVQQFlVw/Xqi2HiN-F7I/AAAAAAABS5Y/xCUQqqnp6dk2bhR_mY-HSmP5cEG3vvlLQCNcBGAsYHQ/w1200-h630-p-k-no-nu/krabby-patty-spongebob-squarepants-nickelodeon-nick-sbsp-animated-gif.gif',
+                        'name': '蟹黄堡',
+                        'shop': '蟹堡王',
+                        'rate': 3,
+                        'sales': 1,
+                        'price': 1000,
+                        'store': {
+                            'serviceId': 1,
+                            'name': '蟹堡王',
+                            'storeId': 1
+                        }
+                    }
+                ],
             }
         }
     }
@@ -111,11 +127,11 @@
         align-items: center;
     }
 
-    .info > div{
+    .info > div {
         margin: 5px 0;
     }
 
-    .operate{
+    .operate {
         display: flex;
     }
 

@@ -28,6 +28,10 @@ const routes = [
     {
         path: '/store',
         component: () => import('@/pages/store')
+    },
+    {
+        path: '/cart',
+        component: () => import('@/pages/cart')
     }
 ];
 

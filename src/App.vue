@@ -12,10 +12,28 @@
                 enterTransitionName: null,
             }
         },
+        created() {
+            window.addEventListener('beforeunload', e => this.update(e));
+        },
+        methods: {
+            // 刷新或关闭调用
+            update() {
+                let cartMap = this.$store.getters.getCartMap;
+                if (cartMap.size == 0) localStorage.removeItem('cart');
+                else localStorage.setItem('cart', JSON.stringify(Array.from(cartMap)));
+
+                const order = this.$store.getters.getCurrent;
+                if (order !== null)
+                    sessionStorage.setItem('current', JSON.stringify(order));
+            }
+        },
         watch: {
             '$route'(to) {
                 this.enterTransitionName = to.path === '/search' ? 'animated slideInDown' : null;
             }
+        },
+        destroyed() {
+            window.removeEventListener('beforeunload', e => this.update(e))
         }
     }
 </script>

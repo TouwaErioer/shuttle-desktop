@@ -13,18 +13,17 @@
         <div class="content">
             <el-row>
                 <el-col :span="6" v-for="o in 8" :key="o">
-                    <el-card :body-style="{ padding: '0px' }" style="margin: 10px;" shadow="hover"
-                             @click.native="$router.push('/store')">
-                        <img src="https://4.bp.blogspot.com/-lDiaVQQFlVw/Xqi2HiN-F7I/AAAAAAABS5Y/xCUQqqnp6dk2bhR_mY-HSmP5cEG3vvlLQCNcBGAsYHQ/w1200-h630-p-k-no-nu/krabby-patty-spongebob-squarepants-nickelodeon-nick-sbsp-animated-gif.gif"
+                    <el-card :body-style="{ padding: '0px' }" style="margin: 10px;" shadow="hover">
+                        <img :src="product.image"
                              class="image" style="height: 170px">
                         <div class="store-info">
                             <div class="store-title">
-                                <span> 蟹黄堡 </span>
+                                <span v-text="product.name"></span>
                             </div>
-                            <div class="info-text"><i class="el-icon-medal"></i> 销量：1</div>
-                            <div class="info-text"><i class="el-icon-price-tag"></i> 价格：10</div>
-                            <el-rate v-model="value" disabled show-score text-color="#ff9900"></el-rate>
-                            <el-button size="mini">加入购物车</el-button>
+                            <div class="info-text"><i class="el-icon-medal"></i> {{'销量：' + product.sales}}</div>
+                            <div class="info-text"><i class="el-icon-price-tag"></i> {{'价格：' + product.price}}</div>
+                            <el-rate v-model="score" disabled show-score text-color="#ff9900"></el-rate>
+                            <ProductDialog :product="product" :value="value"/>
                         </div>
                     </el-card>
                 </el-col>
@@ -34,16 +33,20 @@
 </template>
 
 <script>
+    import ProductDialog from "@/components/product-dialog";
+
     export default {
         name: "product",
-        props: {title: String, icon: String},
+        components: {ProductDialog},
+        props: {title: String, icon: String, product: Object},
         data() {
             return {
-                value: 3,
+                score: 3,
                 filter: false,
                 category: '全部',
                 sort: '最新',
-                advanced: '正序'
+                advanced: '正序',
+                value: null
             }
         }
     }
@@ -79,7 +82,7 @@
         justify-content: center;
     }
 
-    .store-info > div{
+    .store-info > div {
         margin: 2px;
     }
 
