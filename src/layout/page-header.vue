@@ -2,7 +2,7 @@
     <div id="heard">
         <div id="heard-container">
             <div id="heard-info">
-                <div id="title" @click="$router.push('/')">
+                <div id="title" @click="house">
                     <div id="name">shuttle</div>
                     <div id="description">校园服务平台</div>
                 </div>
@@ -12,7 +12,8 @@
                     <div class="page"><i class="el-icon-circle-plus-outline"></i> 新增</div>
                     <div class="page"><i class="el-icon-data-analysis"></i> 管理</div>
                     <el-badge :value="$store.getters.getCount">
-                        <div class="page" @click="$router.push('/cart')"><i class="el-icon-shopping-cart-2"></i> 购物车</div>
+                        <div class="page" @click="$router.push('/cart')"><i class="el-icon-shopping-cart-2"></i> 购物车
+                        </div>
                     </el-badge>
                 </div>
             </div>
@@ -29,7 +30,14 @@
 
 <script>
     export default {
-        name: "page-header"
+        name: "page-header",
+        methods: {
+            house() {
+                if (this.$route.path !== '/') {
+                    this.$router.push('/')
+                }
+            }
+        }
     }
 </script>
 
