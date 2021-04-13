@@ -7,7 +7,7 @@ Vue.use(VueRouter);
 const routes = [
     {
         path: '/',
-        component: () => import('@/layout/home')
+        component: () => import('@/pages/home')
     },
     {
         path: '/login',
@@ -32,6 +32,18 @@ const routes = [
     {
         path: '/cart',
         component: () => import('@/pages/cart')
+    },
+    {
+        path: '/order',
+        component: () => import('@/pages/order')
+    },
+    {
+        path: '/receive',
+        component: () => import('@/pages/receive')
+    },
+    {
+        path: '/add',
+        component: () => import('@/pages/add')
     }
 ];
 

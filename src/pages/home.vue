@@ -28,7 +28,7 @@
 <script>
     import Service from "@/components/service";
     import PopularItem from "@/components/popular-item";
-    import PageHeader from "@/layout/page-header";
+    import PageHeader from "@/components/page-header";
     import Page from "@/layout/page";
 
     export default {

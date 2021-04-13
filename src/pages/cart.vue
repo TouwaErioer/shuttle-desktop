@@ -58,7 +58,7 @@
 
 <script>
     import Page from "@/layout/page";
-    import PageHeader from "@/layout/page-header";
+    import PageHeader from "@/components/page-header";
     import CartItem from "@/components/cart-item";
     import common from "@/utils/common";
     import Empty from "@/components/empty";

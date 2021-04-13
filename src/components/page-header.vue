@@ -7,9 +7,9 @@
                     <div id="description">校园服务平台</div>
                 </div>
                 <div id="pages">
-                    <div class="page"><i class="el-icon-tickets"></i> 订单</div>
-                    <div class="page"><i class="el-icon-sell"></i> 接单</div>
-                    <div class="page"><i class="el-icon-circle-plus-outline"></i> 新增</div>
+                    <div class="page" @click="$router.push('/order')"><i class="el-icon-tickets"></i> 订单</div>
+                    <div class="page" @click="$router.push('/receive')"><i class="el-icon-sell"></i> 接单</div>
+                    <div class="page" @click="$router.push('/add')"><i class="el-icon-circle-plus-outline"></i> 新增</div>
                     <div class="page"><i class="el-icon-data-analysis"></i> 管理</div>
                     <el-badge :value="$store.getters.getCount">
                         <div class="page" @click="$router.push('/cart')"><i class="el-icon-shopping-cart-2"></i> 购物车

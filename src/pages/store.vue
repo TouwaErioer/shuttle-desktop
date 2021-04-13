@@ -48,7 +48,7 @@
 </template>
 
 <script>
-    import PageHeader from "@/layout/page-header";
+    import PageHeader from "@/components/page-header";
     import Page from "@/layout/page";
     import Product from "@/components/product";
     import Comment from "@/components/comment";
