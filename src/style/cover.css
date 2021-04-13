@@ -8,21 +8,21 @@
     overflow-y: scroll !important;
 }
 
-.el-pagination button:disabled {
-    background-color: aliceblue !important;
-}
+/*.el-pagination button:disabled {*/
+/*    background-color: aliceblue !important;*/
+/*}*/
 
-.el-dialog, .el-pager li {
-    background-color: aliceblue !important;
-}
+/*.el-dialog, .el-pager li {*/
+/*    background-color: aliceblue !important;*/
+/*}*/
 
-.el-pagination .btn-next, .el-pagination .btn-prev {
-    background: center center no-repeat aliceblue !important;
-}
+/*.el-pagination .btn-next, .el-pagination .btn-prev {*/
+/*    background: center center no-repeat aliceblue !important;*/
+/*}*/
 
-.el-pagination {
-    color: #999 !important;
-}
+/*.el-pagination {*/
+/*    color: #999 !important;*/
+/*}*/
 
 .el-tag__close {
     color: #f2f6fc!important;

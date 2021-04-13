@@ -5,10 +5,12 @@
             <div class="center-container">
                 <div class="box">
                     <div class="store-box">
-                        <div class="product">
+                        <div class="product" v-if="products.length !== 0">
                             <Product v-for="product in products" :key="product.id" title="产品" icon="el-icon-goods"
                                      :product="product"/>
                         </div>
+                        <Empty :description="'该商店暂无产品'" :svg="require('@/assets/undraw_empty_xct9.svg')"
+                               class="product" v-if="products.length === 0" style="height: unset;"/>
                         <div class="store-info">
                             <div class="info">
                                 <div class="image">
@@ -34,8 +36,10 @@
                             </div>
                         </div>
                     </div>
-                    <div class="comment">
-                        <Comment/>
+                    <div class="comment-container">
+                        <div class="comment">
+                            <Comment/>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -48,10 +52,11 @@
     import Page from "@/layout/page";
     import Product from "@/components/product";
     import Comment from "@/components/comment";
+    import Empty from "@/components/empty";
 
     export default {
         name: "store",
-        components: {Comment, Product, Page, PageHeader},
+        components: {Empty, Comment, Product, Page, PageHeader},
         data() {
             return {
                 value: 3,
@@ -90,7 +95,7 @@
         width: 100%;
         display: flex;
         justify-content: center;
-        background-color: aliceblue;
+        background-color: #e4e7ed;
     }
 
     .box {
@@ -110,12 +115,12 @@
     .product {
         width: 80%;
         height: 100%;
-        background-color: aliceblue;
+        background-color: white;
     }
 
     .store-info {
         width: 20%;
-        height: 100%;
+        flex: 1;
         background-color: white;
     }
 
@@ -135,9 +140,15 @@
         display: flex;
     }
 
-    .comment {
+    .comment-container {
+        background-color: white;
         width: 100%;
         flex: 0.2;
+    }
+
+    .comment {
+        margin-top: 30px;
+        width: 80%;
     }
 
 </style>
