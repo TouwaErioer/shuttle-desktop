@@ -20,8 +20,7 @@
             <div id="heard-functions">
                 <div id="search" @click="$router.push('/search')"><i class="el-icon-search"></i></div>
                 <div id="user">
-                    <el-button size="mini" type="primary" @click="$router.push('/login')">登录</el-button>
-                    <el-button size="mini" type="success" @click="$router.push('/register')">注册</el-button>
+                    <el-avatar :src="avatarUrl" @click.native="$router.push('/user')" :size="35"/>
                 </div>
             </div>
         </div>
@@ -31,6 +30,19 @@
 <script>
     export default {
         name: "page-header",
+        data() {
+            return {
+                userInfo: JSON.parse(localStorage.getItem('userInfo'))
+            }
+        },
+        computed: {
+            avatarUrl: function () {
+                if(this.userInfo.name === null){
+                    return `https://api.multiavatar.com/null.png`;
+                }
+                return `https://api.multiavatar.com/${this.userInfo.name}.png`;
+            },
+        },
         methods: {
             house() {
                 if (this.$route.path !== '/') {

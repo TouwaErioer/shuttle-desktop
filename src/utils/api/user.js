@@ -6,7 +6,7 @@ const API = '/user/'
 export const Login = (params) => post(API + 'login', params)
 
 // 注册
-export const register = (params) => post(API + 'register', params)
+export const Register = (params) => post(API + 'register', params);
 
 // 重置密码
 export const reset = (params) => post(API + 'resetPassword', params)

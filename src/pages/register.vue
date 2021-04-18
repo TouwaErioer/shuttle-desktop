@@ -4,18 +4,21 @@
             <div class="left"></div>
             <div class="right">
                 <div class="right-container" style="flex: 1;width: 100%;height: 100%;">
-                <div class="info">
-                    <div>shuttle</div>
-                    <el-divider>校园服务平台</el-divider>
-                </div>
-                <div class="input-container">
-                    <el-input class="input" prefix-icon="el-icon-user" placeholder="手机号"/>
-                    <el-input class="input" prefix-icon="el-icon-key" placeholder="密码"/>
-                    <el-input class="input" prefix-icon="el-icon-key" placeholder="重复密码"/>
-                    <el-button style="width: 100%;margin: 10px 0" type="success">注册</el-button>
-                </div>
-                <div class="expired">
-                </div>
+                    <div class="info">
+                        <div>shuttle</div>
+                        <el-divider>校园服务平台</el-divider>
+                    </div>
+                    <div class="input-container">
+                        <el-input class="input" v-model="register_from.phone" prefix-icon="el-icon-user"
+                                  placeholder="手机号"/>
+                        <el-input class="input" v-model="register_from.password" prefix-icon="el-icon-key"
+                                  placeholder="密码" type="password"/>
+                        <el-input class="input" v-model="register_from.rePassword" prefix-icon="el-icon-key"
+                                  placeholder="重复密码" type="password"/>
+                        <el-button style="width: 100%;margin: 10px 0" type="success" @click="register">注册</el-button>
+                    </div>
+                    <div class="expired">
+                    </div>
                 </div>
                 <div class="expand">
                     <div class="expand-container">
@@ -32,8 +35,50 @@
 </template>
 
 <script>
+    import {Login, Register} from "@/utils/api/user";
+
     export default {
-        name: "register"
+        name: "register",
+        data() {
+            return {
+                register_from: {
+                    phone: null,
+                    password: null,
+                    rePassword: null,
+                }
+            }
+        },
+        methods: {
+            register() {
+                const phoneRegEx = /^(?:(?:\+|00)86)?1(?:(?:3[\d])|(?:4[5-7|9])|(?:5[0-3|5-9])|(?:6[5-7])|(?:7[0-8])|(?:8[\d])|(?:9[1|8|9]))\d{8}$/;
+                if (!Object.values(this.register_from).every(v => !!v)) {
+                    this.$message.error('请输入 邮箱 或 密码 或 寝室号 或 昵称')
+                } else if (this.register_from.password !== this.register_from.rePassword) {
+                    this.$message.error('两次输入密码不一致')
+                } else if (!phoneRegEx.test(this.register_from.phone)) {
+                    this.$message.error('号码格式错误')
+                } else {
+                    Register(this.register_from).then(res => {
+                        if (res.code === 1) {
+                            this.$message.success("注册成功！");
+                            let data = {
+                                account: this.register_from.phone,
+                                password: this.register_from.password,
+                                expired: 60
+                            };
+                            Login(data).then(res => {
+                                if (res.code === 1) {
+                                    let user = res.data.user;
+                                    localStorage.setItem('token', res.data.token);
+                                    localStorage.setItem('userInfo', JSON.stringify(user));
+                                    this.$router.push('/')
+                                }
+                            })
+                        }
+                    })
+                }
+            }
+        }
     }
 </script>
 
@@ -76,7 +121,7 @@
         flex-direction: column;
     }
 
-    .right-container{
+    .right-container {
         display: flex;
         flex-direction: column;
         justify-content: center;
@@ -100,7 +145,7 @@
         align-items: center;
     }
 
-    .input{
+    .input {
         margin: 10px 0 0 0;
     }
 
