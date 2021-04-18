@@ -44,12 +44,29 @@ const routes = [
     {
         path: '/add',
         component: () => import('@/pages/add')
+    },
+    {
+        path: '/user',
+        component: () => import('@/pages/user')
     }
 ];
 
 const routers = new VueRouter({
     mode: 'history',
     routes
+});
+
+routers.beforeEach((to, from, next) => {
+    if (to.path === '/register' || to.path === '/forget' || to.path === '/login') {
+        next();
+    } else {
+        const token = localStorage.getItem('token');
+        if (!token) {
+            next({path: '/login'});
+        } else {
+            next();
+        }
+    }
 });
 
 export default routers

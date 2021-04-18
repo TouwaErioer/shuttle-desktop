@@ -25,10 +25,13 @@
                 </div>
                 <div class="expand">
                     <div class="expand-container">
-                        <div class="forget" @click="$router.push('/forget')"><i class="el-icon-question"></i> 忘记密码</div>
-                        <div>
+                        <div class="forget">
                             <span>已有账号？ </span>
                             <span @click="$router.push('/login')">立即登录</span>
+                        </div>
+                        <div>
+                            <span>还没有注册？ </span>
+                            <span @click="$router.push('/register')">立即注册</span>
                         </div>
                     </div>
                 </div>
