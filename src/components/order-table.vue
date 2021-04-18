@@ -1,0 +1,187 @@
+<template>
+    <div class="container">
+        <el-table
+                style="width: 100%;"
+                :stretch="true"
+                :data="tableData"
+                @selection-change="handleSelectionChange">
+            <el-table-column
+                    v-if="selection"
+                    type="selection"
+                    width="55">
+            </el-table-column>
+            <el-table-column
+                    prop="product"
+                    align="center">
+                <template slot="header">
+                    <i class="el-icon-goods"> 商品</i>
+                </template>
+                <template slot-scope="scope">
+                    <el-tag effect="dark" v-text="scope.row.product.name"></el-tag>
+                </template>
+            </el-table-column>
+            <el-table-column
+                    prop="storeName"
+                    align="center">
+                <template slot="header">
+                    <i class="el-icon-shopping-cart-1"> 商店</i>
+                </template>
+            </el-table-column>
+            <el-table-column
+                    align="center">
+                <template slot="header">
+                    <i class="el-icon-guide"> 服务</i>
+                </template>
+                <template>
+                    <div v-text="'外卖'"></div>
+                </template>
+            </el-table-column>
+            <el-table-column
+                    v-if="type === 'receive'"
+                    prop="address"
+                    align="center">
+                <template slot="header">
+                    <i class="el-icon-school"> 地址</i>
+                </template>
+            </el-table-column>
+            <el-table-column
+                    v-if="type === 'receive'"
+                    prop="client.name"
+                    align="center">
+                <template slot="header">
+                    <i class="el-icon-user"> 客户</i>
+                </template>
+            </el-table-column>
+            <el-table-column
+                    v-if="type === 'order'"
+                    prop="service.name"
+                    align="center">
+                <template slot="header">
+                    <i class="el-icon-headset"> 服务者</i>
+                </template>
+            </el-table-column>
+            <el-table-column
+                    prop="file"
+                    align="center">
+                <template slot="header">
+                    <i class="el-icon-files"> 文件</i>
+                </template>
+                <template slot-scope="scope">
+                    <div v-if="scope.row.file === null">无</div>
+                    <el-link v-if="scope.row.file !== null" v-text="scope.row.file"/>
+                </template>
+            </el-table-column>
+            <el-table-column
+                    prop="note"
+                    align="center">
+                <template slot="header">
+                    <i class="el-icon-notebook-1"> 备注</i>
+                </template>
+                <template slot-scope="scope">
+                    <div v-text="scope.row.note === null?'无':scope.row.note"></div>
+                </template>
+            </el-table-column>
+            <el-table-column
+                    width="200px"
+                    align="center">
+                <template slot="header">
+                    <i class="el-icon-time"> 时间</i>
+                </template>
+                <template slot-scope="scope">
+                    <div v-text="changeDateToLocaleDateString(scope.row.date)"></div>
+                </template>
+            </el-table-column>
+            <el-table-column
+                    prop="status"
+                    align="center">
+                <template slot="header">
+                    <i class="el-icon-coordinate"> 状态</i>
+                </template>
+                <template slot-scope="scope">
+                    <el-tag :type="getStatusType(scope.row.status)">
+                        <i :class="getStatusIcon(scope.row.status)"></i>
+                        {{getStatus(scope.row.status)}}
+                    </el-tag>
+                </template>
+            </el-table-column>
+            <el-table-column
+                    align="center">
+                <template slot="header">
+                    <i class="el-icon-s-operation"> 操作</i>
+                </template>
+                <template slot-scope="scope">
+                    <el-button type="danger" size="mini" @click="deleteOrder(scope.row)" v-if="type === 'order' || (type === 'receive' && scope.row.status === 1)"
+                               :disabled="scope.row.status === 0">删除
+                    </el-button>
+                    <el-button type="success" size="mini" v-if="type === 'receive' && scope.row.status === -1">接单</el-button>
+                </template>
+            </el-table-column>
+        </el-table>
+        <Empty :description="'暂无订单数据'" :svg="require('@/assets/undraw_blank_canvas_3rbb.svg')" v-if="tableData.length === 0"/>
+    </div>
+</template>
+
+<script>
+
+    import Empty from "@/components/empty";
+    export default {
+        name: "order-table",
+        components: {Empty},
+        props: ['tableData','selection','type'],
+        data() {
+            return {
+
+            }
+        },
+        methods: {
+            changeDateToLocaleDateString(date) {
+                return new Date(date).toLocaleString()
+            },
+            getStatusIcon(status) {
+                if (status === -1) {
+                    return 'el-icon-loading'
+                } else if (status === 0) {
+                    return 'el-icon-shopping-cart-full'
+                } else if (status === 1) {
+                    return 'el-icon-circle-check'
+                }
+            },
+            getStatusType(status) {
+                if (status === -1) {
+                    return 'primary'
+                } else if (status === 0) {
+                    return 'warning'
+                } else if (status === 1) {
+                    return 'success'
+                }
+            },
+            getStatus(status) {
+                if (status === -1) {
+                    return '待接单'
+                } else if (status === 0) {
+                    return '配送中'
+                } else if (status === 1) {
+                    return '已完成'
+                }
+            },
+            deleteOrder(row) {
+                this.$emit('deleteOrder', row);
+            },
+            changeDate(date) {
+                return date.toISOString().split('T')[0] + ' ' + date.toTimeString().split(' ')[0]
+            },
+            handleSelectionChange(val){
+                this.$emit('sectionValue', val);
+            }
+        }
+    }
+</script>
+
+<style scoped>
+
+    .container {
+        display: flex;
+        flex-direction: column;
+    }
+
+</style>

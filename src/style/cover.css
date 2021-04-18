@@ -3,7 +3,12 @@
     height: 100%;
 }
 
-.el-scrollbar__wrap {
+.center > .el-scrollbar > .el-scrollbar__wrap {
+    overflow: unset !important;
+    overflow-y: scroll !important;
+}
+
+.left > .el-scrollbar > .el-scrollbar__wrap {
     overflow: unset !important;
     overflow-y: scroll !important;
 }
