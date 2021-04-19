@@ -61,7 +61,7 @@
                 }
             },
             openAdminWeb() {
-                window.open(process.env.VUE_APP_ADMIN);
+                window.open(process.env.VUE_APP_ADMIN + 'login/' + localStorage.getItem('token'));
             }
         }
     }
