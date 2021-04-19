@@ -6,8 +6,40 @@ Vue.use(VueRouter);
 
 const routes = [
     {
-        path: '/',
-        component: () => import('@/pages/home')
+        path: '',
+        component: () => import('@/components/page-header'),
+        redirect: 'home',
+        children: [
+            {
+                path: '/home',
+                component: () => import('@/pages/home')
+            },
+            {
+                path: '/store/:id',
+                component: () => import('@/pages/store'),
+                props: true
+            },
+            {
+                path: '/cart',
+                component: () => import('@/pages/cart')
+            },
+            {
+                path: '/order',
+                component: () => import('@/pages/order')
+            },
+            {
+                path: '/receive',
+                component: () => import('@/pages/receive')
+            },
+            {
+                path: '/add',
+                component: () => import('@/pages/add')
+            },
+            {
+                path: '/user',
+                component: () => import('@/pages/user')
+            }
+        ]
     },
     {
         path: '/login',
@@ -20,35 +52,9 @@ const routes = [
     {
         path: '/forget',
         component: () => import('@/pages/forget')
-    },
-    {
+    },{
         path: '/search',
         component: () => import('@/pages/search')
-    },
-    {
-        path: '/store/:id',
-        component: () => import('@/pages/store'),
-        props: true
-    },
-    {
-        path: '/cart',
-        component: () => import('@/pages/cart')
-    },
-    {
-        path: '/order',
-        component: () => import('@/pages/order')
-    },
-    {
-        path: '/receive',
-        component: () => import('@/pages/receive')
-    },
-    {
-        path: '/add',
-        component: () => import('@/pages/add')
-    },
-    {
-        path: '/user',
-        component: () => import('@/pages/user')
     }
 ];
 

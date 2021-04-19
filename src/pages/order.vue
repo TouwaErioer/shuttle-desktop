@@ -1,7 +1,5 @@
 <template>
     <Page>
-        <PageHeader slot="header"/>
-
         <div slot="center" class="order-container">
             <div class="box">
                 <div class="radio">
@@ -60,8 +58,6 @@
 </template>
 
 <script>
-
-    import PageHeader from "@/components/page-header";
     import Page from "@/layout/page";
     import OrderTable from "@/components/order-table";
     import {
@@ -74,7 +70,7 @@
 
     export default {
         name: "order",
-        components: {OrderTable, Page, PageHeader},
+        components: {OrderTable, Page},
         data() {
             return {
                 activeName: 'first',

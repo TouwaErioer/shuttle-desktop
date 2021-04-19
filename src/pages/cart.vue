@@ -1,6 +1,5 @@
 <template>
     <Page>
-        <PageHeader slot="header"/>
         <div class="box-container" slot="center">
             <div class="box">
                 <div class="left" v-if="getCount !== 0">
@@ -11,7 +10,7 @@
                 <Empty class="left" description="购物车暂无商品" :svg="require('@/assets/undraw_empty_cart_co35.svg')"
                        v-if="getCount === 0"/>
                 <div class="right">
-                    <div class="center" style="flex:1">
+                    <div class="center" style="flex:1;">
                         <div class="cart-info">
                             <el-divider><i class="el-icon-view"></i> 用户信息</el-divider>
                             <div class="user">
@@ -58,14 +57,13 @@
 
 <script>
     import Page from "@/layout/page";
-    import PageHeader from "@/components/page-header";
     import CartItem from "@/components/cart-item";
     import common from "@/utils/common";
     import Empty from "@/components/empty";
 
     export default {
         name: "cart",
-        components: {Empty, CartItem, PageHeader, Page},
+        components: {Empty, CartItem, Page},
         data() {
             return {
                 cart: Array.from(this.$store.getters.getCartMap),

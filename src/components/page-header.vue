@@ -1,29 +1,38 @@
 <template>
-    <div id="heard">
-        <div id="heard-container">
-            <div id="heard-info">
-                <div id="title" @click="house">
-                    <div id="name">shuttle</div>
-                    <div id="description">校园服务平台</div>
+    <div class="header-container">
+        <div id="heard">
+            <div id="heard-container">
+                <div style="display:flex;justify-content: center;align-items: center">
+                    <div id="title">
+                        <div id="name">shuttle</div>
+                        <div id="description">校园服务平台</div>
+                    </div>
+                    <el-menu
+                            :default-active="activeIndex"
+                            class="el-menu-demo"
+                            mode="horizontal"
+                            background-color="#545c64"
+                            text-color="#fff"
+                            active-text-color="#ffd04b"
+                            @select="handleSelect">
+                        <el-menu-item index="/">首页</el-menu-item>
+                        <el-menu-item index="/order">订单</el-menu-item>
+                        <el-menu-item index="/receive">接单</el-menu-item>
+                        <el-menu-item index="/admin">管理</el-menu-item>
+                        <el-menu-item index="/cart">购物车
+                            <div class="el-badge__content" v-text="$store.getters.getCount"/>
+                        </el-menu-item>
+                    </el-menu>
                 </div>
-                <div id="pages">
-                    <div class="page" @click="$router.push('/order')"><i class="el-icon-tickets"></i> 订单</div>
-                    <div class="page" @click="$router.push('/receive')"><i class="el-icon-sell"></i> 接单</div>
-                    <div class="page" @click="$router.push('/add')"><i class="el-icon-circle-plus-outline"></i> 新增</div>
-                    <div class="page" v-if="this.userInfo.admin" @click="openAdminWeb"><i class="el-icon-data-analysis"></i> 管理</div>
-                    <el-badge :value="$store.getters.getCount">
-                        <div class="page" @click="$router.push('/cart')"><i class="el-icon-shopping-cart-2"></i> 购物车
-                        </div>
-                    </el-badge>
-                </div>
-            </div>
-            <div id="heard-functions">
-                <div id="search" @click="$router.push('/search')"><i class="el-icon-search"></i></div>
-                <div id="user">
-                    <el-avatar :src="avatarUrl" @click.native="$router.push('/user')" :size="35"/>
+                <div id="heard-functions">
+                    <div id="search" @click="$router.push('/search')"><i class="el-icon-search"></i></div>
+                    <div id="user">
+                        <el-avatar :src="avatarUrl" @click.native="$router.push('/user')" :size="35"/>
+                    </div>
                 </div>
             </div>
         </div>
+        <router-view/>
     </div>
 </template>
 
@@ -40,7 +49,8 @@
                     password: null,
                     phone: null,
                     score: 0
-                }
+                },
+                activeIndex: '/'
             }
         },
         created() {
@@ -48,20 +58,22 @@
         },
         computed: {
             avatarUrl: function () {
-                if(this.userInfo.name === null){
+                if (this.userInfo.name === null) {
                     return `https://api.multiavatar.com/null.png`;
                 }
                 return `https://api.multiavatar.com/${this.userInfo.name}.png`;
             },
         },
         methods: {
-            house() {
-                if (this.$route.path !== '/') {
-                    this.$router.push('/')
-                }
-            },
             openAdminWeb() {
                 window.open(process.env.VUE_APP_ADMIN + 'login/' + localStorage.getItem('token'));
+            },
+            handleSelect(key) {
+                if (key === '/admin') {
+                    this.openAdminWeb();
+                } else {
+                    this.$router.push(key);
+                }
             }
         }
     }
@@ -69,16 +81,22 @@
 
 <style scoped>
 
+    .header-container {
+        width: 100%;
+        height: 100%;
+        overflow-y: hidden;
+    }
+
     #heard {
         width: 100%;
-        height: 50px;
-        background-color: #606266;
+        height: 60px;
+        background-color: #545c64;
         display: flex;
         justify-content: center;
     }
 
     #heard-container {
-        width: 80%;
+        width: 75%;
         display: flex;
         align-items: center;
         justify-content: space-between;
@@ -127,4 +145,18 @@
     #user {
 
     }
+
+    /*.el-badge__content {*/
+    /*    background-color: #F56C6C;*/
+    /*    border-radius: 10px;*/
+    /*    color: #FFF;*/
+    /*    display: inline-block;*/
+    /*    font-size: 12px;*/
+    /*    height: 18px;*/
+    /*    line-height: 18px;*/
+    /*    padding: 0 6px;*/
+    /*    text-align: center;*/
+    /*    white-space: nowrap;*/
+    /*    border: 1px solid #FFF;*/
+    /*}*/
 </style>

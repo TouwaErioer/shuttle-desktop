@@ -1,6 +1,5 @@
 <template>
     <Page>
-        <PageHeader slot="header"/>
         <el-scrollbar slot="center">
             <div id="background"></div>
             <div class="center-box">
@@ -28,7 +27,6 @@
 <script>
     import Service from "@/components/service";
     import PopularItem from "@/components/popular-item";
-    import PageHeader from "@/components/page-header";
     import Page from "@/layout/page";
     import {findAllService} from "@/utils/api/service";
     import {findPopularProduct} from "@/utils/api/product";
@@ -36,7 +34,7 @@
 
     export default {
         name: "home",
-        components: {Page, PageHeader, PopularItem, Service},
+        components: {Page, PopularItem, Service},
         data() {
             return {
                 rank: 'store',

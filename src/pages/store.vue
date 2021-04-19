@@ -1,6 +1,5 @@
 <template>
     <Page>
-        <PageHeader slot="header"/>
         <el-scrollbar slot="center">
             <div class="center-container">
                 <div class="box">
@@ -48,7 +47,6 @@
 </template>
 
 <script>
-    import PageHeader from "@/components/page-header";
     import Page from "@/layout/page";
     import Product from "@/components/product";
     import Comment from "@/components/comment";
@@ -58,7 +56,7 @@
 
     export default {
         name: "store",
-        components: {Empty, Comment, Product, Page, PageHeader},
+        components: {Empty, Comment, Product, Page},
         props: ['id'],
         data() {
             return {

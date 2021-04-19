@@ -1,7 +1,5 @@
 <template>
     <Page>
-        <PageHeader slot="header"/>
-
         <div slot="center" class="user-container">
             <div class="box">
                 <div class="left">
@@ -92,12 +90,11 @@
 
 <script>
 
-    import PageHeader from "@/components/page-header";
     import Page from "@/layout/page";
     import {reset, update} from "@/utils/api/user";
 
     export default {
-        components: {Page, PageHeader},
+        components: {Page,},
         name: "edit",
         data() {
             return {
