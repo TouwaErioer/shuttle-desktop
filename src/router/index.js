@@ -26,8 +26,9 @@ const routes = [
         component: () => import('@/pages/search')
     },
     {
-        path: '/store',
-        component: () => import('@/pages/store')
+        path: '/store/:id',
+        component: () => import('@/pages/store'),
+        props: true
     },
     {
         path: '/cart',

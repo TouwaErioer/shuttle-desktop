@@ -5,6 +5,9 @@ const API = '/product/';
 // 根据storeId查询products
 export const findProductsByStoreId = (storeId) => get(API + 'findByStoreId/' + storeId);
 
+// 根据storeId查询products（分页）
+export const findProductsByStoreIdByPagination = (storeId, pageNo, pageSize) => get(API + 'findByStoreIdByPagination/' + storeId + '?pageNo=' + pageNo + '&pageSize=' + pageSize);
+
 // 排行榜
 export const findPopularProduct = () => get(API + 'rank');
 

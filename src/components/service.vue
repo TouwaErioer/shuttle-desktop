@@ -47,7 +47,7 @@
             <el-row v-if="stores.length !== 0">
                 <el-col :span="6" v-for="store in stores" :key="store.id">
                     <el-card :body-style="{ padding: '0px' }" style="margin: 10px;" shadow="hover"
-                             @click.native="$router.push('/store')">
+                             @click.native="$router.push('/store/' + store.id)">
                         <img :src="store.image"
                              class="image" style="height: 170px">
                         <div class="store-info">

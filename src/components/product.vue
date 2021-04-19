@@ -6,13 +6,13 @@
                 <span v-text="' ' + title"></span>
             </div>
             <div class="more">
-                <el-pagination layout="prev, pager, next" :page-size="8" :total="10">
-                </el-pagination>
+                <el-pagination layout="prev, pager, next" :page-size="pageSize" :total="total"
+                               @current-change="pageCurrent"/>
             </div>
         </div>
         <div class="content">
             <el-row>
-                <el-col :span="6" v-for="o in 8" :key="o">
+                <el-col :span="6" v-for="product in products" :key="product.id">
                     <el-card :body-style="{ padding: '0px' }" style="margin: 10px;" shadow="hover">
                         <img :src="product.image"
                              class="image" style="height: 170px">
@@ -22,7 +22,7 @@
                             </div>
                             <div class="info-text"><i class="el-icon-medal"></i> {{'销量：' + product.sales}}</div>
                             <div class="info-text"><i class="el-icon-price-tag"></i> {{'价格：' + product.price}}</div>
-                            <el-rate v-model="score" disabled show-score text-color="#ff9900"></el-rate>
+                            <el-rate v-model="product.rate" disabled show-score text-color="#ff9900"></el-rate>
                             <ProductDialog :product="product" :value="value"/>
                         </div>
                     </el-card>
@@ -38,15 +38,19 @@
     export default {
         name: "product",
         components: {ProductDialog},
-        props: {title: String, icon: String, product: Object},
+        props: {title: String, icon: String, products: Array, pageNo: Number, pageSize: Number, total: Number},
         data() {
             return {
-                score: 3,
                 filter: false,
                 category: '全部',
                 sort: '最新',
                 advanced: '正序',
                 value: null
+            }
+        },
+        methods: {
+            pageCurrent(current) {
+                this.$parent.getProducts(current);
             }
         }
     }
