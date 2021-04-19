@@ -95,7 +95,7 @@
 
     .center-container {
         background-color: white;
-        width: 80%;
+        width: 75%;
         height: 100%;
         display: flex;
     }
@@ -106,7 +106,7 @@
     }
 
     .rank {
-        width: 20%;
+        width: 25%;
         height: 100%;
         background-color: white;
         margin-top: 20px;

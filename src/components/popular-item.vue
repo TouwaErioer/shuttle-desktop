@@ -1,6 +1,6 @@
 <template>
     <transition name="slide-fade">
-        <div class="list-item">
+        <div class="list-item" @click="goStore">
             <el-image class="item-image" :src="item.image" fit="cover"/>
             <div type="flex" class="goods-info">
                 <div class="item-info">
@@ -18,13 +18,15 @@
                     <div>
                         <div v-if="item.price != null">
                             <i class="el-icon-price-tag"></i> 价格：
-                            <span class="price-text" v-text="item.price"/>
+                            <span class="price-text" v-text="changePrice(item.price)"/>
                         </div>
                         <div>
                             <i class="el-icon-medal"></i> 销量：<span>{{ + item.sales}}</span>
                         </div>
                     </div>
-                    <el-button v-if="item.price != null" size="mini" type="primary" icon="el-icon-plus" round/>
+                    <ProductDialog :product="item" :value="null">
+                        <el-button v-if="item.price != null" size="mini" icon="el-icon-plus" slot="btn" round/>
+                    </ProductDialog>
                 </div>
             </div>
         </div>
@@ -32,9 +34,27 @@
 </template>
 
 <script>
+    import ProductDialog from "@/components/product-dialog";
+    import common from "@/utils/common";
+
     export default {
         name: "popular-item",
-        props: ['item']
+        components: {ProductDialog},
+        props: ['item'],
+
+
+        computed:{
+            changePrice(){
+                return(price)=>{
+                    return common.changePrice(price);
+                }
+            }
+        },
+        methods: {
+            goStore() {
+                if (this.item.services != null) this.$router.push('/store/' + this.item.id)
+            }
+        }
     }
 </script>
 

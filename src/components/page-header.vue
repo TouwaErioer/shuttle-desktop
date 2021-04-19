@@ -10,7 +10,7 @@
                     <div class="page" @click="$router.push('/order')"><i class="el-icon-tickets"></i> 订单</div>
                     <div class="page" @click="$router.push('/receive')"><i class="el-icon-sell"></i> 接单</div>
                     <div class="page" @click="$router.push('/add')"><i class="el-icon-circle-plus-outline"></i> 新增</div>
-                    <div class="page"><i class="el-icon-data-analysis"></i> 管理</div>
+                    <div class="page" v-if="this.userInfo.admin" @click="openAdminWeb"><i class="el-icon-data-analysis"></i> 管理</div>
                     <el-badge :value="$store.getters.getCount">
                         <div class="page" @click="$router.push('/cart')"><i class="el-icon-shopping-cart-2"></i> 购物车
                         </div>
@@ -32,8 +32,19 @@
         name: "page-header",
         data() {
             return {
-                userInfo: JSON.parse(localStorage.getItem('userInfo'))
+                userInfo: {
+                    address: null,
+                    admin: false,
+                    id: 0,
+                    name: null,
+                    password: null,
+                    phone: null,
+                    score: 0
+                }
             }
+        },
+        created() {
+            this.userInfo = JSON.parse(localStorage.getItem('userInfo'))
         },
         computed: {
             avatarUrl: function () {
@@ -48,6 +59,9 @@
                 if (this.$route.path !== '/') {
                     this.$router.push('/')
                 }
+            },
+            openAdminWeb() {
+                window.open(process.env.VUE_APP_ADMIN);
             }
         }
     }

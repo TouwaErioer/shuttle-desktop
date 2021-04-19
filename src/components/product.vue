@@ -20,10 +20,18 @@
                             <div class="store-title">
                                 <span v-text="product.name"></span>
                             </div>
-                            <div class="info-text"><i class="el-icon-medal"></i> {{'销量：' + product.sales}}</div>
-                            <div class="info-text"><i class="el-icon-price-tag"></i> {{'价格：' + product.price}}</div>
+                            <div class="info-text"><i class="el-icon-medal"></i>
+                                <span> 销量：</span>
+                                <span v-text="product.sales"/>
+                            </div>
+                            <div class="info-text"><i class="el-icon-price-tag"></i>
+                                <span> 价格：</span>
+                                <span v-text="changePrice(product.price)"/>
+                            </div>
                             <el-rate v-model="product.rate" disabled show-score text-color="#ff9900"></el-rate>
-                            <ProductDialog :product="product" :value="value"/>
+                            <ProductDialog :product="product" :value="value">
+                                <el-button size="mini" style="width: 100%;" slot="btn">加入购物车</el-button>
+                            </ProductDialog>
                         </div>
                     </el-card>
                 </el-col>
@@ -34,6 +42,7 @@
 
 <script>
     import ProductDialog from "@/components/product-dialog";
+    import common from "@/utils/common";
 
     export default {
         name: "product",
@@ -46,6 +55,13 @@
                 sort: '最新',
                 advanced: '正序',
                 value: null
+            }
+        },
+        computed: {
+            changePrice() {
+                return (price) => {
+                    return common.changePrice(price);
+                }
             }
         },
         methods: {

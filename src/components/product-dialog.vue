@@ -1,14 +1,16 @@
 <template>
     <div style="margin: 0px;">
-        <el-button size="mini" style="width: 100%;" @click="addToCart()">加入购物车</el-button>
-        <el-dialog title="提示" :visible.sync="dialogInputVisible" width="80%" center>
+        <div @click="addToCart()">
+            <slot name="btn"/>
+        </div>
+        <el-dialog title="提示" :visible.sync="dialogInputVisible" center>
             <div class="dialog">
                 <el-input placeholder="请输入取件号" v-model="value" class="dialog-control"
                           suffix-icon="el-icon-chat-line-square" type="number"/>
                 <el-button size="medium" @click="checkInputDialog">确认</el-button>
             </div>
         </el-dialog>
-        <el-dialog title="提示" :visible.sync="dialogUploadVisible" width="80%" center>
+        <el-dialog title="提示" :visible.sync="dialogUploadVisible" center>
             <div class="dialog">
                 <el-upload class="upload dialog-control"
                            action="/api/file/upload"
@@ -63,14 +65,13 @@
                 }
             },
             addToCart() {
-                // if (this.product.store.serviceId === 4) {
-                //     this.dialogInputVisible = true;
-                // } else if (this.product.store.serviceId === 2) {
-                //     this.dialogUploadVisible = true;
-                // } else {
-                //
-                // }
-                this.toCart(this.product);
+                if (this.product.store.serviceId === 4) {
+                    this.dialogInputVisible = true;
+                } else if (this.product.store.serviceId === 2) {
+                    this.dialogUploadVisible = true;
+                } else {
+                    this.toCart(this.product);
+                }
             },
             toCart(product) {
                 this.$store.commit('addCart', {
