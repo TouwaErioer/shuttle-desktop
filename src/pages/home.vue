@@ -6,7 +6,7 @@
             <div class="center-box">
                 <div class="center-container">
                     <div class="service">
-                        <Service title="外卖" icon="el-icon-shopping-bag-2"/>
+                        <Service v-for="service in services" :key="service.id" :item="service"/>
                     </div>
                     <div class="rank">
                         <div class="rank-title"><i class="el-icon-medal"></i> 排行榜</div>
@@ -30,6 +30,9 @@
     import PopularItem from "@/components/popular-item";
     import PageHeader from "@/components/page-header";
     import Page from "@/layout/page";
+    import {findAllService} from "@/utils/api/service";
+    import {findPopularProduct} from "@/utils/api/product";
+    import {findPopularStore} from "@/utils/api/store";
 
     export default {
         name: "home",
@@ -37,25 +40,37 @@
         data() {
             return {
                 rank: 'store',
-                popularProduct: [
-                    {
-                        id: 1,
-                        image: 'https://images.nomadguide.cn/2021/4/2QF5sQd0pAyu8sT73gAra3cjZTygbDEc.jpeg',
-                        name: '汉堡',
-                        rate: 3,
-                        price: 5,
-                        sales: 1
+                popularProduct: [],
+                popularStore: [],
+                services: []
+            }
+        },
+        created() {
+            let services = sessionStorage.getItem('services');
+            if(services === null) this.getService();
+            else this.services = JSON.parse(services);
+            this.getPopular();
+        },
+        methods: {
+            getService() {
+                findAllService().then(res => {
+                    if (res.code === 1) {
+                        this.services = res.data.list;
+                        sessionStorage.setItem('services', JSON.stringify(this.services));
                     }
-                ],
-                popularStore: [
-                    {
-                        id: 1,
-                        image: 'https://images.nomadguide.cn/2021/4/2QF5sQd0pAyu8sT73gAra3cjZTygbDEc.jpeg',
-                        name: '汉堡',
-                        rate: 3,
-                        sales: 1
+                });
+            },
+            getPopular(){
+                findPopularProduct().then(res => {
+                    if(res.code === 1){
+                        this.popularProduct = res.data;
                     }
-                ]
+                });
+                findPopularStore().then(res => {
+                    if(res.code === 1){
+                        this.popularStore = res.data;
+                    }
+                });
             }
         }
     }

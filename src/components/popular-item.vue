@@ -5,8 +5,11 @@
             <div type="flex" class="goods-info">
                 <div class="item-info">
                     <span v-text="item.name" class="item-name"></span>
-                    <el-tag size="mini" v-text="item.name" effect="dark" class="tag" type="warning"
-                            slot="tag"/>
+                    <el-tag size="mini" v-text="item.store.name" effect="dark" class="tag" type="warning" slot="tag"
+                            v-if="item.price != null"/>
+                    <el-tag size="mini" v-text="item.services.name" effect="dark" class="tag"
+                            :style="'border-color:' + item.services.color"
+                            slot="tag" :color="item.services.color" v-if="item.services != null"/>
                 </div>
                 <div class="item-desc">
                     <el-rate v-model="item.rate" disabled text-color="#ff9900" show-score/>
@@ -21,7 +24,7 @@
                             <i class="el-icon-medal"></i> 销量：<span>{{ + item.sales}}</span>
                         </div>
                     </div>
-                    <el-button v-text="item.price != null?'加入':'进入'" size="mini" type="primary"></el-button>
+                    <el-button v-if="item.price != null" size="mini" type="primary" icon="el-icon-plus" round/>
                 </div>
             </div>
         </div>

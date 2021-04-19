@@ -1,12 +1,13 @@
 <template>
     <div class="container">
         <div class="heard">
-            <div class="title">
-                <i :class="icon"></i>
-                <span v-text="' ' + title"></span>
+            <div class="title" :style="'background-color: ' + item.color">
+                <i :class="item.icon"></i>
+                <span v-text="' ' + item.name"></span>
             </div>
             <div class="more">
-                <el-pagination layout="prev, pager, next" :page-size="8" :total="10">
+                <el-pagination layout="prev, pager, next" :page-size="pageSize" :total="total"
+                               @current-change="pageCurrent">
                 </el-pagination>
                 <i :class="filter ? 'el-icon-s-fold' : 'el-icon-s-unfold'" @click="filter = !filter"></i>
             </div>
@@ -52,7 +53,6 @@
                         <div class="store-info">
                             <div class="store-title">
                                 <span v-text="store.name"></span>
-                                <el-tag size="mini" effect="dark">比奇堡</el-tag>
                             </div>
                             <el-rate v-model="store.rate" disabled show-score text-color="#ff9900"></el-rate>
                             <div class="sales"> 销量：<i class="el-icon-medal"></i><span v-text="store.sales"></span></div>
@@ -68,11 +68,12 @@
 
 <script>
     import Empty from "@/components/empty";
+    import {findStoreByServiceId} from "@/utils/api/store";
 
     export default {
         name: "service",
         components: {Empty},
-        props: {title: String, icon: String},
+        props: ['item'],
         data() {
             return {
                 value: 3,
@@ -80,15 +81,30 @@
                 category: '全部',
                 sort: '最新',
                 advanced: '正序',
-                stores: [
-                    {
-                        id: 1,
-                        name: '蟹堡王',
-                        image: 'https://upload.wikimedia.org/wikipedia/zh/3/33/Krusty_Krab_230b.png',
-                        rate: 3,
-                        sales: 1
+                stores: [],
+                pageSize: 8,
+                pageNo: 1,
+                total: null
+            }
+        },
+        created() {
+            if (this.$store.getters.storesCache(this.item.id)) {
+                this.stores = this.$store.getters.getStoresBySid(this.item.id);
+                this.total = this.stores.length;
+            } else this.getStores(this.pageNo, this.pageSize);
+        },
+        methods: {
+            getStores(pageNo, pageSize) {
+                findStoreByServiceId(this.item.id, pageNo, pageSize).then(res => {
+                    if (res.code === 1) {
+                        this.stores = res.data.list;
+                        this.total = res.data.total;
+                        this.$store.commit('setStores', this.stores);
                     }
-                ]
+                });
+            },
+            pageCurrent(current) {
+                this.getStores(current, this.pageSize);
             }
         }
     }
@@ -97,7 +113,7 @@
 <style scoped>
 
     .container {
-        padding: 10px;
+        padding: 10px 0;
     }
 
     .heard {
@@ -113,8 +129,14 @@
     }
 
     .title {
+        color: white;
+        border-radius: 0 10px 10px 0;
         padding: 10px;
         font-size: 20px;
+    }
+
+    .content {
+        padding: 10px 10px;
     }
 
     .store-info {
