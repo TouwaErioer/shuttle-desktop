@@ -47,10 +47,10 @@
                             <div class="item">
                                 <span>分类：</span>
                                 <el-button-group>
-                                    <el-radio-group v-model="category">
-                                        <el-radio-button label="全部"></el-radio-button>
+                                    <el-radio-group v-model="categoryId">
+                                        <el-radio-button label="0">全部</el-radio-button>
                                         <el-radio-button v-for="category in categories" :key="category.id"
-                                                         :label="category.name"/>
+                                                         :label="category.id">{{category.name}}</el-radio-button>
                                     </el-radio-group>
                                 </el-button-group>
                             </div>
@@ -58,18 +58,17 @@
                                 <span>排序：</span>
                                 <el-button-group>
                                     <el-radio-group v-model="sort">
-                                        <el-radio-button label="最新"></el-radio-button>
-                                        <el-radio-button label="评分"></el-radio-button>
-                                        <el-radio-button label="销量"></el-radio-button>
-                                        <el-radio-button label="价格"></el-radio-button>
+                                        <el-radio-button label="id">最新</el-radio-button>
+                                        <el-radio-button label="rate">评分</el-radio-button>
+                                        <el-radio-button label="sales">销量</el-radio-button>
                                     </el-radio-group>
                                 </el-button-group>
                             </div>
                             <div class="item">
                                 <span>高级：</span>
                                 <el-radio-group v-model="advanced">
-                                    <el-radio-button label="正序"></el-radio-button>
-                                    <el-radio-button label="倒序"></el-radio-button>
+                                    <el-radio-button label="ASC">正序</el-radio-button>
+                                    <el-radio-button label="DESC">倒序</el-radio-button>
                                 </el-radio-group>
                             </div>
                             <el-button class="item" style="margin-top: 20px" @click="filer">应用</el-button>
@@ -87,7 +86,7 @@
     import Page from "@/layout/page";
     import {findAllService} from "@/utils/api/service";
     import {findPopularProduct} from "@/utils/api/product";
-    import {findPopularStore, findStoreByServiceId} from "@/utils/api/store";
+    import {findByCategoryId, findPopularStore, findStoreByServiceId} from "@/utils/api/store";
     import {findAllAds} from "@/utils/api/ads";
     import {findCategoryByServiceId} from "@/utils/api/category";
 
@@ -107,9 +106,9 @@
                 total: null,
                 stores: [],
                 option: false,
-                category: '全部',
-                sort: '最新',
-                advanced: '正序',
+                categoryId: '0',
+                sort: 'id',
+                advanced: 'ASC',
                 categories: []
             }
         },
@@ -119,7 +118,7 @@
             else this.services = JSON.parse(services);
             this.getPopular();
             this.getAds();
-            this.getStores(this.pageNo, this.pageSize);
+            this.getStores(this.pageNo);
             this.getCategory();
         },
         methods: {
@@ -153,16 +152,16 @@
                             sessionStorage.setItem('ads', JSON.stringify(ads));
                         }
                     });
-                }else{
+                } else {
                     this.ads = ads;
                 }
             },
-            getStores(pageNo, pageSize) {
+            getStores(pageNo) {
                 if (this.$store.getters.storesCache(parseInt(this.radio))) {
                     this.stores = this.$store.getters.getStoresBySid(parseInt(this.radio));
                     this.total = this.stores.length;
                 } else {
-                    findStoreByServiceId(parseInt(this.radio), pageNo, pageSize).then(res => {
+                    findStoreByServiceId(parseInt(this.radio), pageNo, this.pageSize, this.advanced,this.sort).then(res => {
                         if (res.code === 1) {
                             this.stores = res.data.list;
                             this.total = res.data.total;
@@ -187,6 +186,8 @@
                 }
             },
             filer() {
+                this.$store.commit('clearStores');
+                this.getStores(this.pageNo);
                 this.option = false;
             }
         },
@@ -197,6 +198,17 @@
                     this.total = this.stores.length;
                 } else this.getStores(this.pageNo, this.pageSize);
                 this.getCategory();
+            },
+            categoryId: function () {
+                let categoryId = this.categoryId;
+                if(categoryId === '0'){
+                    this.getStores(this.pageNo);
+                }else{
+                    findByCategoryId(categoryId).then(res => {
+                        this.stores = res.data;
+                    });
+                }
+                this.option = false;
             }
         }
     }
