@@ -15,26 +15,26 @@
                             <el-divider><i class="el-icon-view"></i> 用户信息</el-divider>
                             <div class="user">
                                 <div><i class="el-icon-user"> 昵称</i></div>
-                                <div>guest</div>
+                                <div v-text="userInfo.name"/>
                             </div>
                             <div class="address">
                                 <div><i class="el-icon-school"> 地址</i></div>
-                                <div>guest</div>
+                                <div v-text="userInfo.address"/>
                             </div>
                         </div>
                         <div class="expand">
-                                <el-divider class="divider"><i class="el-icon-setting"> 可选操作</i></el-divider>
-                                <el-input
-                                        class="option"
-                                        type="textarea"
-                                        :rows="2"
-                                        placeholder="备注">
-                                </el-input>
-                                <el-switch
-                                        class="option"
-                                        v-model="expired"
-                                        active-text="自动取消（超过15分钟未有人接单）">
-                                </el-switch>
+                            <el-divider class="divider"><i class="el-icon-setting"> 可选操作</i></el-divider>
+                            <el-input
+                                    class="option"
+                                    type="textarea"
+                                    :rows="2"
+                                    placeholder="备注">
+                            </el-input>
+                            <el-switch
+                                    class="option"
+                                    v-model="expired"
+                                    active-text="自动取消（超过15分钟未有人接单）">
+                            </el-switch>
                         </div>
                     </div>
                     <div class="operate">
@@ -43,7 +43,8 @@
                             <div class="total-txt"><span>共计：</span><span class="count-text">¥{{totalPrice}}</span>
                             </div>
                         </div>
-                        <el-button class="operate-btn" type="primary" :disabled="$store.getters.getCount === 0">下单
+                        <el-button class="operate-btn" type="primary" :disabled="$store.getters.getCount === 0"
+                                   @click="submit">下单
                         </el-button>
                         <el-button class="operate-btn" type="success" :disabled="$store.getters.getCount === 0"
                                    @click="clearCart">清空购物车
@@ -60,6 +61,7 @@
     import CartItem from "@/components/cart-item";
     import common from "@/utils/common";
     import Empty from "@/components/empty";
+    import {insertOrder} from "@/utils/api/order";
 
     export default {
         name: "cart",
@@ -67,7 +69,11 @@
         data() {
             return {
                 cart: Array.from(this.$store.getters.getCartMap),
-                expired: false
+                expired: false,
+                userInfo: {
+                    name: null,
+                    address: null
+                }
             }
         },
         computed: {
@@ -84,6 +90,11 @@
                 } else return '0.00'
             },
         },
+        created() {
+            let userInfo = JSON.parse(localStorage.getItem('userInfo'));
+            if (userInfo.name === null || userInfo.address === null) this.perfectUserInfo();
+            else this.userInfo = userInfo;
+        },
         methods: {
             clearCart() {
                 this.$store.commit('clear');
@@ -95,7 +106,66 @@
                     duration: 2000,
                     position: 'bottom-left'
                 });
-            }
+            },
+            perfectUserInfo() {
+                this.$notify({
+                    title: '请完善个人信息',
+                    message: '跳转到个人界面',
+                    type: 'warning'
+                });
+
+                this.$router.push('/user');
+            },
+            submit() {
+                let userInfo = common.getUserInfo();
+                let orders = [];
+                let date = this.changeDate(new Date());
+                this.$store.getters.getCartMap.forEach(function (value) {
+                    for (let n = 0; n < value.count; n++) {
+                        let type = value.extend.type;
+                        let note, file;
+                        if (type === 'note') note = value.extend.value;
+                        else if (type === 'file') file = value.extend.value.url;
+                        orders.push({
+                            pid: value.id,
+                            cid: userInfo.id,
+                            sid: 1,
+                            date: date,
+                            address: userInfo.address,
+                            note: note,
+                            file: file,
+                            status: -1,
+                            client: {
+                                phone: userInfo.phone,
+                                address: userInfo.address,
+                                name: userInfo.name
+                            },
+                            serviceId: value.serviceId,
+                            product: {
+                                name: value.name
+                            },
+                            storeName: value.storeName
+                        })
+                    }
+                });
+                insertOrder(orders, {
+                    'headers': {
+                        'Content-Type': 'application/json'
+                    }
+                }, this.expired).then(res => {
+                    if (res.code === 1) {
+                        this.$store.commit('clear');
+                        this.$message({
+                            message: '下单成功',
+                            type: 'success'
+                        });
+                        this.$router.push('/order');
+                    }
+                });
+            },
+            changeDate(date) {
+                return date.toISOString().split('T')[0] + ' ' + date.toTimeString().split(' ')[0]
+            },
         }
     }
 </script>
@@ -178,7 +248,7 @@
         content: '';
     }
 
-    .option{
+    .option {
         margin-bottom: 10px;
     }
 
@@ -220,7 +290,7 @@
         color: #f56c6c;
     }
 
-    .option{
+    .option {
         margin-bottom: 20px;
     }
 </style>

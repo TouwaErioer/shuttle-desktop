@@ -20,7 +20,7 @@
                         <el-menu-item index="/receive">接单</el-menu-item>
                         <el-menu-item index="/admin">管理</el-menu-item>
                         <el-menu-item index="/cart">购物车
-                            <div class="el-badge__content" v-text="$store.getters.getCount"/>
+                            <div class="el-badge__content" v-text="$store.getters.getCount" v-if="$store.getters.getCount > 0"/>
                         </el-menu-item>
                     </el-menu>
                 </div>
