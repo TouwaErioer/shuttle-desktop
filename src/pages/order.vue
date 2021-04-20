@@ -375,10 +375,10 @@
 
     .pagination {
         flex: 1;
-        width: 100%;
         display: flex;
         justify-content: center;
         align-items: center;
+        background-color: white;
     }
 
     .filter {

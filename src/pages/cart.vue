@@ -10,7 +10,7 @@
                 <Empty class="left" description="购物车暂无商品" :svg="require('@/assets/undraw_empty_cart_co35.svg')"
                        v-if="getCount === 0"/>
                 <div class="right">
-                    <div class="center" style="flex:1;">
+                    <div class="cart-center" style="flex:1;">
                         <div class="cart-info">
                             <el-divider><i class="el-icon-view"></i> 用户信息</el-divider>
                             <div class="user">
@@ -271,7 +271,7 @@
         margin: 3px 0;
     }
 
-    .center {
+    .cart-center {
         display: flex;
         flex-direction: column;
         align-items: center;

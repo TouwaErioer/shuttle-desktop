@@ -20,7 +20,7 @@
             // 刷新或关闭调用
             update() {
                 let cartMap = this.$store.getters.getCartMap;
-                if (cartMap.size == 0) localStorage.removeItem('cart');
+                if (cartMap.size === 0) localStorage.removeItem('cart');
                 else localStorage.setItem('cart', JSON.stringify(Array.from(cartMap)));
 
                 const order = this.$store.getters.getCurrent;
@@ -29,8 +29,10 @@
             }
         },
         watch: {
-            '$route'(to) {
-                this.enterTransitionName = to.path === '/search' ? 'animated slideInDown' : null;
+            '$route'(to, from) {
+                console.log(to.path, from.path);
+                if (to.path === '/search') this.enterTransitionName = 'animated slideInDown';
+                else if (to.path === '/home' && from.path === '/search') this.enterTransitionName = 'animated slideInUp';
             }
         },
         destroyed() {
