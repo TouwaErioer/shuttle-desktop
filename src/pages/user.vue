@@ -1,86 +1,132 @@
 <template>
     <Page>
         <div slot="center" class="user-container">
-            <div class="box">
-                <div class="left">
-                    <div class="cells">
-                        <div class="cell" @click="showRight('name')">
-                            <div class="cell-content">
-                                <div><i class="el-icon-user"> 昵称</i></div>
-                                <div v-text="userInfo.name" class="cell-text"></div>
-                            </div>
+            <div class="content">
+                <el-breadcrumb separator="/"
+                               style="height: 35px;width: 100%;display: flex;justify-content: center;align-items: center">
+                    <el-breadcrumb-item :to="{ path: '/home' }">首页</el-breadcrumb-item>
+                    <el-breadcrumb-item>用户</el-breadcrumb-item>
+                    <el-breadcrumb-item v-text="status()" v-if="status() !== ''"
+                                        style="color:#606266;"></el-breadcrumb-item>
+                </el-breadcrumb>
+                <div class="box">
+                    <div class="left">
+                        <div class="cells">
+                            <div class="cell" @click="showRight('name')">
+                                <div class="cell-content">
+                                    <div><i class="el-icon-user"> 昵称</i></div>
+                                    <div v-text="userInfo.name" class="cell-text"></div>
+                                </div>
 
-                            <div>
-                                <div class="spinner-in" v-if="showName">
-                                    <div class="double-bounce1-in"></div>
+                                <div>
+                                    <div class="spinner-in" v-if="showName">
+                                        <div class="double-bounce1-in"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="cell" @click="showRight('phone')">
+                                <div class="cell-content">
+                                    <div><i class="el-icon-mobile-phone"> 电话</i></div>
+                                    <div v-text="userInfo.phone" class="cell-text"></div>
+                                </div>
+                                <div>
+                                    <div class="spinner-in" v-if="showPhone">
+                                        <div class="double-bounce1-in"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="cell" @click="showRight('address')">
+                                <div class="cell-content">
+                                    <div><i class="el-icon-location-information"> 地址</i></div>
+                                    <div v-text="userInfo.address" class="cell-text"></div>
+                                </div>
+                                <div>
+                                    <div class="spinner-in" v-if="showAddress">
+                                        <div class="double-bounce1-in"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="cell" @click="showRight('recharge')">
+                                <div class="cell-content">
+                                    <div><i class="el-icon-bank-card"> 充值</i></div>
+                                    <div v-text="score" class="cell-text"/>
+                                </div>
+                                <div>
+                                    <div class="spinner-in" v-if="showRecharge">
+                                        <div class="double-bounce1-in"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="cell" @click="showRight('resetPassword')">
+                                <div class="cell-content">
+                                    <div><i class="el-icon-lock"> 修改密码</i></div>
+                                </div>
+                                <div>
+                                    <div class="spinner-in" v-if="showResetPassword">
+                                        <div class="double-bounce1-in"></div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="cell" @click="showRight('phone')">
-                            <div class="cell-content">
-                                <div><i class="el-icon-mobile-phone"> 电话</i></div>
-                                <div v-text="userInfo.phone" class="cell-text"></div>
-                            </div>
-                            <div>
-                                <div class="spinner-in" v-if="showPhone">
-                                    <div class="double-bounce1-in"></div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="cell" @click="showRight('address')">
-                            <div class="cell-content">
-                                <div><i class="el-icon-location-information"> 地址</i></div>
-                                <div v-text="userInfo.address" class="cell-text"></div>
-                            </div>
-                            <div>
-                                <div class="spinner-in" v-if="showAddress">
-                                    <div class="double-bounce1-in"></div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="cell" @click="showRight('resetPassword')">
-                            <div class="cell-content">
-                                <div><i class="el-icon-lock"> 修改密码</i></div>
-                            </div>
-                            <div>
-                                <div class="spinner-in" v-if="showResetPassword">
-                                    <div class="double-bounce1-in"></div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="cell" @click="exit()">
-                            <div class="cell-content">
-                                <div><i class="el-icon-switch-button"> 退出登录</i></div>
-                            </div>
-                            <div>
-                                <div class="spinner-in" v-if="showExit">
-                                    <div class="double-bounce1-in"></div>
-                                </div>
-                            </div>
+                        <div>
+                            <el-button type="danger" icon="el-icon-switch-button" style="width: 100%;" @click="exit()">
+                                退出登录
+                            </el-button>
                         </div>
                     </div>
-                </div>
-                <div class="right">
-                    <div class="right-container" v-if="showName">
-                        <img src="../assets/undraw_Profile_data_re_v81r.svg" class="svg">
-                        <el-input style="width: 300px;" v-model="inputValue.name" placeholder="输入昵称，回车以保存"
-                                  @change="updateUserInfo"/>
-                    </div>
-                    <div class="right-container" v-if="showPhone">
-                        <img src="../assets/undraw_phone_call_grmk.svg" class="svg">
-                        <el-input style="width: 300px;" v-model="inputValue.phone" placeholder="请输入手机号，回车以保存"
-                                  @change="updateUserInfo"/>
-                    </div>
-                    <div class="right-container" v-if="showAddress">
-                        <img src="../assets/undraw_delivery_address_03n0.svg" class="svg">
-                        <el-input style="width: 300px;" v-model="inputValue.address" placeholder="请输入地址，回车以保存"
-                                  @change="updateUserInfo"/>
-                    </div>
-                    <div class="right-container" v-if="showResetPassword">
-                        <img src="../assets/undraw_secure_login_pdn4.svg" class="svg">
-                        <el-input style="width: 300px;" v-model="resetPassword" placeholder="请输入新密码" type="password"/>
-                        <el-input style="width: 300px;margin-top: 20px" v-model="reResetPassword"
-                                  placeholder="请再次输入新密码，回车以修改" @change="reset" type="password"/>
+                    <div class="right">
+                        <div class="right-container" v-if="showName">
+                            <img src="../assets/undraw_Profile_data_re_v81r.svg" class="svg">
+                            <el-input style="width: 300px;" v-model="inputValue.name" placeholder="输入昵称，回车以保存"
+                                      @change="updateUserInfo"/>
+                        </div>
+                        <div class="right-container" v-if="showPhone">
+                            <img src="../assets/undraw_phone_call_grmk.svg" class="svg">
+                            <el-input style="width: 300px;" v-model="inputValue.phone" placeholder="请输入手机号，回车以保存"
+                                      @change="updateUserInfo"/>
+                        </div>
+                        <div class="right-container" v-if="showAddress">
+                            <img src="../assets/undraw_delivery_address_03n0.svg" class="svg">
+                            <el-input style="width: 300px;" v-model="inputValue.address" placeholder="请输入地址，回车以保存"
+                                      @change="updateUserInfo"/>
+                        </div>
+                        <div class="right-container" v-if="showResetPassword">
+                            <img src="../assets/undraw_secure_login_pdn4.svg" class="svg">
+                            <el-input style="width: 300px;" v-model="resetPassword" placeholder="请输入新密码"
+                                      type="password"/>
+                            <el-input style="width: 300px;margin-top: 20px" v-model="reResetPassword"
+                                      placeholder="请再次输入新密码，回车以修改" @change="reset" type="password"/>
+                        </div>
+                        <div class="right-container" v-if="showRecharge">
+                            <img src="../assets/undraw_pay_online_b1hk.svg" class="svg">
+                            <div style="width: 50%;">
+                                <el-input placeholder="请输入充值金额" v-model="total" suffix-icon="el-icon-wallet"/>
+                                <el-divider>
+                                    <span style="color: #909399">快捷支付金额</span>
+                                </el-divider>
+                                <el-row :gutter="20" class="opthin-area">
+                                    <el-col :span="8" v-for="item in options" :key="'o-' + item"
+                                            @click.native="total = item">
+                                        <div class="item" v-text="item"/>
+                                    </el-col>
+                                </el-row>
+                                <div class="balance" style="margin-top: 30px">
+                                    <div><i class="el-icon-coin"></i> 余额：</div>
+                                    <div style="color: #e6a23c" v-text="score + '积分'"></div>
+                                </div>
+                                <form action="/api/user/recharge" method="post" class="recharge-form">
+                                    <input :value="userInfo.id" name="userId" style="display: none"/>
+                                    <input :value="total" name="total" style="display: none" required/>
+                                    <button type="submit" class="btn" @click="check"
+                                            :style="total === ''?'background-color: #a0cfff':''">
+                                        充值
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                        <div class="right-container" v-if="empty">
+                            <Empty :svg="require('@/assets/undraw_Choose_bwbs.svg')" :description="'请选择左侧对应选项'"/>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -91,10 +137,11 @@
 <script>
 
     import Page from "@/layout/page";
-    import {reset, update} from "@/utils/api/user";
+    import {findScore, reset, update} from "@/utils/api/user";
+    import Empty from "@/components/empty";
 
     export default {
-        components: {Page,},
+        components: {Empty, Page,},
         name: "edit",
         data() {
             return {
@@ -105,7 +152,7 @@
                 },
                 resetPassword: null,
                 reResetPassword: null,
-                showName: true,
+                showName: false,
                 showPhone: false,
                 showAddress: false,
                 showResetPassword: false,
@@ -114,11 +161,15 @@
                     phone: null,
                     address: null
                 },
-                showExit: false
+                showRecharge: false,
+                options: [5, 10, 20, 30, 50, 100, 200, 300, 500],
+                total: '',
+                score: 0
             };
         },
         created() {
-            this.getUserInfo()
+            this.getUserInfo();
+            this.getScore();
         },
         methods: {
             getUserInfo() {
@@ -191,31 +242,31 @@
                     this.showPhone = false;
                     this.showAddress = false;
                     this.showResetPassword = false;
-                    this.showExit = false;
+                    this.showRecharge = false;
                 } else if (action === 'phone') {
                     this.showName = false;
                     this.showPhone = !this.showPhone;
                     this.showAddress = false;
                     this.showResetPassword = false;
-                    this.showExit = false;
+                    this.showRecharge = false;
                 } else if (action === 'address') {
                     this.showName = false;
                     this.showPhone = false;
                     this.showAddress = !this.showAddress;
                     this.showResetPassword = false;
-                    this.showExit = false;
+                    this.showRecharge = false;
                 } else if (action === 'resetPassword') {
                     this.showName = false;
                     this.showPhone = false;
                     this.showAddress = false;
                     this.showResetPassword = !this.showResetPassword;
-                    this.showExit = false;
-                } else if (action === 'exit') {
+                    this.showRecharge = false;
+                } else if (action === 'recharge') {
                     this.showName = false;
                     this.showPhone = false;
                     this.showAddress = false;
                     this.showResetPassword = false;
-                    this.showExit = !this.showResetPassword;
+                    this.showRecharge = !this.showRecharge;
                 }
             },
             exit() {
@@ -232,16 +283,37 @@
                 }).catch(() => {
                 });
             },
+            check() {
+                if (this.total === null) this.$message.error("请输入或选择金额")
+            },
+            getScore() {
+                findScore(this.userInfo.id).then(res => {
+                    if (res.code === 1) {
+                        this.score = res.data;
+                    }
+                })
+            },
+            status() {
+                if (this.showName) return '修改昵称';
+                else if (this.showPhone) return '修改电话号';
+                else if (this.showAddress) return '修改地址';
+                else if (this.showResetPassword) return '修改密码';
+                else if (this.showRecharge) return '充值';
+                else return '';
+            }
         },
         computed: {
             avatarUrl: function () {
                 return `https://api.multiavatar.com/${this.userInfo.name}.png`;
             },
+            empty() {
+                return !this.showName && !this.showAddress && !this.showPhone && !this.showResetPassword && !this.showExit && !this.showRecharge;
+            }
         },
     }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 
     @import "../style/spinner.css";
 
@@ -253,16 +325,29 @@
         justify-content: center;
     }
 
+    .content {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
     .box {
+        height: 100%;
         width: 80%;
         background-color: white;
         display: flex;
+        margin-bottom: 20px;
     }
 
     .left {
         width: 100%;
         height: 100%;
         background-color: #f8f8f8;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
     }
 
     .right {
@@ -316,5 +401,57 @@
     .svg {
         margin-bottom: 10px;
         width: 200px;
+    }
+
+    .item {
+        border-radius: 8px;
+        height: 60px;
+        border: 1px solid #1979db;
+        margin: 8px;
+        line-height: 60px;
+        text-align: center;
+        color: #1979db;
+        font-weight: bolder;
+    }
+
+    .recharge {
+        width: 100%;
+    }
+
+    .recharge-form {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+    }
+
+    .tip {
+        color: #909399;
+        padding: 0 30px;
+    }
+
+    .balance {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .btn {
+        width: 100%;
+        margin: 10px 0;
+        display: inline-block;
+        line-height: 1;
+        white-space: nowrap;
+        cursor: pointer;
+        background: #409EFF;
+        border: 1px solid #DCDFE6;
+        color: white;
+        -webkit-appearance: none;
+        text-align: center;
+        box-sizing: border-box;
+        outline: 0;
+        transition: .1s;
+        font-weight: 500;
+        padding: 12px 20px;
+        font-size: 14px;
+        border-radius: 4px;
     }
 </style>
