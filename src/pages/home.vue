@@ -10,7 +10,7 @@
                     </el-carousel>
                 </div>
             </div>
-            <div class="center-box">
+            <div class="center-box" style="padding-bottom: 30px;">
                 <div class="center-container">
                     <div class="service">
                         <div style="width: 100%;display: flex;justify-content: space-between">
@@ -226,6 +226,7 @@
     }
 
     .rank {
+        margin-bottom: 20px;
         width: 25%;
         height: 100%;
         background-color: white;

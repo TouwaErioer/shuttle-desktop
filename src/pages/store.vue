@@ -4,12 +4,22 @@
             <div class="center-container">
                 <div class="box">
                     <div class="store-box">
-                        <div class="product" v-if="products.length !== 0">
-                            <Product title="产品" icon="el-icon-goods" :products="products" :pageNo="pageNo"
-                                     :pageSize="pageSize" :total="total"/>
+                        <div style="width: 100%;display: flex;flex-direction: column">
+                            <div class="product">
+                                <el-page-header @back="$router.back()"
+                                                style="display: flex;padding: 10px 20px;;align-items: center">
+                                    <el-breadcrumb slot="content" separator="/"
+                                                   style="height: 35px;width: 100%;display: flex;justify-content: center;align-items: center">
+                                        <el-breadcrumb-item :to="{ path: '/home' }">首页</el-breadcrumb-item>
+                                        <el-breadcrumb-item>商店详情</el-breadcrumb-item>
+                                    </el-breadcrumb>
+                                </el-page-header>
+                                <Product :products="products" :pageNo="pageNo"
+                                         :pageSize="pageSize" :total="total" v-if="products.length !== 0"/>
+                            </div>
+                            <Empty :description="'该商店暂无产品'" :svg="require('@/assets/undraw_empty_xct9.svg')"
+                                   class="product" v-if="products.length === 0" style="height: unset;"/>
                         </div>
-                        <Empty :description="'该商店暂无产品'" :svg="require('@/assets/undraw_empty_xct9.svg')"
-                               class="product" v-if="products.length === 0" style="height: unset;"/>
                         <div class="store-info" v-if="store !== null">
                             <div class="info">
                                 <div class="image">
@@ -28,10 +38,10 @@
                                 <div class="rate">
                                     <el-rate v-model="value" disabled show-score text-color="#ff9900"></el-rate>
                                 </div>
-                                <div class="operate">
-                                    <el-button icon="el-icon-circle-check" type="warning">评分</el-button>
-                                    <el-button icon="el-icon-star-off" type="success">收藏</el-button>
-                                </div>
+<!--                                <div class="operate">-->
+<!--                                    <el-button icon="el-icon-circle-check" type="warning">评分</el-button>-->
+<!--                                    <el-button icon="el-icon-star-off" type="success">收藏</el-button>-->
+<!--                                </div>-->
                             </div>
                         </div>
                     </div>
@@ -115,7 +125,6 @@
     }
 
     .product {
-        width: 80%;
         height: 100%;
         background-color: white;
     }

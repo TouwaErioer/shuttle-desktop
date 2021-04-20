@@ -1,15 +1,5 @@
 <template>
     <div class="container">
-        <div class="heard">
-            <div class="title">
-                <i :class="icon"></i>
-                <span v-text="' ' + title"></span>
-            </div>
-            <div class="more">
-                <el-pagination layout="prev, pager, next" :page-size="pageSize" :total="total"
-                               @current-change="pageCurrent"/>
-            </div>
-        </div>
         <div class="content">
             <el-row>
                 <el-col :span="6" v-for="product in products" :key="product.id">
@@ -36,6 +26,10 @@
                     </el-card>
                 </el-col>
             </el-row>
+            <div class="more">
+                <el-pagination layout="prev, pager, next" :page-size="pageSize" :total="total"
+                               @current-change="pageCurrent"/>
+            </div>
         </div>
     </div>
 </template>
@@ -47,7 +41,7 @@
     export default {
         name: "product",
         components: {ProductDialog},
-        props: {title: String, icon: String, products: Array, pageNo: Number, pageSize: Number, total: Number},
+        props: {products: Array, pageNo: Number, pageSize: Number, total: Number},
         data() {
             return {
                 filter: false,
@@ -75,24 +69,12 @@
 <style scoped>
 
     .container {
-        padding: 10px;
-    }
-
-    .heard {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        width: 100%;
+        padding: 0 10px;
     }
 
     .image {
         width: 100%;
         display: block;
-    }
-
-    .title {
-        padding: 10px;
-        font-size: 20px;
     }
 
     .store-info {
@@ -107,7 +89,6 @@
     }
 
     .more {
-        margin-right: 10px;
         display: flex;
         justify-content: center;
         align-items: center;

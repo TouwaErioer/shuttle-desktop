@@ -2,22 +2,25 @@
     <Page>
         <div slot="center" class="user-container">
             <div class="content">
-                <el-breadcrumb separator="/"
-                               style="height: 35px;width: 100%;display: flex;justify-content: center;align-items: center">
-                    <el-breadcrumb-item :to="{ path: '/home' }">首页</el-breadcrumb-item>
-                    <el-breadcrumb-item>用户</el-breadcrumb-item>
-                    <el-breadcrumb-item v-text="status()" v-if="status() !== ''"
-                                        style="color:#606266;"></el-breadcrumb-item>
-                </el-breadcrumb>
                 <div class="box">
                     <div class="left">
                         <div class="cells">
+                            <div>
+                                <el-page-header @back="$router.back()" style="display: flex;padding: 10px 5px;;align-items: center">
+                                    <el-breadcrumb slot="content" separator="/"
+                                                   style="height: 35px;width: 100%;display: flex;justify-content: center;align-items: center">
+                                        <el-breadcrumb-item :to="{ path: '/home' }">首页</el-breadcrumb-item>
+                                        <el-breadcrumb-item>用户</el-breadcrumb-item>
+                                        <el-breadcrumb-item v-text="status()" v-if="status() !== ''"
+                                                            style="color:#606266;"></el-breadcrumb-item>
+                                    </el-breadcrumb>
+                                </el-page-header>
+                            </div>
                             <div class="cell" @click="showRight('name')">
                                 <div class="cell-content">
                                     <div><i class="el-icon-user"> 昵称</i></div>
                                     <div v-text="userInfo.name" class="cell-text"></div>
                                 </div>
-
                                 <div>
                                     <div class="spinner-in" v-if="showName">
                                         <div class="double-bounce1-in"></div>
