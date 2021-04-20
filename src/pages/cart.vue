@@ -189,8 +189,8 @@
     }
 
     .box {
+        margin: 30px 0;
         width: 80%;
-        height: 100%;
         display: flex;
     }
 

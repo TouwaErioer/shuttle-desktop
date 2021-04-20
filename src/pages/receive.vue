@@ -398,6 +398,7 @@
     }
 
     .box {
+        margin: 30px 0;
         background-color: white;
         display: flex;
         flex-direction: column;

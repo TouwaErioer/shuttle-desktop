@@ -19,13 +19,14 @@
                         <el-menu-item index="/order">订单</el-menu-item>
                         <el-menu-item index="/receive">接单</el-menu-item>
                         <el-menu-item index="/admin">管理</el-menu-item>
+                        <el-menu-item index="/search">搜索</el-menu-item>
                         <el-menu-item index="/cart">购物车
                             <div class="el-badge__content" v-text="$store.getters.getCount" v-if="$store.getters.getCount > 0"/>
                         </el-menu-item>
                     </el-menu>
                 </div>
                 <div id="heard-functions">
-                    <div id="search" @click="$router.push('/search')"><i class="el-icon-search"></i></div>
+<!--                    <div id="search" @click="$router.push('/search')"><i class="el-icon-search"></i></div>-->
                     <div id="user">
                         <el-avatar :src="avatarUrl" @click.native="$router.push('/user')" :size="35"/>
                     </div>

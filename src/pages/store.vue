@@ -93,14 +93,6 @@
 
 <style scoped>
 
-    .background {
-        background-image: url("../assets/login-background.jpg");
-        width: 100%;
-        height: 400px;
-        background-size: cover;
-        background-position: center;
-    }
-
     .center-container {
         width: 100%;
         display: flex;
@@ -109,6 +101,7 @@
     }
 
     .box {
+        margin: 30px 0;
         width: 80%;
         display: flex;
         flex-direction: column;

@@ -1,6 +1,6 @@
 const state = () => ({
     categories: []
-})
+});
 
 const getters = {
     getCategories: (state) => (id) => {
