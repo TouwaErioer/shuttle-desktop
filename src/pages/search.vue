@@ -120,7 +120,7 @@
 <style scoped>
 
     .container {
-        background-image: url("../assets/background.jpg");
+        background-image: url("https://ae01.alicdn.com/kf/U2f3720b92f304fe890ecd4f62363b9964.jpg");
         background-size: cover;
         width: 100%;
         height: 100%;

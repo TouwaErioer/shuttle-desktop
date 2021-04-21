@@ -59,7 +59,7 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        background-image: url("../assets/forget-left.jpg");
+        background-image: url("https://ae01.alicdn.com/kf/U459cc61893844a35b46a86bf081423b7v.jpg");
         background-size: cover;
         background-position: center;
     }
@@ -71,7 +71,7 @@
     }
 
     .left {
-        background-image: url("../assets/forget-background.jpg");
+        background-image: url("https://ae01.alicdn.com/kf/U03a6fbc31baa400c8a09c674f2d57656f.jpg");
         background-size: cover;
         width: 35%;
         height: 100%;

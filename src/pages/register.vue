@@ -90,7 +90,7 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        background-image: url("../assets/register-background.jpg");
+        background-image: url("https://ae01.alicdn.com/kf/Uc4be418c225d4ba1ad4e55b2af40d5f1d.jpg");
         background-size: cover;
         background-position: center;
     }
@@ -102,7 +102,7 @@
     }
 
     .left {
-        background-image: url("../assets/register-left.png");
+        background-image: url("https://ae01.alicdn.com/kf/U1672d1fe49424875bd06dfcfaaf4e48fG.jpg");
         background-size: cover;
         width: 35%;
         height: 100%;

@@ -83,7 +83,7 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        background-image: url("../assets/login-background.jpg");
+        background-image: url("https://ae01.alicdn.com/kf/U40d54b4c8c6e460cb01e58a303d74830q.jpg");
         background-size: cover;
         background-position: center;
     }
@@ -95,7 +95,7 @@
     }
 
     .left {
-        background-image: url("../assets/login-left.jpg");
+        background-image: url("https://ae01.alicdn.com/kf/U373fbf1d42e042949eed6111348839f9b.jpg");
         background-size: cover;
         width: 35%;
         height: 100%;
