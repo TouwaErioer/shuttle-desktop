@@ -172,14 +172,6 @@
 
 <style scoped>
 
-    .background {
-        background-image: url("../assets/login-background.jpg");
-        width: 100%;
-        height: 400px;
-        background-size: cover;
-        background-position: center;
-    }
-
     .box-container {
         background-color: #e4e7ed;
         height: 100%;
