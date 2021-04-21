@@ -50,7 +50,8 @@
                                     <el-radio-group v-model="categoryId">
                                         <el-radio-button label="0">全部</el-radio-button>
                                         <el-radio-button v-for="category in categories" :key="category.id"
-                                                         :label="category.id">{{category.name}}</el-radio-button>
+                                                         :label="category.id">{{category.name}}
+                                        </el-radio-button>
                                     </el-radio-group>
                                 </el-button-group>
                             </div>
@@ -161,7 +162,7 @@
                     this.stores = this.$store.getters.getStoresBySid(parseInt(this.radio));
                     this.total = this.stores.length;
                 } else {
-                    findStoreByServiceId(parseInt(this.radio), pageNo, this.pageSize, this.advanced,this.sort).then(res => {
+                    findStoreByServiceId(parseInt(this.radio), pageNo, this.pageSize, this.advanced, this.sort).then(res => {
                         if (res.code === 1) {
                             this.stores = res.data.list;
                             this.total = res.data.total;
@@ -201,11 +202,13 @@
             },
             categoryId: function () {
                 let categoryId = this.categoryId;
-                if(categoryId === '0'){
+                if (categoryId === '0') {
                     this.getStores(this.pageNo);
-                }else{
+                } else {
                     findByCategoryId(categoryId).then(res => {
-                        this.stores = res.data;
+                        if (res.code === 1) {
+                            this.stores = res.data.list;
+                        }
                     });
                 }
                 this.option = false;
