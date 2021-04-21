@@ -30,7 +30,6 @@
         },
         watch: {
             '$route'(to, from) {
-                console.log(to.path, from.path);
                 if (to.path === '/search') this.enterTransitionName = 'animated slideInDown';
                 else if (to.path === '/home' && from.path === '/search') this.enterTransitionName = 'animated slideInUp';
             }

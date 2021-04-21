@@ -145,8 +145,12 @@
                 isReset: true,
                 selection: false,
                 sectionValue: [],
-                wsSwitch: true
+                wsSwitch: true,
+                ws: null
             }
+        },
+        created(){
+            this.enableWs();
         },
         computed: {
             getService() {
@@ -338,6 +342,31 @@
                         type: 'warning'
                     });
                 });
+            },
+            enableWs(){
+                this.ws = new WebSocket(process.env.VUE_APP_WS);
+                let self = this;
+                this.ws.onopen = function () {
+                    self.$notify({
+                        title: '已连接',
+                        message: '实时推送已打开',
+                        type: 'success',
+                        duration: 2000,
+                        position: 'bottom-right'
+                    });
+                };
+                this.ws.onmessage = function (evt) {
+                    this.tableData.unshift(JSON.parse(evt.data));
+                };
+                this.ws.onclose = function () {
+                    self.$notify({
+                        title: '已关闭',
+                        message: '实时推送已关闭',
+                        type: 'warning',
+                        duration: 2000,
+                        position: 'bottom-right'
+                    });
+                };
             }
         },
         watch: {
@@ -346,30 +375,7 @@
             },
             wsSwitch: function () {
                 if (("WebSocket" in window) && this.wsSwitch) {
-                    this.ws = new WebSocket(process.env.VUE_APP_WS);
-                    let self = this;
-                    this.ws.onopen = function () {
-                        self.$notify({
-                            title: '已连接',
-                            message: '实时推送已打开',
-                            type: 'success',
-                            duration: 2000,
-                            position: 'bottom-right'
-                        });
-                    };
-                    this.ws.onmessage = function (evt) {
-                        console.log(JSON.parse(evt.data));
-                        this.tableData.unshift(JSON.parse(evt.data));
-                    };
-                    this.ws.onclose = function () {
-                        self.$notify({
-                            title: '已关闭',
-                            message: '实时推送已关闭',
-                            type: 'warning',
-                            duration: 2000,
-                            position: 'bottom-right'
-                        });
-                    };
+                    this.enableWs();
                 }
                 if (!this.wsSwitch) {
                     this.$notify({
