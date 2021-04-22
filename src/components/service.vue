@@ -9,7 +9,7 @@
                              class="image" style="height: 170px">
                         <div class="store-info">
                             <div class="store-title">
-                                <span v-text="store.name"></span>
+                                <span v-text="store.name"></span> <el-tag v-text="store.category.name" size="mini" effect="dark"/>
                             </div>
                             <el-rate v-model="store.rate" disabled show-score text-color="#ff9900"></el-rate>
                             <div class="sales"><i class="el-icon-medal"></i> 销量：<span v-text="store.sales"></span></div>
