@@ -364,7 +364,7 @@
         background-color: white;
         display: flex;
         flex-direction: column;
-        width: 80%;
+        width: 75%;
     }
 
     .radio {
@@ -391,7 +391,7 @@
     }
 
     .filter > div {
-        margin-left: 15px;
+        margin-left: 12px;
     }
 
     .delete-btn {

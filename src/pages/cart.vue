@@ -182,7 +182,7 @@
 
     .box {
         margin: 30px 0;
-        width: 80%;
+        width: 75%;
         display: flex;
     }
 
