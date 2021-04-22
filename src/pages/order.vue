@@ -43,7 +43,7 @@
                     </div>
                 </div>
                 <OrderTable :table-data="tableData" :selection="selection" v-on:sectionValue="getSectionValue"
-                            v-on:deleteOrder="deleteOrder" :type="'order'"/>
+                            v-on:deleteOrder="deleteOrder" :type="'order'" v-on:completeOrder="completeOrder"/>
                 <div class="delete-btn">
                     <el-button v-if="selection" type="danger" :disabled="sectionValue.length === 0"
                                @click="batchDelete()">批量删除
@@ -65,7 +65,7 @@
         findByCidOrPresent,
         findByCidOrCompleted,
         searchByCid,
-        deleteOrder
+        deleteOrder, complete
     } from "@/utils/api/order";
 
     export default {
@@ -333,7 +333,31 @@
                         type: 'warning'
                     });
                 });
-            }
+            },
+            completeOrder(order) {
+                const data = {
+                    id: order.id,
+                    cid: order.cid,
+                    sid: order.sid,
+                    pid: order.pid,
+                    file: order.file
+                };
+                this.$confirm('请确定商品已配送到，确定完成该订单？', '提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'warning'
+                }).then(() => {
+                    complete(data).then(res => {
+                        if (res.code === 1) {
+                            this.$message.success('签收成功！');
+                            this.load();
+                        } else {
+                            this.$message.error('订单已取消');
+                        }
+                    });
+                }).catch(() => {
+                });
+            },
         },
         watch: {
             radio: function () {

@@ -62,7 +62,7 @@
                     </div>
                 </div>
                 <OrderTable :table-data="tableData" :selection="selection" v-on:sectionValue="getSectionValue"
-                            v-on:deleteOrder="deleteOrder" :type="'receive'"/>
+                            v-on:deleteOrder="deleteOrder" :type="'receive'" v-on:receive="receive"/>
                 <div class="delete-btn">
                     <el-button v-if="selection && radio === '已完成'" type="danger" :disabled="sectionValue.length === 0"
                                @click="batchDelete()">批量删除
@@ -84,8 +84,9 @@
     import Page from "@/layout/page";
     import OrderTable from "@/components/order-table";
     import {
-        deleteOrder, findByReceive, findBySidOrPresent, findBySidOrCompleted, searchByReceive
+        deleteOrder, findByReceive, findBySidOrPresent, findBySidOrCompleted, searchByReceive, Receive
     } from "@/utils/api/order";
+    import common from "@/utils/common";
 
     export default {
         name: "receive",
@@ -149,7 +150,7 @@
                 ws: null
             }
         },
-        created(){
+        created() {
             this.enableWs();
         },
         computed: {
@@ -343,7 +344,7 @@
                     });
                 });
             },
-            enableWs(){
+            enableWs() {
                 this.ws = new WebSocket(process.env.VUE_APP_WS);
                 let self = this;
                 this.ws.onopen = function () {
@@ -356,7 +357,7 @@
                     });
                 };
                 this.ws.onmessage = function (evt) {
-                    this.tableData.unshift(JSON.parse(evt.data));
+                    self.tableData.unshift(JSON.parse(evt.data));
                 };
                 this.ws.onclose = function () {
                     self.$notify({
@@ -367,7 +368,29 @@
                         position: 'bottom-right'
                     });
                 };
-            }
+            },
+            receive(orderId) {
+                this.$confirm('接单会消耗1积分，确定接受该订单？', '提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'warning'
+                }).then(() => {
+                    Receive({
+                        orderId: orderId,
+                        userId: common.getUserInfo().id
+                    }).then(res => {
+                        if (res.code === 1) {
+                            this.$notify({
+                                type: 'success',
+                                title: '操作成功',
+                                message: '接单成功'
+                            });
+                            this.load();
+                        }
+                    })
+                }).catch(() => {
+                });
+            },
         },
         watch: {
             radio: function () {

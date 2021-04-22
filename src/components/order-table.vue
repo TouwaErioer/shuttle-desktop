@@ -68,7 +68,9 @@
                 </template>
                 <template slot-scope="scope">
                     <div v-if="scope.row.file === null">无</div>
-                    <el-link v-if="scope.row.file !== null" v-text="scope.row.file"/>
+                    <el-link :href="'/api/file/download/' + scope.row.file" v-if="scope.row.file !== null"
+                             type="primary">下载
+                    </el-link>
                 </template>
             </el-table-column>
             <el-table-column
@@ -78,7 +80,9 @@
                     <i class="el-icon-notebook-1"> 备注</i>
                 </template>
                 <template slot-scope="scope">
-                    <div v-text="scope.row.note === null?'无':scope.row.note"></div>
+                    <div v-if="scope.row.note === null">无</div>
+                    <el-link v-if="scope.row.note !== null" type="warning" @click="showData(scope.row.note)">查看
+                    </el-link>
                 </template>
             </el-table-column>
             <el-table-column
@@ -110,28 +114,35 @@
                     <i class="el-icon-s-operation"> 操作</i>
                 </template>
                 <template slot-scope="scope">
-                    <el-button type="danger" size="mini" @click="deleteOrder(scope.row)" v-if="type === 'order' || (type === 'receive' && scope.row.status === 1)"
+                    <el-button type="danger" size="mini" @click="deleteOrder(scope.row)"
+                               v-if="(type === 'order' && scope.row.status !== 0) || (type === 'receive' && scope.row.status >= 0)"
                                :disabled="scope.row.status === 0">删除
                     </el-button>
-                    <el-button type="success" size="mini" v-if="type === 'receive' && scope.row.status === -1">接单</el-button>
+                    <el-button type="success" size="mini" v-if="type === 'receive' && scope.row.status === -1"
+                               @click="receive(scope.row.id)">接单
+                    </el-button>
+                    <el-button type="success" size="mini" v-if="(type === 'order' && scope.row.status === 0)"
+                               @click="completeOrder(scope.row)">
+                        完成
+                    </el-button>
                 </template>
             </el-table-column>
         </el-table>
-        <Empty :description="'暂无订单数据'" :svg="require('@/assets/undraw_blank_canvas_3rbb.svg')" v-if="tableData.length === 0"/>
+        <Empty :description="'暂无订单数据'" :svg="require('@/assets/undraw_blank_canvas_3rbb.svg')"
+               v-if="tableData.length === 0"/>
     </div>
 </template>
 
 <script>
 
     import Empty from "@/components/empty";
+
     export default {
         name: "order-table",
         components: {Empty},
-        props: ['tableData','selection','type'],
+        props: ['tableData', 'selection', 'type'],
         data() {
-            return {
-
-            }
+            return {}
         },
         methods: {
             changeDateToLocaleDateString(date) {
@@ -170,9 +181,26 @@
             changeDate(date) {
                 return date.toISOString().split('T')[0] + ' ' + date.toTimeString().split(' ')[0]
             },
-            handleSelectionChange(val){
+            handleSelectionChange(val) {
                 this.$emit('sectionValue', val);
-            }
+            },
+            showData(data) {
+                this.$alert(data, '详情', {
+                    confirmButtonText: '确定',
+                    callback: action => {
+                        this.$notify({
+                            type: 'info',
+                            title: action
+                        });
+                    }
+                });
+            },
+            receive(orderId) {
+                this.$emit('receive', orderId);
+            },
+            completeOrder(order) {
+                this.$emit('completeOrder', order);
+            },
         }
     }
 </script>
