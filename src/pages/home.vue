@@ -132,12 +132,12 @@
                 });
             },
             getPopular() {
-                findPopularProduct().then(res => {
+                findPopularProduct(5).then(res => {
                     if (res.code === 1) {
                         this.popularProduct = res.data;
                     }
                 });
-                findPopularStore().then(res => {
+                findPopularStore(5).then(res => {
                     if (res.code === 1) {
                         this.popularStore = res.data;
                     }

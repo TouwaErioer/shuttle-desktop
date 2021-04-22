@@ -9,7 +9,7 @@ export const findProductsByStoreId = (storeId) => get(API + 'findByStoreId/' + s
 export const findProductsByStoreIdByPagination = (storeId, pageNo, pageSize) => get(API + 'findByStoreIdByPagination/' + storeId + '?pageNo=' + pageNo + '&pageSize=' + pageSize);
 
 // 排行榜
-export const findPopularProduct = () => get(API + 'rank');
+export const findPopularProduct = (quantity) => get(API + 'rank?quantity=' + quantity);
 
 // 搜索
 export const searchProduct = (keywords) => get(API + 'search/' + keywords);
