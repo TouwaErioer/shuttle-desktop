@@ -11,8 +11,8 @@
                             :default-active="activeIndex"
                             class="el-menu-demo"
                             mode="horizontal"
-                            background-color="#545c64"
-                            text-color="#fff"
+                            background-color="#fff"
+                            text-color="#000"
                             active-text-color="#ffd04b"
                             @select="handleSelect">
                         <el-menu-item index="/">首页</el-menu-item>
@@ -91,9 +91,10 @@
     #heard {
         width: 100%;
         height: 60px;
-        background-color: #545c64;
+        background-color: #fff;
         display: flex;
         justify-content: center;
+        box-shadow: 0 5px 10px 0 rgb(0 64 128 / 5%);
     }
 
     #heard-container {
@@ -111,7 +112,7 @@
 
     #title {
         margin: 0 15px;
-        color: white;
+        color: #000;
         display: flex;
         flex-direction: column;
         text-align: center;

@@ -107,7 +107,6 @@
         width: 100%;
         display: flex;
         justify-content: center;
-        background-color: #e4e7ed;
     }
 
     .box {
@@ -116,6 +115,8 @@
         display: flex;
         flex-direction: column;
         justify-content: center;
+        box-shadow: 0 10px 40px -10px rgb(0 64 128 / 20%);
+        border-radius: 6px;
     }
 
     .store-box {

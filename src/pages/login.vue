@@ -1,12 +1,12 @@
 <template>
     <div class="container">
         <div class="box">
-            <div class="left"></div>
+<!--            <div class="left"></div>-->
             <div class="right">
                 <div class="right-container">
                     <div class="info">
                         <div>shuttle</div>
-                        <el-divider>校园服务平台</el-divider>
+                        <div style="color:gray;font-size: 15px;margin: 5px 0;">校园服务平台</div>
                     </div>
                     <div class="input">
                         <el-input style="margin: 10px 0;" v-model="login_from.account" prefix-icon="el-icon-user"
@@ -26,13 +26,13 @@
                 </div>
                 <div class="expand">
                     <div class="expand-container">
-                        <div class="forget" @click="$router.push('/forget')"><i class="el-icon-question"
+                        <el-link style="font-size: 10px" class="forget" @click="$router.push('/forget')"><i class="el-icon-question"
                                                                                 @click="$router.push('/forget')"></i>
                             忘记密码
-                        </div>
-                        <div>
+                        </el-link>
+                        <div style="display: flex">
                             <span>还没有注册？ </span>
-                            <span @click="$router.push('/register')">立即注册</span>
+                            <el-link style="font-size: 10px" type="primary" @click="$router.push('/register')">立即注册</el-link>
                         </div>
                     </div>
                 </div>
@@ -83,30 +83,31 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        background-image: url("https://ae01.alicdn.com/kf/U40d54b4c8c6e460cb01e58a303d74830q.jpg");
-        background-size: cover;
-        background-position: center;
+        background: #7F7FD5;  /* fallback for old browsers */
+        background: -webkit-linear-gradient(to right, #91EAE4, #86A8E7, #7F7FD5);  /* Chrome 10-25, Safari 5.1-6 */
+        background: linear-gradient(to right, #91EAE4, #86A8E7, #7F7FD5); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
     }
 
     .box {
-        width: 40%;
-        height: 60%;
+        width: 30%;
+        height: 50%;
         display: flex;
     }
 
-    .left {
-        background-image: url("https://ae01.alicdn.com/kf/U373fbf1d42e042949eed6111348839f9b.jpg");
-        background-size: cover;
-        width: 35%;
-        height: 100%;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
+    /*.left {*/
+    /*    background-image: url("https://ae01.alicdn.com/kf/U373fbf1d42e042949eed6111348839f9b.jpg");*/
+    /*    background-size: cover;*/
+    /*    width: 35%;*/
+    /*    height: 100%;*/
+    /*    display: flex;*/
+    /*    justify-content: center;*/
+    /*    align-items: center;*/
+    /*}*/
 
     .right {
-        background-color: white;
-        width: 65%;
+        background: rgba(255,255,255,.7);
+        backdrop-filter: blur(10);
+        width: 100%;
         height: 100%;
         display: flex;
         justify-content: center;
@@ -151,7 +152,7 @@
     }
 
     .expand {
-        background-color: #dcdfe6;
+        /*background-color: #dcdfe6;*/
         width: 100%;
     }
 

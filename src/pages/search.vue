@@ -31,7 +31,7 @@
                 </div>
             </div>
         </div>
-        <div class="close"><i class="el-icon-close" style="font-size: 35px" @click="$router.back()"></i></div>
+        <div class="close"><i class="el-icon-close" style="font-size: 35px;color: white" @click="$router.back()"></i></div>
     </div>
 </template>
 
@@ -120,13 +120,15 @@
 <style scoped>
 
     .container {
-        background-image: url("https://ae01.alicdn.com/kf/U2f3720b92f304fe890ecd4f62363b9964.jpg");
         background-size: cover;
         width: 100%;
         height: 100%;
         display: flex;
         justify-content: center;
         align-items: center;
+        background: #74ebd5;  /* fallback for old browsers */
+        background: -webkit-linear-gradient(to right, #ACB6E5, #74ebd5);  /* Chrome 10-25, Safari 5.1-6 */
+        background: linear-gradient(to right, #ACB6E5, #74ebd5); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
     }
 
     .search {

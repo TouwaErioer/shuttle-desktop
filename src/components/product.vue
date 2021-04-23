@@ -4,8 +4,10 @@
             <el-row>
                 <el-col :span="6" v-for="product in products" :key="product.id">
                     <el-card :body-style="{ padding: '0px' }" style="margin: 10px;" shadow="hover">
-                        <img :src="product.image"
-                             class="image" style="height: 170px">
+                        <div style="display: flex;justify-content: center;align-items: center">
+                            <img :src="product.image"
+                                 class="image" style="height: 150px;width: 150px;">
+                        </div>
                         <div class="store-info">
                             <div class="store-title">
                                 <span v-text="product.name"></span>

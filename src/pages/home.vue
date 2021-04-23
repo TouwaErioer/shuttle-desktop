@@ -2,7 +2,7 @@
     <Page>
         <el-scrollbar slot="center">
             <div class="center-box">
-                <div class="center-container" style="padding-top: 30px;margin-top: 30px;">
+                <div class="center-container" style="padding-top: 30px;margin: 20px 0;box-shadow: 0 10px 40px -10px rgb(0 64 128 / 20%);border-radius: 6px;">
                     <el-carousel :interval="3000" type="card" height="200px" style="width: 100%;margin: 0 20px;">
                         <el-carousel-item v-for="ad in ads" :key="ad.id">
                             <el-image :src="ad.image" @click="$router.push('/store/' + ad.storeId)"/>
@@ -19,7 +19,8 @@
                                     <i :class="service.icon"></i> <span v-text="service.name"></span>
                                 </el-radio-button>
                             </el-radio-group>
-                            <el-button icon="el-icon-setting" @click="option = true">选项</el-button>
+
+                            <el-button icon="el-icon-setting" @click="option = true" style="margin-right: 20px;">选项</el-button>
                         </div>
                         <Service :stores="stores"/>
                         <el-pagination layout="prev, pager, next" :page-size="pageSize" :total="total"
@@ -223,30 +224,32 @@
         width: 100%;
         display: flex;
         justify-content: center;
-        background-color: #e4e7ed;
+        /*background-color: #e4e7ed;*/
     }
 
     .center-container {
-        background-color: white;
         width: 75%;
         height: 100%;
         display: flex;
-        padding-top: 15px;
     }
 
     .service {
+        padding: 20px 0;
+        border-radius: 6px;
+        box-shadow: 0 10px 40px -10px rgb(0 64 128 / 20%);
         width: 80%;
         height: 100%;
-        padding-right: 20px;
     }
 
     .rank {
+        margin-left: 20px;
+        border-radius: 6px;
+        box-shadow: 0 10px 40px -10px rgb(0 64 128 / 20%);
         margin-bottom: 20px;
         width: 25%;
         height: 100%;
         background-color: white;
         padding: 0 15px;
-        border-left: 1px #dddddd solid;
     }
 
     .rank-title {

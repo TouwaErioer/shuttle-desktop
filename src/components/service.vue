@@ -6,7 +6,7 @@
                     <el-card :body-style="{ padding: '0px' }" style="margin: 10px;" shadow="hover"
                              @click.native="$router.push('/store/' + store.id)">
                         <img :src="store.image"
-                             class="image" style="height: 170px">
+                             class="image" style="height: 160px">
                         <div class="store-info">
                             <div class="store-title">
                                 <span v-text="store.name"></span> <el-tag v-text="store.category.name" size="mini" effect="dark"/>

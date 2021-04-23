@@ -173,7 +173,6 @@
 <style scoped>
 
     .box-container {
-        background-color: #e4e7ed;
         height: 100%;
         width: 100%;
         display: flex;
@@ -184,6 +183,8 @@
         margin: 30px 0;
         width: 75%;
         display: flex;
+        box-shadow: 0 10px 40px -10px rgb(0 64 128 / 20%);
+        border-radius: 6px;
     }
 
     .left {

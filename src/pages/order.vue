@@ -378,7 +378,6 @@
     .order-container {
         width: 100%;
         height: 100%;
-        background-color: #e4e7ed;
         display: flex;
         justify-content: center;
     }
@@ -389,6 +388,8 @@
         display: flex;
         flex-direction: column;
         width: 75%;
+        box-shadow: 0 10px 40px -10px rgb(0 64 128 / 20%);
+        border-radius: 6px;
     }
 
     .radio {

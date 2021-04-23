@@ -14,6 +14,7 @@
 
     import PageHeader from "@/components/page-header";
     import Page from "@/layout/page";
+
     export default {
         name: "add",
         components: {Page, PageHeader},
@@ -23,16 +24,16 @@
 <style scoped>
 
     .add-container {
-             width: 100%;
-             height: 100%;
-             background-color: #e4e7ed;
-             display: flex;
-             justify-content: center;
-         }
+        width: 100%;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+    }
 
-    .box{
+    .box {
         width: 80%;
-        background-color: white;
+        box-shadow: 0 10px 40px -10px rgb(0 64 128 / 20%);
+        border-radius: 6px;
     }
 
 </style>

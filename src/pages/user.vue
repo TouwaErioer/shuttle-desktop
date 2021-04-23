@@ -316,14 +316,13 @@
     }
 </script>
 
-<style lang="scss" scoped>
+<style scoped>
 
     @import "../style/spinner.css";
 
     .user-container {
         width: 100%;
         height: 100%;
-        background-color: #e4e7ed;
         display: flex;
         justify-content: center;
     }
@@ -341,7 +340,9 @@
         width: 80%;
         background-color: white;
         display: flex;
-        margin-bottom: 20px;
+        margin: 20px;
+        box-shadow: 0 10px 40px -10px rgb(0 64 128 / 20%);
+        border-radius: 6px;
     }
 
     .left {
@@ -382,7 +383,7 @@
 
     .cell {
         height: 50px;
-        border-bottom: 1px rgba(0, 0, 0, .1) solid;
+        /*border-bottom: 1px rgba(0, 0, 0, .1) solid;*/
         display: flex;
         justify-content: space-between;
         align-items: center;
