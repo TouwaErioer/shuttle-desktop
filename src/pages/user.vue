@@ -337,7 +337,7 @@
 
     .box {
         height: 100%;
-        width: 80%;
+        width: 75%;
         background-color: white;
         display: flex;
         margin: 20px;

@@ -30,6 +30,7 @@
     right: -5px!important;
 }
 
-/*.el-divider__text{*/
-/*    background-color: #f8f8f8!important;*/
-/*}*/
+.el-menu{
+
+    border: unset!important;
+}

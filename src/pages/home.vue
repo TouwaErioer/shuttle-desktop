@@ -2,12 +2,13 @@
     <Page>
         <el-scrollbar slot="center">
             <div class="center-box">
-                <div class="center-container" style="padding-top: 30px;margin: 20px 0;box-shadow: 0 10px 40px -10px rgb(0 64 128 / 20%);border-radius: 6px;">
-                    <el-carousel :interval="3000" type="card" height="200px" style="width: 100%;margin: 0 20px;">
+                <div class="center-container" style="padding-top: 30px;">
+                    <el-carousel :interval="3000" type="card" height="200px" style="width: 73%;margin: 0 20px;margin: 20px 0;box-shadow: 0 10px 40px -10px rgb(0 64 128 / 20%);border-radius: 6px;">
                         <el-carousel-item v-for="ad in ads" :key="ad.id">
                             <el-image :src="ad.image" @click="$router.push('/store/' + ad.storeId)"/>
                         </el-carousel-item>
                     </el-carousel>
+                    <SummaryCard style="box-shadow: 0 10px 40px -10px rgb(0 64 128 / 20%);border-radius: 6px;margin-left: 20px;flex: 1"/>
                 </div>
             </div>
             <div class="center-box" style="padding-bottom: 30px;">
@@ -15,7 +16,7 @@
                     <div class="service">
                         <div style="width: 100%;display: flex;justify-content: space-between">
                             <el-radio-group v-model="radio" style="padding-left: 20px">
-                                <el-radio-button v-for="service in services" :key="service.id" :label="service.id">
+                                <el-radio-button typeof="info" v-for="service in services" :key="service.id" :label="service.id">
                                     <i :class="service.icon"></i> <span v-text="service.name"></span>
                                 </el-radio-button>
                             </el-radio-group>
@@ -91,10 +92,11 @@
     import {findByCategoryId, findPopularStore, findStoreByServiceId} from "@/utils/api/store";
     import {findAllAds} from "@/utils/api/ads";
     import {findCategoryByServiceId} from "@/utils/api/category";
+    import SummaryCard from "@/components/summary-card";
 
     export default {
         name: "home",
-        components: {Page, PopularItem, Service},
+        components: {SummaryCard, Page, PopularItem, Service},
         data() {
             return {
                 rank: 'store',

@@ -28,7 +28,7 @@
 
     .center {
         /*background-color: #e4e7ed;*/
-        margin-bottom: 60px;
+        /*margin-bottom: 60px;*/
         flex: 1;
         overflow-y: scroll;
     }
