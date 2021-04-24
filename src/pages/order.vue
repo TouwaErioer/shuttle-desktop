@@ -67,6 +67,7 @@
         searchByCid,
         deleteOrder, complete
     } from "@/utils/api/order";
+    import common from "@/utils/common";
 
     export default {
         name: "order",
@@ -125,8 +126,12 @@
                 serverId: null,
                 isReset: true,
                 selection: false,
-                sectionValue: []
+                sectionValue: [],
+                userInfo: null
             }
+        },
+        created(){
+            this.userInfo = common.getUserInfo();
         },
         computed: {
             getService() {
@@ -177,7 +182,7 @@
                 }
             },
             getOrder() {
-                findByCidOrOrder(1, this.pageNo, this.pageSize).then(res => {
+                findByCidOrOrder(this.userInfo.id, this.pageNo, this.pageSize).then(res => {
                     if (res.code === 1) {
                         this.tableData = res.data.list;
                         this.total = res.data.total;
@@ -185,7 +190,7 @@
                 })
             },
             getOrdersByCidOrPresent() {
-                findByCidOrPresent(1, this.pageNo, this.pageSize).then(res => {
+                findByCidOrPresent(this.userInfo.id, this.pageNo, this.pageSize).then(res => {
                     if (res.code === 1) {
                         this.tableData = res.data.list;
                         this.total = res.data.total;
@@ -193,7 +198,7 @@
                 })
             },
             getOrdersByCidOrCompleted() {
-                findByCidOrCompleted(1, this.pageNo, this.pageSize).then(res => {
+                findByCidOrCompleted(this.userInfo.id, this.pageNo, this.pageSize).then(res => {
                     if (res.code === 1) {
                         this.tableData = res.data.list;
                         this.total = res.data.total;

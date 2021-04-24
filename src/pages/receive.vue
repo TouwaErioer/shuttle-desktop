@@ -147,11 +147,13 @@
                 selection: false,
                 sectionValue: [],
                 wsSwitch: true,
-                ws: null
+                ws: null,
+                userInfo: null
             }
         },
         created() {
             this.enableWs();
+            this.userInfo = common.getUserInfo();
         },
         computed: {
             getService() {
@@ -204,7 +206,7 @@
                 });
             },
             findBySidOrPresent() {
-                findBySidOrPresent(1, this.pageNo, this.pageSize).then(res => {
+                findBySidOrPresent(this.userInfo.id, this.pageNo, this.pageSize).then(res => {
                     if (res.code === 1) {
                         this.tableData = res.data.list;
                         this.total = res.data.total;
@@ -212,7 +214,7 @@
                 })
             },
             findBySidOrCompleted() {
-                findBySidOrCompleted(1, this.pageNo, this.pageSize).then(res => {
+                findBySidOrCompleted(this.userInfo.id, this.pageNo, this.pageSize).then(res => {
                     if (res.code === 1) {
                         this.tableData = res.data.list;
                         this.total = res.data.total;
