@@ -9,7 +9,7 @@
             </div>
         </div>
         <div class="comments" v-if="comments.length !== 0">
-            <div class="count" v-text="comments.length + ' 评论'"></div>
+            <div class="count" v-text="total + ' 评论'"></div>
             <div class="item" v-for="item in comments" :key="item.id">
 
                 <div class="item-info">
@@ -67,8 +67,7 @@
             },
             showDel() {
                 return (userId) => {
-                    if (this.userInfo.name === userId) return true;
-                    else return false;
+                    return this.userInfo.name === userId;
                 }
             },
             getRelativeTime() {
@@ -89,7 +88,8 @@
                     if (res.code === 1) {
                         this.$message.success('发送成功！');
                         this.content = null;
-                        this.getComments();
+                        this.pageNo = 1;
+                        this.getComments(this.pageNo, this.pageSize);
                     }
                 })
             },
@@ -105,7 +105,8 @@
                     }).then(res => {
                         if (res.code === 1) {
                             this.$message.success('删除成功！');
-                            this.getComments();
+                            this.pageNo = 1;
+                            this.getComments(this.pageNo, this.pageSize);
                         }
                     })
                 }).catch(() => {
@@ -147,21 +148,10 @@
     .input-container {
         padding: 0 20px;
     }
-
-    .input {
-        background-color: white;
-        border-radius: 10px;
-        border: 1px solid #c0c4cc;
-    }
-
     .operate {
         display: flex;
         justify-content: flex-end;
         padding: 10px 0;
-    }
-
-    .textarea {
-        margin: 5px 0;
     }
 
     .comments {
