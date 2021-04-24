@@ -1,7 +1,6 @@
 <template>
     <div class="container">
         <div class="box">
-            <!--            <div class="left"></div>-->
             <div class="right">
                 <div class="right-container" style="flex: 1;width: 100%;height: 100%;">
                     <div class="info">
@@ -10,15 +9,18 @@
                     </div>
                     <div class="input-container">
                         <div v-if="send">
-                            <el-input class="input" prefix-icon="el-icon-user" placeholder="手机号"/>
+                            <el-input class="input" v-model="phone" prefix-icon="el-icon-user" placeholder="手机号"/>
                             <el-button style="width: 100%;margin: 10px 0" type="warning" @click="send = false">发送验证码
                             </el-button>
                         </div>
                         <div v-if="send === false">
-                            <el-input class="input" prefix-icon="el-icon-chat-dot-square" placeholder="验证码"/>
-                            <el-input class="input" prefix-icon="el-icon-key" placeholder="密码"/>
-                            <el-input class="input" prefix-icon="el-icon-key" placeholder="重复密码"/>
-                            <el-button style="width: 100%;margin: 10px 0" type="warning" @click="send = false">修改密码
+                            <el-input class="input" v-model="verification" prefix-icon="el-icon-chat-dot-square"
+                                      placeholder="验证码"/>
+                            <el-input class="input" v-model="password" prefix-icon="el-icon-key" placeholder="密码"
+                                      type="password"/>
+                            <el-input class="input" v-model="rePassword" prefix-icon="el-icon-key" placeholder="重复密码"
+                                      type="password"/>
+                            <el-button style="width: 100%;margin: 10px 0" type="warning" @click="forget">修改密码
                             </el-button>
                         </div>
                     </div>
@@ -49,7 +51,16 @@
         name: "forget",
         data() {
             return {
-                send: true
+                send: true,
+                phone: null,
+                verification: null,
+                password: null,
+                rePassword: null
+            }
+        },
+        methods: {
+            forget() {
+                this.$message.success('修改成功！');
             }
         }
     }
