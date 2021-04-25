@@ -15,6 +15,8 @@
                         <el-menu-item index="/receive"><i class="el-icon-sell"></i>接单</el-menu-item>
                         <el-menu-item index="/admin"><i class="el-icon-data-analysis"></i>管理</el-menu-item>
                         <el-menu-item index="/search"><i class="el-icon-search"></i>搜索</el-menu-item>
+                        <el-menu-item index="/star"><i class="el-icon-star-off"></i>收藏</el-menu-item>
+                        <el-menu-item index="/luck"><i class="el-icon-orange"></i>随机</el-menu-item>
                     </el-menu>
                 </div>
             </div>
@@ -85,7 +87,7 @@
         background-color: #fff;
         display: flex;
         position: fixed;
-        top: 30%;
+        top: 25%;
         left: 3%;
         z-index: 10;
         box-shadow: 0 10px 40px -10px rgb(0 64 128 / 20%);
@@ -101,7 +103,7 @@
 
     .helper {
         position: fixed;
-        top: 70%;
+        top: 65%;
         right: 5%;
         display: flex;
         flex-direction: column;

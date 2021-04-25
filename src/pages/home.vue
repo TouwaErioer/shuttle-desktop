@@ -23,7 +23,7 @@
 
                             <el-button icon="el-icon-setting" @click="option = true" style="margin-right: 20px;">选项</el-button>
                         </div>
-                        <Service :stores="stores"/>
+                        <Service :stores="stores" :span="6"/>
                         <el-pagination layout="prev, pager, next" :page-size="pageSize" :total="total"
                                        @current-change="pageCurrent" v-if="total !== 0"
                                        style="width: 100%;display: flex;justify-content: center">

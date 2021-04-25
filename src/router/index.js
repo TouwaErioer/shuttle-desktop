@@ -38,6 +38,14 @@ const routes = [
             {
                 path: '/user',
                 component: () => import('@/pages/user')
+            },
+            {
+                path: '/star',
+                component: () => import('@/pages/star')
+            },
+            {
+                path: '/luck',
+                component: () => import('@/pages/luck')
             }
         ]
     },

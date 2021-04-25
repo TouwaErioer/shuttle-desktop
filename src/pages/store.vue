@@ -38,10 +38,10 @@
                                 <div class="rate">
                                     <el-rate v-model="value" disabled show-score text-color="#ff9900"></el-rate>
                                 </div>
-<!--                                <div class="operate">-->
-<!--                                    <el-button icon="el-icon-circle-check" type="warning">评分</el-button>-->
-<!--                                    <el-button icon="el-icon-star-off" type="success">收藏</el-button>-->
-<!--                                </div>-->
+                                <!--                                <div class="operate">-->
+                                <!--                                    <el-button icon="el-icon-circle-check" type="warning">评分</el-button>-->
+                                <!--                                    <el-button icon="el-icon-star-off" type="success">收藏</el-button>-->
+                                <!--                                </div>-->
                             </div>
                         </div>
                     </div>
@@ -91,11 +91,18 @@
         },
         methods: {
             getProducts(pageNo) {
-                findProductsByStoreIdByPagination(this.id, pageNo, this.pageSize).then(res => {
-                    if (res.code === 1) {
-                        this.products = res.data.list;
-                    }
-                })
+                if (this.$store.getters.productsCache(parseInt(this.id))) {
+                    this.products = this.$store.getters.getProducts(parseInt(this.id));
+                    this.total = this.products.length;
+                } else {
+                    findProductsByStoreIdByPagination(this.id, pageNo, this.pageSize).then(res => {
+                        if (res.code === 1) {
+                            let data = res.data.list;
+                            this.products = data;
+                            this.$store.commit('setProducts', data);
+                        }
+                    });
+                }
             }
         }
     }
