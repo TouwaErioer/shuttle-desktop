@@ -21,6 +21,15 @@
                 </template>
             </el-table-column>
             <el-table-column
+                    align="center">
+                <template slot="header">
+                    <i class="el-icon-price-tag"> 价格</i>
+                </template>
+                <template slot-scope="scope">
+                    <div class="price-txt" v-text="changePrice(scope.row.product.price)"></div>
+                </template>
+            </el-table-column>
+            <el-table-column
                     prop="storeName"
                     align="center">
                 <template slot="header">
@@ -54,10 +63,12 @@
             </el-table-column>
             <el-table-column
                     v-if="type === 'order'"
-                    prop="service.name"
                     align="center">
                 <template slot="header">
                     <i class="el-icon-headset"> 服务者</i>
+                </template>
+                <template slot-scope="scope">
+                    <div v-text="scope.row.status === -1 ? '暂无':scope.row.service.name"/>
                 </template>
             </el-table-column>
             <el-table-column
@@ -136,6 +147,7 @@
 <script>
 
     import Empty from "@/components/empty";
+    import common from "@/utils/common";
 
     export default {
         name: "order-table",
@@ -143,6 +155,13 @@
         props: ['tableData', 'selection', 'type'],
         data() {
             return {}
+        },
+        computed: {
+            changePrice() {
+                return (price) => {
+                    return common.changePrice(price);
+                }
+            }
         },
         methods: {
             changeDateToLocaleDateString(date) {
@@ -212,4 +231,7 @@
         flex-direction: column;
     }
 
+    .price-txt{
+        color: #e6a23c;
+    }
 </style>

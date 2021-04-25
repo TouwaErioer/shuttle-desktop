@@ -1,17 +1,24 @@
 <template>
     <Page>
         <div slot="center" class="order-container">
-            <div class="box">
-                <div class="radio">
-                    <div style="width: 188px;">
-
+            <div class="box shadow">
+                <div class="header">
+                    <el-page-header @back="$router.back()"
+                                    style="display: flex;padding: 10px 20px;;align-items: center">
+                        <el-breadcrumb slot="content" separator="/"
+                                       style="height: 35px;width: 100%;display: flex;justify-content: center;align-items: center">
+                            <el-breadcrumb-item :to="{ path: '/home' }">首页</el-breadcrumb-item>
+                            <el-breadcrumb-item>接单</el-breadcrumb-item>
+                        </el-breadcrumb>
+                    </el-page-header>
+                    <div class="radio">
+                        <el-radio-group v-model="radio">
+                            <el-radio-button label="待接单"></el-radio-button>
+                            <el-radio-button label="已接收"></el-radio-button>
+                            <el-radio-button label="已完成"></el-radio-button>
+                        </el-radio-group>
                     </div>
-                    <el-radio-group v-model="radio">
-                        <el-radio-button label="待接单"></el-radio-button>
-                        <el-radio-button label="已接收"></el-radio-button>
-                        <el-radio-button label="已完成"></el-radio-button>
-                    </el-radio-group>
-                    <div class="tip">
+                    <div class="tip" style="width: 240px;">
                         <div class="spinner" v-if="wsSwitch">
                             <div class="double-bounce1"></div>
                             <div class="double-bounce2"></div>
@@ -433,8 +440,6 @@
         display: flex;
         flex-direction: column;
         width: 75%;
-        box-shadow: 0 10px 40px -10px rgb(0 64 128 / 20%);
-        border-radius: 6px;
     }
 
     .radio {
@@ -477,5 +482,11 @@
         align-items: center;
         color: gray;
         font-size: 13px;
+    }
+
+    .header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center
     }
 </style>

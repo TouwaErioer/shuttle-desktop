@@ -1,15 +1,25 @@
 <template>
     <Page>
         <div slot="center" class="order-container">
-            <div class="box">
-                <div class="radio">
-                    <el-radio-group v-model="radio">
-                        <el-radio-button label="已下单"></el-radio-button>
-                        <el-radio-button label="配送中"></el-radio-button>
-                        <el-radio-button label="已完成"></el-radio-button>
-                    </el-radio-group>
+            <div class="box shadow">
+                <div class="header">
+                    <el-page-header @back="$router.back()"
+                                    style="display: flex;padding: 10px 20px;;align-items: center">
+                        <el-breadcrumb slot="content" separator="/"
+                                       style="height: 35px;width: 100%;display: flex;justify-content: center;align-items: center">
+                            <el-breadcrumb-item :to="{ path: '/home' }">首页</el-breadcrumb-item>
+                            <el-breadcrumb-item>订单</el-breadcrumb-item>
+                        </el-breadcrumb>
+                    </el-page-header>
+                    <div class="radio">
+                        <el-radio-group v-model="radio">
+                            <el-radio-button label="已下单"></el-radio-button>
+                            <el-radio-button label="配送中"></el-radio-button>
+                            <el-radio-button label="已完成"></el-radio-button>
+                        </el-radio-group>
+                    </div>
+                    <div style="width: 240px;"/>
                 </div>
-
                 <div class="filter">
                     <div>截至下单时间</div>
                     <el-date-picker
@@ -39,7 +49,8 @@
                         <el-button @click="reset" :disabled="isReset" type="warning" plain>重置</el-button>
                     </div>
                     <div>
-                        <el-button @click="selection = !selection" v-text="selection ? '取消':'多选'" :disabled="tableData.length === 0"></el-button>
+                        <el-button @click="selection = !selection" v-text="selection ? '取消':'多选'"
+                                   :disabled="tableData.length === 0"></el-button>
                     </div>
                 </div>
                 <OrderTable :table-data="tableData" :selection="selection" v-on:sectionValue="getSectionValue"
@@ -130,7 +141,7 @@
                 userInfo: null
             }
         },
-        created(){
+        created() {
             this.userInfo = common.getUserInfo();
         },
         computed: {
@@ -393,8 +404,6 @@
         display: flex;
         flex-direction: column;
         width: 75%;
-        box-shadow: 0 10px 40px -10px rgb(0 64 128 / 20%);
-        border-radius: 6px;
     }
 
     .radio {
@@ -429,5 +438,11 @@
         display: flex;
         margin-top: 3px;
         justify-content: center;
+    }
+
+    .header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center
     }
 </style>
