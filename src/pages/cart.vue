@@ -44,6 +44,7 @@
                             <el-input
                                     class="option"
                                     type="textarea"
+                                    v-model="note"
                                     :rows="2"
                                     placeholder="备注">
                             </el-input>
@@ -90,7 +91,8 @@
                 userInfo: {
                     name: null,
                     address: null
-                }
+                },
+                note: null
             }
         },
         computed: {
