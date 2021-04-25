@@ -26,12 +26,18 @@
                 <div v-if="results.length === 0" class="result">
                     暂无搜索结果
                 </div>
-                <div v-if="results.length > 0">
-                    <PopularItem v-for="result in results" :key="result.content.name" :item="result.content" class="item"/>
+                <div v-if="results.length > 0" class="gaussian-blur result">
+                    <el-scrollbar>
+                        <div class="result-box">
+                            <PopularItem v-for="result in results" :key="result.content.name" :item="result.content"
+                                         class="item"/>
+                        </div>
+                    </el-scrollbar>
                 </div>
             </div>
         </div>
-        <div class="close"><i class="el-icon-close" style="font-size: 35px;color: white" @click="$router.back()"></i></div>
+        <div class="close"><i class="el-icon-close" style="font-size: 35px;color: white" @click="$router.back()"></i>
+        </div>
     </div>
 </template>
 
@@ -126,8 +132,8 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        background: #74ebd5;  /* fallback for old browsers */
-        background: -webkit-linear-gradient(to right, #ACB6E5, #74ebd5);  /* Chrome 10-25, Safari 5.1-6 */
+        background: #74ebd5; /* fallback for old browsers */
+        background: -webkit-linear-gradient(to right, #ACB6E5, #74ebd5); /* Chrome 10-25, Safari 5.1-6 */
         background: linear-gradient(to right, #ACB6E5, #74ebd5); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
     }
 
@@ -158,14 +164,18 @@
 
     .item {
         background-color: unset;
-        color: white;
         border-bottom: unset;
     }
 
     .result {
-        text-align: center;
-        margin: 10px;
-        color: white;
+        height: 600px;
+        overflow-y: scroll;
+        overflow-x: unset;
+        margin: 10px 0;
+    }
+
+    .result::-webkit-scrollbar {
+        width: 0 !important;
     }
 
     .el-tag__close {
@@ -179,5 +189,9 @@
 
     .el-divider {
         background-color: #f2f6fc !important;
+    }
+
+    .result-box{
+        margin: 0 10px;
     }
 </style>

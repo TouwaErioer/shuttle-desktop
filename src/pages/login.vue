@@ -94,16 +94,6 @@
         display: flex;
     }
 
-    /*.left {*/
-    /*    background-image: url("https://ae01.alicdn.com/kf/U373fbf1d42e042949eed6111348839f9b.jpg");*/
-    /*    background-size: cover;*/
-    /*    width: 35%;*/
-    /*    height: 100%;*/
-    /*    display: flex;*/
-    /*    justify-content: center;*/
-    /*    align-items: center;*/
-    /*}*/
-
     .right {
         background: rgba(255,255,255,.7);
         backdrop-filter: blur(10);

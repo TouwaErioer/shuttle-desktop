@@ -3,17 +3,17 @@
         <el-scrollbar slot="center">
             <div class="center-box">
                 <div class="center-container" style="padding-top: 30px;">
-                    <el-carousel :interval="3000" type="card" height="200px" style="width: 73%;margin: 0 20px;margin: 20px 0;box-shadow: 0 10px 40px -10px rgb(0 64 128 / 20%);border-radius: 6px;">
+                    <el-carousel :interval="3000" type="card" height="200px" class="shadow" style="width: 73%;margin: 20px 0">
                         <el-carousel-item v-for="ad in ads" :key="ad.id">
                             <el-image :src="ad.image" @click="$router.push('/store/' + ad.storeId)"/>
                         </el-carousel-item>
                     </el-carousel>
-                    <SummaryCard style="box-shadow: 0 10px 40px -10px rgb(0 64 128 / 20%);border-radius: 6px;margin-left: 20px;flex: 1"/>
+                    <SummaryCard class="shadow" style="margin-left: 20px;flex: 1"/>
                 </div>
             </div>
             <div class="center-box" style="padding-bottom: 30px;">
                 <div class="center-container">
-                    <div class="service">
+                    <div class="service shadow">
                         <div style="width: 100%;display: flex;justify-content: space-between">
                             <el-radio-group v-model="radio" style="padding-left: 20px">
                                 <el-radio-button typeof="info" v-for="service in services" :key="service.id" :label="service.id">
@@ -29,7 +29,7 @@
                                        style="width: 100%;display: flex;justify-content: center">
                         </el-pagination>
                     </div>
-                    <div class="rank">
+                    <div class="rank shadow">
                         <div class="rank-title"><i class="el-icon-medal"></i> 排行榜</div>
                         <el-tabs v-model="rank" :stretch="true">
                             <el-tab-pane label="商店" name="store">
@@ -226,7 +226,6 @@
         width: 100%;
         display: flex;
         justify-content: center;
-        /*background-color: #e4e7ed;*/
     }
 
     .center-container {
@@ -237,16 +236,12 @@
 
     .service {
         padding: 20px 0;
-        border-radius: 6px;
-        box-shadow: 0 10px 40px -10px rgb(0 64 128 / 20%);
         width: 80%;
         height: 100%;
     }
 
     .rank {
         margin-left: 20px;
-        border-radius: 6px;
-        box-shadow: 0 10px 40px -10px rgb(0 64 128 / 20%);
         margin-bottom: 20px;
         width: 25%;
         height: 100%;

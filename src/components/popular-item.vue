@@ -17,11 +17,11 @@
                 <div class="item-tag">
                     <div>
                         <div v-if="item.price != null">
-                            <i class="el-icon-price-tag"></i> 价格：
+                            <i class="el-icon-price-tag"></i> 价格:
                             <span class="price-text" v-text="changePrice(item.price)"/>
                         </div>
                         <div>
-                            <i class="el-icon-medal"></i> 销量：<span>{{ + item.sales}}</span>
+                            <i class="el-icon-medal"></i> 销量: <span>{{ + item.sales}}</span>
                         </div>
                     </div>
                     <ProductDialog :product="item" :value="null">
