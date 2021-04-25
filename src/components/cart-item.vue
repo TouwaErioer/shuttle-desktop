@@ -6,7 +6,7 @@
                 <div>
                     <div class="item-info">
                         <span v-text="item.name" class="item-name"></span>
-                        <el-tag size="mini" v-text="item.name" effect="dark" class="tag" type="warning"
+                        <el-tag size="mini" v-text="item.storeName" effect="dark" class="tag" type="warning"
                                 slot="tag"/>
                     </div>
                     <div class="item-desc">
@@ -15,11 +15,11 @@
                     <div class="item-tag">
                         <div>
                             <div>
-                                <i class="el-icon-price-tag"></i> 价格：
-                                <span class="price-text" v-text="item.price"/>
+                                <i class="el-icon-price-tag"></i> 价格:
+                                <span v-text="getPrice(item.price)"/>
                             </div>
                             <div>
-                                <i class="el-icon-medal"></i> 销量：<span>{{ + item.sales}}</span>
+                                <i class="el-icon-medal"></i> 销量: <span>{{ + item.sales}}</span>
                             </div>
                         </div>
                     </div>

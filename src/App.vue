@@ -45,12 +45,6 @@
 
     @import "https://cdn.jsdelivr.net/npm/animate.css@3.5.1";
 
+    @import "../src/style/gloab.css";
 
-    .app {
-        height: 100%;
-    }
-
-    .app::-webkit-scrollbar {
-        display: none;
-    }
 </style>

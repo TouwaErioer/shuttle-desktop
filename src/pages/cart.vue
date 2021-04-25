@@ -2,14 +2,31 @@
     <Page>
         <div class="box-container" slot="center">
             <div class="box">
-                <div class="left" v-if="getCount !== 0">
+                <div class="left shadow" v-if="getCount !== 0">
                     <el-scrollbar class="product">
+                        <el-page-header @back="$router.back()"
+                                        style="display: flex;padding: 10px 0;;align-items: center">
+                            <el-breadcrumb slot="content" separator="/"
+                                           style="height: 35px;width: 100%;display: flex;justify-content: center;align-items: center">
+                                <el-breadcrumb-item :to="{ path: '/home' }">首页</el-breadcrumb-item>
+                                <el-breadcrumb-item>购物车</el-breadcrumb-item>
+                            </el-breadcrumb>
+                        </el-page-header>
                         <CartItem :item="item[1]" v-for="item in cart" :key="item[1].id" :count="item[1].count"/>
                     </el-scrollbar>
                 </div>
-                <Empty class="left" description="购物车暂无商品" :svg="require('@/assets/undraw_empty_cart_co35.svg')"
-                       v-if="getCount === 0"/>
-                <div class="right">
+                <div class="left shadow" v-if="getCount === 0">
+                    <el-page-header @back="$router.back()"
+                                    style="display: flex;padding: 10px 0;;align-items: center">
+                        <el-breadcrumb slot="content" separator="/"
+                                       style="height: 35px;width: 100%;display: flex;justify-content: center;align-items: center">
+                            <el-breadcrumb-item :to="{ path: '/home' }">首页</el-breadcrumb-item>
+                            <el-breadcrumb-item>购物车</el-breadcrumb-item>
+                        </el-breadcrumb>
+                    </el-page-header>
+                    <Empty description="购物车暂无商品" :svg="require('@/assets/undraw_empty_cart_co35.svg')"/>
+                </div>
+                <div class="right shadow">
                     <div class="cart-center" style="flex:1;">
                         <div class="cart-info">
                             <el-divider><i class="el-icon-view"></i> 用户信息</el-divider>
@@ -183,8 +200,6 @@
         margin: 30px 0;
         width: 75%;
         display: flex;
-        box-shadow: 0 10px 40px -10px rgb(0 64 128 / 20%);
-        border-radius: 6px;
     }
 
     .left {
@@ -193,6 +208,7 @@
         background-color: white;
         display: flex;
         flex-direction: column;
+        margin-right: 20px;
     }
 
     .right {
