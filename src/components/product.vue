@@ -2,11 +2,11 @@
     <div class="container">
         <div class="content">
             <el-row>
-                <el-col :span="6" v-for="product in products" :key="product.id">
+                <el-col :span="4" v-for="product in products" :key="product.id">
                     <el-card :body-style="{ padding: '0px' }" style="margin: 10px;" shadow="hover">
                         <div style="display: flex;justify-content: center;align-items: center">
-                            <img :src="product.image"
-                                 class="image" style="height: 150px;width: 150px;">
+                            <el-image :src="product.image"
+                                 class="image" style="height: 150px;width: 150px;" fit="cover"/>
                         </div>
                         <div class="store-info">
                             <div class="store-title">
@@ -22,7 +22,7 @@
                             </div>
                             <el-rate v-model="product.rate" disabled show-score text-color="#ff9900"></el-rate>
                             <ProductDialog :product="product" :value="value">
-                                <el-button size="mini" style="width: 100%;" slot="btn">加入购物车</el-button>
+                                <el-button size="mini" type="primary" style="width: 100%;" slot="btn">加入购物车</el-button>
                             </ProductDialog>
                         </div>
                     </el-card>
@@ -71,7 +71,7 @@
 <style scoped>
 
     .container {
-        padding: 0 10px;
+        padding: 10px;
     }
 
     .image {
