@@ -3,8 +3,7 @@
         <el-scrollbar slot="center">
             <div class="center-container">
                 <div class="box">
-                    <div class="store-info" v-if="store !== null" style="box-shadow: 0 10px 40px -10px rgb(0 64 128 / 20%);
-        border-radius: 6px;display: flex;justify-content: center;flex-direction: column">
+                    <div class="store-info shadow" v-if="store !== null">
                         <el-page-header @back="$router.back()"
                                         style="display: flex;padding: 10px 20px;;align-items: center">
                             <el-breadcrumb slot="content" separator="/"
@@ -30,18 +29,22 @@
                                         <i class="el-icon-medal"></i> 销量：{{store.sales}}
                                     </div>
                                     <div class="rate">
-                                        <el-rate v-model="value" disabled show-score text-color="#ff9900"></el-rate>
+                                        <el-rate v-model="store.rate" disabled show-score text-color="#ff9900"></el-rate>
                                     </div>
                                 </div>
                             </div>
                             <div class="operate">
-                                <el-button icon="el-icon-circle-check" type="warning">评分</el-button>
-                                <el-button icon="el-icon-star-off" type="success">收藏</el-button>
+                                <el-button icon="el-icon-circle-check" type="warning" @click="dialogRateVisible = true">
+                                    评分
+                                </el-button>
+                                <el-button type="success" @click="star">
+                                    <i :class="isStar ? 'el-icon-star-on' : 'el-icon-star-off'"></i>
+                                    <span v-text="isStar ? '已收藏' : '收藏'"></span>
+                                </el-button>
                             </div>
                         </div>
                     </div>
-                    <div style="width: 100%;display: flex;flex-direction: column;box-shadow: 0 10px 40px -10px rgb(0 64 128 / 20%);
-        border-radius: 6px;margin: 20px 0;">
+                    <div class="shadow" style="width: 100%;display: flex;flex-direction: column;margin: 20px 0;">
                         <div class="product">
                             <Product :products="products" :pageNo="pageNo"
                                      :pageSize="pageSize" :total="total" v-if="products.length !== 0"/>
@@ -49,12 +52,20 @@
                         <Empty :description="'该商店暂无产品'" :svg="require('@/assets/undraw_empty_xct9.svg')"
                                class="product" v-if="products.length === 0" style="height: unset;"/>
                     </div>
-                    <div class="comment-container"
-                         style="box-shadow: 0 10px 40px -10px rgb(0 64 128 / 20%);border-radius: 6px;">
+                    <div class="comment-container shadow">
                         <div class="comment">
                             <Comment :store-id="id"/>
                         </div>
                     </div>
+                    <el-dialog title="请评价该商店" :visible.sync="dialogRateVisible" width="20%" center>
+                        <div class="rate-dialog">
+                            <el-rate v-model="rate" show-text/>
+                            <div class="rate-button-dialog">
+                                <el-button type="primary" size="mini" :disabled="rate === 0" @click="changeRate">确认
+                                </el-button>
+                            </div>
+                        </div>
+                    </el-dialog>
                 </div>
             </div>
         </el-scrollbar>
@@ -80,7 +91,10 @@
                 store: null,
                 pageNo: 1,
                 pageSize: 8,
-                total: 0
+                total: 0,
+                dialogRateVisible: false,
+                rate: 0,
+                isStar: false
             }
         },
         created() {
@@ -108,6 +122,22 @@
                         }
                     });
                 }
+            },
+            star() {
+                this.isStar = true;
+                this.$notify({
+                    title: '操作成功',
+                    message: '收藏商店成功！',
+                    type: 'success'
+                });
+            },
+            changeRate() {
+                this.dialogRateVisible = false;
+                this.$notify({
+                    title: '操作成功',
+                    message: '商店评分成功！',
+                    type: 'success'
+                });
             }
         }
     }
@@ -136,6 +166,9 @@
     .store-info {
         width: 100%;
         flex: 1;
+        display: flex;
+        justify-content: center;
+        flex-direction: column
     }
 
     .store-info-txt {
@@ -172,5 +205,18 @@
     .comment {
         margin-top: 30px;
         width: 100%;
+    }
+
+    .rate-dialog {
+        width: 100%;
+        height: 100px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+    }
+
+    .rate-button-dialog {
+        margin-top: 30px;
     }
 </style>

@@ -1,6 +1,6 @@
 <template>
     <div class="header-container">
-        <div id="heard">
+        <div id="heard" class="shadow">
             <div id="heard-container">
                 <div style="display:flex;justify-content: center;align-items: center">
                     <el-menu
@@ -9,14 +9,36 @@
                             background-color="#fff"
                             text-color="#000"
                             active-text-color="#409EFF"
-                            @select="handleSelect">
-                        <el-menu-item index="/"><i class="el-icon-house"></i>首页</el-menu-item>
-                        <el-menu-item index="/order"><i class="el-icon-tickets"></i>订单</el-menu-item>
-                        <el-menu-item index="/receive"><i class="el-icon-sell"></i>接单</el-menu-item>
-                        <el-menu-item index="/admin"><i class="el-icon-data-analysis"></i>管理</el-menu-item>
-                        <el-menu-item index="/search"><i class="el-icon-search"></i>搜索</el-menu-item>
-                        <el-menu-item index="/star"><i class="el-icon-star-off"></i>收藏</el-menu-item>
-                        <el-menu-item index="/luck"><i class="el-icon-orange"></i>随机</el-menu-item>
+                            @select="handleSelect"
+                            :collapse="true">
+                        <el-menu-item index="/">
+                            <i class="el-icon-house"></i>
+                            <div slot="title">首页</div>
+                        </el-menu-item>
+                        <el-menu-item index="/order">
+                            <i class="el-icon-tickets"></i>
+                            <div slot="title">订单</div>
+                        </el-menu-item>
+                        <el-menu-item index="/receive">
+                            <i class="el-icon-sell"></i>
+                            <div slot="title">接单</div>
+                        </el-menu-item>
+                        <el-menu-item index="/admin">
+                            <i class="el-icon-data-analysis"></i>
+                            <div slot="title">管理</div>
+                        </el-menu-item>
+                        <el-menu-item index="/search">
+                            <i class="el-icon-search"></i>
+                            <div slot="title">搜索</div>
+                        </el-menu-item>
+                        <el-menu-item index="/star">
+                            <i class="el-icon-star-off"></i>
+                            <div slot="title">收藏</div>
+                        </el-menu-item>
+                        <el-menu-item index="/luck">
+                            <i class="el-icon-orange"></i>
+                            <div slot="title">随机</div>
+                        </el-menu-item>
                     </el-menu>
                 </div>
             </div>
@@ -88,10 +110,8 @@
         display: flex;
         position: fixed;
         top: 25%;
-        left: 3%;
+        left: 3.9%;
         z-index: 10;
-        box-shadow: 0 10px 40px -10px rgb(0 64 128 / 20%);
-        border-radius: 6px;
     }
 
     #heard-container {

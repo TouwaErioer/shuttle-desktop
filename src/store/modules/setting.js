@@ -1,23 +1,16 @@
 const state = () => ({
-    animation: null,
-    height: null,
+    collapse: true
 });
 
 const getters = {
-    getAnimation: (state) => {
-        return state.animation;
-    },
-    getHeight: (state) => {
-        return state.height.toString() + 'px';
+    getCollapse: (state) => {
+        return state.collapse;
     }
 };
 
 const mutations = {
-    setAnimation(state, animation) {
-        state.animation = animation
-    },
-    setHeight(state, height) {
-        state.height = height;
+    setCollapse(state) {
+        state.collapse = !state.collapse;
     },
 };
 

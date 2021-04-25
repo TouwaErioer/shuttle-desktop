@@ -6,24 +6,31 @@
                     <el-card :body-style="{ padding: '0px' }" style="margin: 10px;" shadow="hover">
                         <div style="display: flex;justify-content: center;align-items: center">
                             <el-image :src="product.image"
-                                 class="image" style="height: 150px;width: 150px;" fit="cover"/>
+                                      class="image" style="height: 150px;width: 150px;" fit="cover"/>
                         </div>
                         <div class="store-info">
-                            <div class="store-title">
-                                <span v-text="product.name"></span>
+                            <div class="product-info">
+                                <div class="store-title">
+                                    <span v-text="product.name"></span>
+                                </div>
+                                <div class="info-text"><i class="el-icon-medal"></i>
+                                    <span> 销量：</span>
+                                    <span v-text="product.sales"/>
+                                </div>
+                                <div class="info-text"><i class="el-icon-price-tag"></i>
+                                    <span> 价格：</span>
+                                    <span v-text="changePrice(product.price)"/>
+                                </div>
+                                <el-rate v-model="product.rate" disabled show-score text-color="#ff9900"></el-rate>
                             </div>
-                            <div class="info-text"><i class="el-icon-medal"></i>
-                                <span> 销量：</span>
-                                <span v-text="product.sales"/>
+                            <div style="display:flex;justify-content: space-between">
+                                <ProductDialog :product="product" :value="value">
+                                    <el-button size="mini" type="primary" style="width: 100%;" slot="btn">加入购物车
+                                    </el-button>
+                                </ProductDialog>
+                                <el-button :icon="changeStar(product.star)" type="warning" style="padding:0 10px"
+                                           @click="star"/>
                             </div>
-                            <div class="info-text"><i class="el-icon-price-tag"></i>
-                                <span> 价格：</span>
-                                <span v-text="changePrice(product.price)"/>
-                            </div>
-                            <el-rate v-model="product.rate" disabled show-score text-color="#ff9900"></el-rate>
-                            <ProductDialog :product="product" :value="value">
-                                <el-button size="mini" type="primary" style="width: 100%;" slot="btn">加入购物车</el-button>
-                            </ProductDialog>
                         </div>
                     </el-card>
                 </el-col>
@@ -43,7 +50,7 @@
     export default {
         name: "product",
         components: {ProductDialog},
-        props: {products: Array, pageNo: Number, pageSize: Number, total: Number},
+        props: {products: Array, pageNo: Number, pageSize: Number, total: Number, FontAwesomeIcon: Object},
         data() {
             return {
                 filter: false,
@@ -58,11 +65,23 @@
                 return (price) => {
                     return common.changePrice(price);
                 }
+            },
+            changeStar() {
+                return (star) => {
+                    return star ? 'el-icon-star-on' : 'el-icon-star-off'
+                }
             }
         },
         methods: {
             pageCurrent(current) {
                 this.$parent.getProducts(current);
+            },
+            star() {
+                this.$notify({
+                    title: '操作成功',
+                    message: '收藏产品成功！',
+                    type: 'success'
+                });
             }
         }
     }
@@ -98,5 +117,17 @@
 
     .info-text {
         font-size: 10px;
+        color: gray;
+    }
+
+    .product-info {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column
+    }
+
+    .product-info > div {
+        margin: 2px;
     }
 </style>
