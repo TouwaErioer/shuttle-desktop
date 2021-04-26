@@ -4,7 +4,7 @@
 
         <div slot="center" class="add-container">
             <div class="box shadow">
-                <el-page-header @back="$router.back()" style="display: flex;padding: 10px 20px;;align-items: center">
+                <el-page-header @back="$router.push('/user')" style="display: flex;padding: 10px 20px;;align-items: center">
                     <el-breadcrumb slot="content" separator="/"
                                    style="height: 35px;width: 100%;display: flex;justify-content: center;align-items: center">
                         <el-breadcrumb-item :to="{ path: '/home' }">首页</el-breadcrumb-item>
