@@ -3,7 +3,7 @@
         <PageHeader slot="header"/>
 
         <div slot="center" class="add-container">
-            <div class="box">
+            <div class="box shadow">
                 add
             </div>
         </div>
@@ -31,9 +31,8 @@
     }
 
     .box {
-        width: 80%;
-        box-shadow: 0 10px 40px -10px rgb(0 64 128 / 20%);
-        border-radius: 6px;
+        width: 75%;
+        margin: 30px 0;
     }
 
 </style>

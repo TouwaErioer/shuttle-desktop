@@ -46,6 +46,11 @@ const routes = [
             {
                 path: '/luck',
                 component: () => import('@/pages/luck')
+            },
+            {
+                path: '/result/:status',
+                component: () => import('@/pages/result'),
+                props: true
             }
         ]
     },

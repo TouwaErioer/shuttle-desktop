@@ -23,16 +23,12 @@
                 </div>
             </div>
             <div style="flex: 1" v-if="show_search">
-                <div v-if="results.length === 0" class="result">
+                <div v-if="results.length === 0" class="empty">
                     暂无搜索结果
                 </div>
-                <div v-if="results.length > 0" class="gaussian-blur result">
-                    <el-scrollbar>
-                        <div class="result-box">
-                            <PopularItem v-for="result in results" :key="result.content.name" :item="result.content"
-                                         class="item"/>
-                        </div>
-                    </el-scrollbar>
+                <div v-if="results.length > 0" class="result">
+                    <PopularItem v-for="result in results" :key="result.content.name" :item="result.content"
+                                 class="item"/>
                 </div>
             </div>
         </div>
@@ -168,10 +164,10 @@
     }
 
     .result {
+        width: 100%;
         height: 600px;
         overflow-y: scroll;
         overflow-x: unset;
-        margin: 10px 0;
     }
 
     .result::-webkit-scrollbar {
@@ -191,7 +187,11 @@
         background-color: #f2f6fc !important;
     }
 
-    .result-box{
-        margin: 0 10px;
+    .empty{
+        width: 100%;
+        height: 600px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
     }
 </style>
