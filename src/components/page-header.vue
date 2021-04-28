@@ -49,7 +49,7 @@
                 <i class="el-icon-shopping-cart-1" v-if="$store.getters.getCount === 0"></i>
                 <div v-text="$store.getters.getCount" v-if="$store.getters.getCount > 0"/>
             </el-button>
-            <el-button icon="el-icon-service" type="primary" plain/>
+            <el-button icon="el-icon-service" @click="$router.push('/chat')" type="primary" plain/>
             <el-button icon="el-icon-arrow-up"/>
         </div>
     </div>

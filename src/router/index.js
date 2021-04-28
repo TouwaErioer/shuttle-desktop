@@ -51,6 +51,10 @@ const routes = [
                 path: '/return/:status',
                 component: () => import('@/pages/result'),
                 props: true
+            },
+            {
+                path: '/chat',
+                component: () => import('@/pages/chat'),
             }
         ]
     },
@@ -65,7 +69,7 @@ const routes = [
     {
         path: '/forget',
         component: () => import('@/pages/forget')
-    },{
+    }, {
         path: '/search',
         component: () => import('@/pages/search')
     }
