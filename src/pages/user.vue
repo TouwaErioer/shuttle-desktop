@@ -2,7 +2,7 @@
     <Page>
         <div slot="center" class="user-container">
             <div class="content">
-                <div class="box">
+                <div class="box shadow">
                     <div class="left">
                         <div class="cells">
                             <div>
@@ -341,8 +341,6 @@
         background-color: white;
         display: flex;
         margin: 20px;
-        box-shadow: 0 10px 40px -10px rgb(0 64 128 / 20%);
-        border-radius: 6px;
     }
 
     .left {

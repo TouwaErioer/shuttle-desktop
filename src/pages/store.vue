@@ -29,7 +29,8 @@
                                         <i class="el-icon-medal"></i> 销量：{{store.sales}}
                                     </div>
                                     <div class="rate">
-                                        <el-rate v-model="store.rate" disabled show-score text-color="#ff9900"></el-rate>
+                                        <el-rate v-model="store.rate" disabled show-score
+                                                 text-color="#ff9900"></el-rate>
                                     </div>
                                 </div>
                             </div>
@@ -37,7 +38,7 @@
                                 <el-button icon="el-icon-circle-check" type="warning" @click="dialogRateVisible = true">
                                     评分
                                 </el-button>
-                                <el-button type="success" @click="star">
+                                <el-button :type="isStar ? 'success' : 'info'" @click="star">
                                     <i :class="isStar ? 'el-icon-star-on' : 'el-icon-star-off'"></i>
                                     <span v-text="isStar ? '已收藏' : '收藏'"></span>
                                 </el-button>
@@ -47,10 +48,8 @@
                     <div class="shadow" style="width: 100%;display: flex;flex-direction: column;margin: 20px 0;">
                         <div class="product">
                             <Product :products="products" :pageNo="pageNo"
-                                     :pageSize="pageSize" :total="total" v-if="products.length !== 0"/>
+                                     :pageSize="pageSize" :total="total"/>
                         </div>
-                        <Empty :description="'该商店暂无产品'" :svg="require('@/assets/undraw_empty_xct9.svg')"
-                               class="product" v-if="products.length === 0" style="height: unset;"/>
                     </div>
                     <div class="comment-container shadow">
                         <div class="comment">
@@ -76,13 +75,14 @@
     import Page from "@/layout/page";
     import Product from "@/components/product";
     import Comment from "@/components/comment";
-    import Empty from "@/components/empty";
     import {findProductsByStoreIdByPagination} from "@/utils/api/product";
     import {findStoreById} from "@/utils/api/store";
+    import {isStarByStoreId, star, unStar} from "@/utils/api/star";
+    import common from "@/utils/common";
 
     export default {
         name: "store",
-        components: {Empty, Comment, Product, Page},
+        components: {Comment, Product, Page},
         props: ['id'],
         data() {
             return {
@@ -94,7 +94,7 @@
                 total: 0,
                 dialogRateVisible: false,
                 rate: 0,
-                isStar: false
+                stars: []
             }
         },
         created() {
@@ -107,6 +107,12 @@
                     }
                 });
             } else this.store = storeList[0];
+            this.isStarByStoreId();
+        },
+        computed: {
+            isStar: function () {
+                return this.stars.length !== 0;
+            }
         },
         methods: {
             getProducts(pageNo) {
@@ -124,12 +130,49 @@
                 }
             },
             star() {
-                this.isStar = true;
-                this.$notify({
-                    title: '操作成功',
-                    message: '收藏商店成功！',
-                    type: 'success'
-                });
+                if (this.isStar) {
+                    this.$confirm('确认取消收藏?', '提示', {
+                        confirmButtonText: '确定',
+                        cancelButtonText: '取消',
+                        type: 'warning',
+                        center: true
+                    }).then(() => {
+                        unStar({
+                            id: this.stars[0].id,
+                            uid: common.getUserInfo().id
+                        }).then(res => {
+                            if (res.code === 1) {
+                                this.$notify({
+                                    title: '操作成功',
+                                    message: '已取消收藏',
+                                    type: 'success'
+                                });
+                                this.isStarByStoreId();
+                            }
+                        });
+                    }).catch();
+                } else {
+                    this.$confirm('确认收藏该商店?', '提示', {
+                        confirmButtonText: '确定',
+                        cancelButtonText: '取消',
+                        type: 'warning',
+                        center: true
+                    }).then(() => {
+                        star({
+                            sid: this.id,
+                            type: false
+                        }).then(res => {
+                            if (res.code === 1) {
+                                this.isStarByStoreId();
+                                this.$notify({
+                                    title: '操作成功',
+                                    message: '收藏商店成功！',
+                                    type: 'success'
+                                });
+                            }
+                        });
+                    }).catch();
+                }
             },
             changeRate() {
                 this.dialogRateVisible = false;
@@ -138,6 +181,13 @@
                     message: '商店评分成功！',
                     type: 'success'
                 });
+            },
+            isStarByStoreId() {
+                isStarByStoreId(this.id).then(res => {
+                    if (res.code === 1) {
+                        this.stars = res.data;
+                    }
+                })
             }
         }
     }
@@ -157,10 +207,6 @@
         display: flex;
         flex-direction: column;
         justify-content: center;
-    }
-
-    .product {
-        height: 100%;
     }
 
     .store-info {

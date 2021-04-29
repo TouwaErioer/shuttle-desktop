@@ -28,14 +28,16 @@
                                     <el-button size="mini" type="primary" style="width: 100%;" slot="btn">加入购物车
                                     </el-button>
                                 </ProductDialog>
-                                <el-button :icon="changeStar(product.star)" type="warning" style="padding:0 10px"
-                                           @click="star"/>
+                                <el-button icon="el-icon-star-on" type="warning" style="padding:0 10px"
+                                           @click="star(product.id)"/>
                             </div>
                         </div>
                     </el-card>
                 </el-col>
             </el-row>
-            <div class="more">
+            <Empty :description="'该商店暂无产品'" :svg="require('@/assets/undraw_empty_xct9.svg')"
+                   class="product" v-if="products.length === 0" style="height: unset;"/>
+            <div class="more" v-if="total !== 0">
                 <el-pagination layout="prev, pager, next" :page-size="pageSize" :total="total"
                                @current-change="pageCurrent"/>
             </div>
@@ -46,10 +48,12 @@
 <script>
     import ProductDialog from "@/components/product-dialog";
     import common from "@/utils/common";
+    import Empty from "@/components/empty";
+    import {isStarByProductId, star, unStar} from "@/utils/api/star";
 
     export default {
         name: "product",
-        components: {ProductDialog},
+        components: {Empty, ProductDialog},
         props: {products: Array, pageNo: Number, pageSize: Number, total: Number, FontAwesomeIcon: Object},
         data() {
             return {
@@ -57,7 +61,8 @@
                 category: '全部',
                 sort: '最新',
                 advanced: '正序',
-                value: null
+                value: null,
+                isStar: false
             }
         },
         computed: {
@@ -65,22 +70,68 @@
                 return (price) => {
                     return common.changePrice(price);
                 }
-            },
-            changeStar() {
-                return (star) => {
-                    return star ? 'el-icon-star-on' : 'el-icon-star-off'
-                }
             }
         },
         methods: {
             pageCurrent(current) {
                 this.$parent.getProducts(current);
             },
-            star() {
-                this.$notify({
-                    title: '操作成功',
-                    message: '收藏产品成功！',
-                    type: 'success'
+            star(id) {
+                isStarByProductId(id).then(res => {
+                    if (res.code === 1) {
+                        let stars = res.data;
+                        if (stars.length !== 0) {
+                            this.$confirm('该产品已被收藏，确定取消该收藏？', '提示', {
+                                confirmButtonText: '确定',
+                                cancelButtonText: '取消',
+                                type: 'warning',
+                                center: true
+                            }).then(() => {
+                                    this.unStar(stars[0].id);
+                                }
+                            ).catch();
+                        } else {
+                            this.$confirm('确认收藏该产品?', '提示', {
+                                confirmButtonText: '确定',
+                                cancelButtonText: '取消',
+                                type: 'warning',
+                                center: true
+                            }).then(() => {
+                                star({
+                                    pid: id,
+                                    type: true
+                                }).then(res => {
+                                    if (res.code === 1) {
+                                        this.$notify({
+                                            title: '操作成功',
+                                            message: '收藏商店成功！',
+                                            type: 'success'
+                                        });
+                                    }
+                                });
+                            }).catch(() => {
+                                this.$notify({
+                                    title: '操作成功',
+                                    message: '已取消收藏！',
+                                    type: 'warning'
+                                });
+                            });
+                        }
+                    }
+                });
+            },
+            unStar(id) {
+                unStar({
+                    id: id,
+                    uid: common.getUserInfo().id
+                }).then(res => {
+                    if (res.code === 1) {
+                        this.$notify({
+                            title: '操作成功',
+                            message: '已取消收藏',
+                            type: 'success'
+                        });
+                    }
                 });
             }
         }
@@ -129,5 +180,9 @@
 
     .product-info > div {
         margin: 2px;
+    }
+
+    .product {
+        height: 100%;
     }
 </style>

@@ -1,5 +1,12 @@
 <template>
     <div class="chat-container">
+        <!--        <el-page-header @back="$router.back()" style="display: flex;padding: 10px 5px;;align-items: center">-->
+        <!--            <el-breadcrumb slot="content" separator="/"-->
+        <!--                           style="height: 35px;width: 100%;display: flex;justify-content: center;align-items: center">-->
+        <!--                <el-breadcrumb-item :to="{ path: '/home' }">首页</el-breadcrumb-item>-->
+        <!--                <el-breadcrumb-item>聊天室</el-breadcrumb-item>-->
+        <!--            </el-breadcrumb>-->
+        <!--        </el-page-header>-->
         <div class="chat-panel ui-flex shadow">
             <div class="dialog-list-section">
                 <div v-for="dialog in dialogList"
@@ -93,14 +100,16 @@
                     content: this.$data.textareaValue,
                     timestamp: new Date().getTime(),
                 });
-                msgList.push(
-                    {
-                        sender: {name: "service"},
-                        type: "MSG.TEXT",
-                        content: "你的反馈已发送到后台，等待处理中...",
-                        timestamp: new Date().getTime(),
-                    },
-                );
+                setTimeout(() => {
+                    msgList.push(
+                        {
+                            sender: {name: "service"},
+                            type: "MSG.TEXT",
+                            content: "你的反馈已发送到后台，等待处理中...",
+                            timestamp: new Date().getTime(),
+                        },
+                    )
+                }, 2000);
                 this.$data.newestMsg[
                     this.$data.selectedDialog
                     ] = this.$data.textareaValue;
