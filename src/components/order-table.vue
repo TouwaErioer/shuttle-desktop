@@ -55,11 +55,13 @@
             </el-table-column>
             <el-table-column
                     v-if="type === 'receive'"
-                    prop="client.name"
                     align="center">
                 <template slot="header">
                     <i class="el-icon-user"> 客户</i>
                 </template>
+                <temlate slot-scope="scope">
+                    <el-link v-text="scope.row.client.name" @click="showClientInfo(scope.row.client)"></el-link>
+                </temlate>
             </el-table-column>
             <el-table-column
                     v-if="type === 'order'"
@@ -141,6 +143,13 @@
         </el-table>
         <Empty :description="'暂无订单数据'" :svg="require('@/assets/undraw_blank_canvas_3rbb.svg')"
                v-if="tableData.length === 0"/>
+        <el-dialog title="客户详情" :visible.sync="dialogClientVisible" width="20%" center>
+            <div class="client-dialog">
+                <div>
+                    <i class="el-icon-phone"></i> <span v-text="'电话：' + client.phone"></span>
+                </div>
+            </div>
+        </el-dialog>
     </div>
 </template>
 
@@ -154,7 +163,12 @@
         components: {Empty},
         props: ['tableData', 'selection', 'type'],
         data() {
-            return {}
+            return {
+                dialogClientVisible: false,
+                client: {
+                    phone: null
+                }
+            }
         },
         computed: {
             changePrice() {
@@ -220,6 +234,10 @@
             completeOrder(order) {
                 this.$emit('completeOrder', order);
             },
+            showClientInfo(client) {
+                this.dialogClientVisible = true;
+                this.client.phone = client.phone;
+            }
         }
     }
 </script>
@@ -231,7 +249,17 @@
         flex-direction: column;
     }
 
-    .price-txt{
+    .price-txt {
         color: #e6a23c;
+    }
+
+    .client-dialog {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+
+    .client-dialog > div{
+        margin: 3px 0;
     }
 </style>
