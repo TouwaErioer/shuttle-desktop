@@ -1,12 +1,12 @@
 <template>
     <div class="chat-container">
-        <!--        <el-page-header @back="$router.back()" style="display: flex;padding: 10px 5px;;align-items: center">-->
-        <!--            <el-breadcrumb slot="content" separator="/"-->
-        <!--                           style="height: 35px;width: 100%;display: flex;justify-content: center;align-items: center">-->
-        <!--                <el-breadcrumb-item :to="{ path: '/home' }">首页</el-breadcrumb-item>-->
-        <!--                <el-breadcrumb-item>聊天室</el-breadcrumb-item>-->
-        <!--            </el-breadcrumb>-->
-        <!--        </el-page-header>-->
+        <el-page-header @back="$router.back()" style="width: 75%;display: flex;padding: 10px 5px;;align-items: center">
+            <el-breadcrumb slot="content" separator="/"
+                           style="height: 35px;width: 100%;display: flex;justify-content: center;align-items: center">
+                <el-breadcrumb-item :to="{ path: '/home' }">首页</el-breadcrumb-item>
+                <el-breadcrumb-item>聊天室</el-breadcrumb-item>
+            </el-breadcrumb>
+        </el-page-header>
         <div class="chat-panel ui-flex shadow">
             <div class="dialog-list-section">
                 <div v-for="dialog in dialogList"
@@ -127,7 +127,7 @@
 <style lang="scss" scoped>
     .chat-panel {
         width: 75vw;
-        height: 90%;
+        height: 85%;
         border-radius: 6px;
         overflow: hidden;
 
@@ -244,5 +244,6 @@
         display: flex;
         justify-content: center;
         align-items: center;
+        flex-direction: column;
     }
 </style>

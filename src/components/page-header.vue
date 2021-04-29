@@ -101,6 +101,7 @@
         watch: {
             '$route'(to) {
                 if (to.path === '/chat') this.enterTransitionName = 'animated slideInDown';
+                else this.enterTransitionName = null;
             }
         },
     }
