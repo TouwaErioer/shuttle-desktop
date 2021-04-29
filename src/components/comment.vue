@@ -177,6 +177,13 @@
 
     .content {
         margin: 10px 43px;
+        background-color: #eee;
+        padding: 6px;
+        border-radius: 6px;
+        /*margin: 0 7px;*/
+        align-self: baseline;
+        word-wrap: break-word;
+        word-break: break-word;
     }
 
     .item {
