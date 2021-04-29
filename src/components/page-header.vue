@@ -43,7 +43,9 @@
                 </div>
             </div>
         </div>
-        <router-view/>
+        <transition name="custom-classes-transition" :enter-active-class="enterTransitionName">
+            <router-view/>
+        </transition>
         <div class="helper">
             <el-button type="warning" @click="$router.push('/cart')" plain>
                 <i class="el-icon-shopping-cart-1" v-if="$store.getters.getCount === 0"></i>
@@ -69,7 +71,8 @@
                     phone: null,
                     score: 0
                 },
-                activeIndex: '/'
+                activeIndex: '/',
+                enterTransitionName: null,
             }
         },
         created() {
@@ -94,7 +97,12 @@
                     this.$router.push(key);
                 }
             }
-        }
+        },
+        watch: {
+            '$route'(to) {
+                if (to.path === '/chat') this.enterTransitionName = 'animated slideInDown';
+            }
+        },
     }
 </script>
 
