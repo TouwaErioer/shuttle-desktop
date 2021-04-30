@@ -9,8 +9,8 @@
                         <div style="color:gray;font-size: 15px;margin: 5px 0;">校园服务平台</div>
                     </div>
                     <div class="input-container">
-                        <el-input class="input" v-model="register_from.phone" prefix-icon="el-icon-user"
-                                  placeholder="手机号"/>
+                        <el-input class="input" v-model="register_from.email" prefix-icon="el-icon-message"
+                                  placeholder="邮箱"/>
                         <el-input class="input" v-model="register_from.password" prefix-icon="el-icon-key"
                                   placeholder="密码" type="password"/>
                         <el-input class="input" v-model="register_from.rePassword" prefix-icon="el-icon-key"
@@ -45,7 +45,7 @@
         data() {
             return {
                 register_from: {
-                    phone: null,
+                    email: null,
                     password: null,
                     rePassword: null,
                 }
@@ -53,19 +53,19 @@
         },
         methods: {
             register() {
-                const phoneRegEx = /^(?:(?:\+|00)86)?1(?:(?:3[\d])|(?:4[5-7|9])|(?:5[0-3|5-9])|(?:6[5-7])|(?:7[0-8])|(?:8[\d])|(?:9[1|8|9]))\d{8}$/;
+                const phoneRegEx = /^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/;
                 if (!Object.values(this.register_from).every(v => !!v)) {
-                    this.$message.error('请输入 邮箱 或 密码 或 寝室号 或 昵称')
+                    this.$message.error('请输入 邮箱 或 密码 或 寝室号 或 昵称');
                 } else if (this.register_from.password !== this.register_from.rePassword) {
-                    this.$message.error('两次输入密码不一致')
-                } else if (!phoneRegEx.test(this.register_from.phone)) {
-                    this.$message.error('号码格式错误')
+                    this.$message.error('两次输入密码不一致');
+                } else if (!phoneRegEx.test(this.register_from.email)) {
+                    this.$message.error('邮箱格式错误');
                 } else {
                     Register(this.register_from).then(res => {
                         if (res.code === 1) {
                             this.$message.success("注册成功！");
                             let data = {
-                                account: this.register_from.phone,
+                                account: this.register_from.email,
                                 password: this.register_from.password,
                                 expired: 60
                             };

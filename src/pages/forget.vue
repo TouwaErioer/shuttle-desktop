@@ -9,8 +9,8 @@
                     </div>
                     <div class="input-container">
                         <div v-if="send">
-                            <el-input class="input" v-model="phone" prefix-icon="el-icon-user" placeholder="手机号"/>
-                            <el-button style="width: 100%;margin: 10px 0" type="warning" @click="send = false">发送验证码
+                            <el-input class="input" v-model="email" prefix-icon="el-icon-message" placeholder="邮箱"/>
+                            <el-button style="width: 100%;margin: 10px 0" type="warning" @click="sendEmail">发送验证码
                             </el-button>
                         </div>
                         <div v-if="send === false">
@@ -31,7 +31,7 @@
                     <div class="expand-container">
                         <div class="forget" style="display:flex;">
                             <span>已有账号？ </span>
-                            <el-link style="font-size: 10px" type="success" @click="$router.push('/login')">立即登录
+                            <el-link style="font-size: 10px" @click="$router.push('/login')">立即登录
                             </el-link>
                         </div>
                         <div style="display:flex;">
@@ -47,12 +47,15 @@
 </template>
 
 <script>
+
+    import {forget, sendEmail} from "@/utils/api/user";
+
     export default {
         name: "forget",
         data() {
             return {
                 send: true,
-                phone: null,
+                email: null,
                 verification: null,
                 password: null,
                 rePassword: null
@@ -60,7 +63,25 @@
         },
         methods: {
             forget() {
-                this.$message.success('修改成功！');
+                forget({
+                    token: this.verification,
+                    newPassword: this.password
+                }).then(res => {
+                    if (res.code === 1) {
+                        this.$message.success('修改成功！');
+                        this.$router.push('/login');
+                    }
+                });
+            },
+            sendEmail() {
+                sendEmail({
+                    email: this.email
+                }).then(res => {
+                    if (res.code === 1) {
+                        this.$message.success('发送成功！');
+                        this.send = false;
+                    }
+                })
             }
         }
     }
@@ -84,16 +105,6 @@
         height: 50%;
         display: flex;
     }
-
-    /*.left {*/
-    /*    background-image: url("https://ae01.alicdn.com/kf/U03a6fbc31baa400c8a09c674f2d57656f.jpg");*/
-    /*    background-size: cover;*/
-    /*    width: 35%;*/
-    /*    height: 100%;*/
-    /*    display: flex;*/
-    /*    justify-content: center;*/
-    /*    align-items: center;*/
-    /*}*/
 
     .right {
         background: rgba(255, 255, 255, .7);
@@ -154,14 +165,5 @@
         color: #606266;
         font-size: 5px;
         padding: 10px;
-    }
-
-    .radio {
-        display: flex;
-    }
-
-    .expired-text {
-        font-size: 10px;
-        margin: 10px;
     }
 </style>

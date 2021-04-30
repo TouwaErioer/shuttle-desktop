@@ -6,7 +6,8 @@
                     <div class="left">
                         <div class="cells">
                             <div>
-                                <el-page-header @back="$router.back()" style="display: flex;padding: 10px 5px;;align-items: center">
+                                <el-page-header @back="$router.back()"
+                                                style="display: flex;padding: 10px 5px;;align-items: center">
                                     <el-breadcrumb slot="content" separator="/"
                                                    style="height: 35px;width: 100%;display: flex;justify-content: center;align-items: center">
                                         <el-breadcrumb-item :to="{ path: '/home' }">首页</el-breadcrumb-item>
@@ -34,6 +35,17 @@
                                 </div>
                                 <div>
                                     <div class="spinner-in" v-if="showPhone">
+                                        <div class="double-bounce1-in"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="cell" @click="showRight('email')">
+                                <div class="cell-content">
+                                    <div><i class="el-icon-message"> 邮箱</i></div>
+                                    <div v-text="userInfo.email" class="cell-text"></div>
+                                </div>
+                                <div>
+                                    <div class="spinner-in" v-if="showEmail">
                                         <div class="double-bounce1-in"></div>
                                     </div>
                                 </div>
@@ -86,6 +98,11 @@
                         <div class="right-container" v-if="showPhone">
                             <img src="../assets/undraw_phone_call_grmk.svg" class="svg">
                             <el-input style="width: 300px;" v-model="inputValue.phone" placeholder="请输入手机号，回车以保存"
+                                      @change="updateUserInfo"/>
+                        </div>
+                        <div class="right-container" v-if="showEmail">
+                            <img src="../assets/undraw_phone_call_grmk.svg" class="svg">
+                            <el-input style="width: 300px;" v-model="inputValue.email" placeholder="请输入邮箱，回车以保存"
                                       @change="updateUserInfo"/>
                         </div>
                         <div class="right-container" v-if="showAddress">
@@ -162,12 +179,14 @@
                 inputValue: {
                     name: null,
                     phone: null,
-                    address: null
+                    address: null,
+                    email: null
                 },
                 showRecharge: false,
                 options: [5, 10, 20, 30, 50, 100, 200, 300, 500],
                 total: '',
-                score: 0
+                score: 0,
+                showEmail: false
             };
         },
         created() {
@@ -202,6 +221,9 @@
                 if (this.inputValue.address === null) {
                     value.address = this.userInfo.address;
                 }
+                if (this.inputValue.email === null) {
+                    value.email = this.userInfo.email;
+                }
                 update(value).then(res => {
                     if (res.code === 1) {
                         this.$message.success('更新成功!');
@@ -209,6 +231,7 @@
                         userInfo.phone = value.phone;
                         userInfo.address = value.address;
                         userInfo.name = value.name;
+                        userInfo.email = value.email;
                         localStorage.setItem('userInfo', JSON.stringify(userInfo));
                         this.getUserInfo()
                     }
@@ -246,30 +269,42 @@
                     this.showAddress = false;
                     this.showResetPassword = false;
                     this.showRecharge = false;
+                    this.showEmail = false;
                 } else if (action === 'phone') {
                     this.showName = false;
                     this.showPhone = !this.showPhone;
                     this.showAddress = false;
                     this.showResetPassword = false;
                     this.showRecharge = false;
+                    this.showEmail = false;
                 } else if (action === 'address') {
                     this.showName = false;
                     this.showPhone = false;
                     this.showAddress = !this.showAddress;
                     this.showResetPassword = false;
                     this.showRecharge = false;
+                    this.showEmail = false;
                 } else if (action === 'resetPassword') {
                     this.showName = false;
                     this.showPhone = false;
                     this.showAddress = false;
                     this.showResetPassword = !this.showResetPassword;
                     this.showRecharge = false;
+                    this.showEmail = false;
                 } else if (action === 'recharge') {
                     this.showName = false;
                     this.showPhone = false;
                     this.showAddress = false;
                     this.showResetPassword = false;
                     this.showRecharge = !this.showRecharge;
+                    this.showEmail = false;
+                } else if (action === 'email') {
+                    this.showName = false;
+                    this.showPhone = false;
+                    this.showAddress = false;
+                    this.showResetPassword = false;
+                    this.showRecharge = false;
+                    this.showEmail = !this.showEmail
                 }
             },
             exit() {
@@ -302,6 +337,7 @@
                 else if (this.showAddress) return '修改地址';
                 else if (this.showResetPassword) return '修改密码';
                 else if (this.showRecharge) return '充值';
+                else if (this.showEmail) return '邮件';
                 else return '';
             }
         },

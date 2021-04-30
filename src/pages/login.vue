@@ -10,7 +10,7 @@
                     </div>
                     <div class="input">
                         <el-input style="margin: 10px 0;" v-model="login_from.account" prefix-icon="el-icon-user"
-                                  placeholder="手机号/昵称"/>
+                                  placeholder="手机号/邮箱"/>
                         <el-input prefix-icon="el-icon-key" v-model="login_from.password" placeholder="密码"
                                   type="password"/>
                         <el-button style="width: 100%;margin: 10px 0" type="primary" @click="sign">登录</el-button>

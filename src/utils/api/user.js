@@ -18,6 +18,10 @@ export const check = () => get(API + 'check');
 export const update = (params) => post(API + 'update', params);
 
 // 充值
-export const Recharge = (params) => post(API + 'recharge',params);
+export const Recharge = (params) => post(API + 'recharge', params);
 
 export const findScore = (params) => get(API + 'findSore/' + params);
+
+export const sendEmail = (params) => post(API + 'sendEmail', params);
+
+export const forget = (params) => post(API + 'forget', params);

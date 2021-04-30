@@ -132,7 +132,6 @@
                     message: '跳转到个人界面',
                     type: 'warning'
                 });
-
                 this.$router.push('/user');
             },
             submit() {
