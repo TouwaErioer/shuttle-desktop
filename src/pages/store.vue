@@ -54,11 +54,6 @@
                                      :pageSize="pageSize" :total="total"/>
                         </div>
                     </div>
-<!--                    <div class="comment-container shadow">-->
-<!--                        <div class="comment">-->
-<!--                            <Comment :store-id="id"/>-->
-<!--                        </div>-->
-<!--                    </div>-->
                     <el-dialog title="请评价该商店" :visible.sync="dialogRateVisible" width="20%" center>
                         <div class="rate-dialog">
                             <el-rate v-model="store.rate" show-text @change="changeRate" v-if="store !== null"/>
@@ -261,16 +256,6 @@
 
     .operate > .el-button{
         margin: 5px 0;
-    }
-
-    .comment-container {
-        width: 100%;
-        flex: 0.2;
-    }
-
-    .comment {
-        margin-top: 30px;
-        width: 100%;
     }
 
 </style>
