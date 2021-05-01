@@ -10,7 +10,7 @@
                             <div class="store-title">
                                 <span v-text="star.store.name"></span>
                             </div>
-                            <el-rate v-model="star.store.rate" disabled show-score text-color="#ff9900"></el-rate>
+                            <el-rate :value="rateToFixed(star.store.rate)" disabled show-score text-color="#ff9900"></el-rate>
                             <div class="sales"><i class="el-icon-medal"></i> 销量：<span v-text="star.store.sales"></span>
                             </div>
                             <div style="padding: 5px;display: flex" @click.stop.prevent>
@@ -41,7 +41,7 @@
                                     <span> 价格：</span>
                                     <span v-text="changePrice(star.product.price)"/>
                                 </div>
-                                <el-rate v-model="star.product.rate" disabled show-score text-color="#ff9900"></el-rate>
+                                <el-rate :value="rateToFixed(star.product.rate)" disabled show-score text-color="#ff9900"></el-rate>
                             </div>
                             <div @click.stop.prevent>
                                 <ProductDialog :product="star.product" :value="value">
@@ -86,6 +86,11 @@
             changePrice() {
                 return (price) => {
                     return common.changePrice(price);
+                }
+            },
+            rateToFixed: function () {
+                return (rate) => {
+                    return rate >= 4.95 ? 5.0 : rate.toFixed(1);
                 }
             }
         },
@@ -160,7 +165,7 @@
     }
 
     .store-info {
-        padding: 10px;
+        padding: 9px;
         display: flex;
         flex-direction: column;
         justify-content: center;
