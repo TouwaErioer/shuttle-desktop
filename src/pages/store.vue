@@ -38,6 +38,9 @@
                                 <el-button icon="el-icon-circle-check" type="warning" @click="dialogRateVisible = true">
                                     评分
                                 </el-button>
+                                <el-button type="primary" icon="el-icon-chat-dot-square" @click="$router.push('/comments/' + id)">
+                                    评论
+                                </el-button>
                                 <el-button :type="isStar ? 'success' : 'info'" @click="star">
                                     <i :class="isStar ? 'el-icon-star-on' : 'el-icon-star-off'"></i>
                                     <span v-text="isStar ? '已收藏' : '收藏'"></span>
@@ -51,14 +54,14 @@
                                      :pageSize="pageSize" :total="total"/>
                         </div>
                     </div>
-                    <div class="comment-container shadow">
-                        <div class="comment">
-                            <Comment :store-id="id"/>
-                        </div>
-                    </div>
+<!--                    <div class="comment-container shadow">-->
+<!--                        <div class="comment">-->
+<!--                            <Comment :store-id="id"/>-->
+<!--                        </div>-->
+<!--                    </div>-->
                     <el-dialog title="请评价该商店" :visible.sync="dialogRateVisible" width="20%" center>
                         <div class="rate-dialog">
-                            <el-rate v-model="store.rate" show-text @change="changeRate"/>
+                            <el-rate v-model="store.rate" show-text @change="changeRate" v-if="store !== null"/>
                         </div>
                     </el-dialog>
                 </div>
@@ -70,7 +73,6 @@
 <script>
     import Page from "@/layout/page";
     import Product from "@/components/product";
-    import Comment from "@/components/comment";
     import {findProductsByStoreIdByPagination} from "@/utils/api/product";
     import {findStoreById, review} from "@/utils/api/store";
     import {isStarByStoreId, star, unStar} from "@/utils/api/star";
@@ -78,7 +80,7 @@
 
     export default {
         name: "store",
-        components: {Comment, Product, Page},
+        components: {Product, Page},
         props: ['id'],
         data() {
             return {
@@ -86,7 +88,7 @@
                 products: [],
                 store: null,
                 pageNo: 1,
-                pageSize: 12,
+                pageSize: 6,
                 total: 0,
                 dialogRateVisible: false,
                 stars: []
@@ -255,6 +257,10 @@
 
     .operate {
         display: flex;
+    }
+
+    .operate > .el-button{
+        margin: 5px 0;
     }
 
     .comment-container {

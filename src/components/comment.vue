@@ -1,5 +1,45 @@
 <template>
     <div class="container">
+        <div class="comments" v-if="comments.length !== 0">
+            <div class="page-info">
+                <el-page-header @back="$router.back()"
+                                style="display: flex;padding: 10px 20px;;align-items: center">
+                    <el-breadcrumb slot="content" separator="/"
+                                   style="height: 35px;width: 100%;display: flex;justify-content: center;align-items: center">
+                        <el-breadcrumb-item :to="{ path: '/home' }">首页</el-breadcrumb-item>
+                        <el-breadcrumb-item>商店</el-breadcrumb-item>
+                        <el-breadcrumb-item>评论</el-breadcrumb-item>
+                    </el-breadcrumb>
+                </el-page-header>
+                <div class="count" v-text="total + ' 评论'"></div>
+            </div>
+            <el-scrollbar>
+                <div style="padding: 0 20px;">
+                    <div class="item" v-for="item in comments" :key="item.id">
+
+                        <div class="item-info">
+                            <div class="avatar">
+                                <el-avatar :size="35" :src="avatarUrl(item.name)"></el-avatar>
+                            </div>
+                            <div class="info">
+                                <div class="name" v-text="item.name"></div>
+                                <div class="date" v-text="getRelativeTime(item.date)"></div>
+                            </div>
+                        </div>
+                        <div class="content-container">
+                            <div class="content" v-text="item.content"></div>
+                            <div v-if="showDel(item.name)">
+                                <el-button type="text" class="delete" @click="del(item.id)">删除</el-button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </el-scrollbar>
+        </div>
+        <el-pagination layout="prev, pager, next" :page-size="pageSize" :total="total" class="pagination"
+                       @current-change="pageCurrent"/>
+        <Empty :description="'该商店当前没有评论'" :svg="require('@/assets/undraw_Short_bio_re_fmx0.svg')"
+               v-if="comments.length === 0"/>
         <div class="input-container">
             <div>
                 <el-input type="textarea" v-model="content" rows="5" placeholder="请输入评论"/>
@@ -8,31 +48,6 @@
                 <el-button @click="send">提交</el-button>
             </div>
         </div>
-        <div class="comments" v-if="comments.length !== 0">
-            <div class="count" v-text="total + ' 评论'"></div>
-            <div class="item" v-for="item in comments" :key="item.id">
-
-                <div class="item-info">
-                    <div class="avatar">
-                        <el-avatar :size="35" :src="avatarUrl(item.name)"></el-avatar>
-                    </div>
-                    <div class="info">
-                        <div class="name" v-text="item.name"></div>
-                        <div class="date" v-text="getRelativeTime(item.date)"></div>
-                    </div>
-                </div>
-                <div class="content-container">
-                    <div class="content" v-text="item.content"></div>
-                    <div v-if="showDel(item.name)">
-                        <el-button type="text" class="delete" @click="del(item.id)">删除</el-button>
-                    </div>
-                </div>
-            </div>
-            <el-pagination layout="prev, pager, next" :page-size="pageSize" :total="total" class="pagination"
-                           @current-change="pageCurrent"/>
-        </div>
-        <Empty :description="'该商店当前没有评论'" :svg="require('@/assets/undraw_Short_bio_re_fmx0.svg')"
-               v-if="comments.length === 0"/>
     </div>
 </template>
 
@@ -146,20 +161,31 @@
     }
 
     .input-container {
-        padding: 0 20px;
+        padding: 10px;
     }
+
     .operate {
         display: flex;
-        justify-content: flex-end;
+        justify-content: center;
         padding: 10px 0;
     }
 
     .comments {
-        padding: 10px 20px;
+        flex: 1;
+        padding: 10px 0;
+        overflow-y: scroll;
     }
 
+    .comments::-webkit-scrollbar {
+        width: 0 !important;
+    }
+
+    /*.el-scrollbar > .el-scrollbar__wrap{*/
+    /*    padding: 0 20px;*/
+    /*}*/
+
     .count {
-        padding: 5px;
+        padding: 5px 20px;
     }
 
     .item-info {
@@ -180,7 +206,6 @@
         background-color: #eee;
         padding: 6px;
         border-radius: 6px;
-        /*margin: 0 7px;*/
         align-self: baseline;
         word-wrap: break-word;
         word-break: break-word;
@@ -202,6 +227,12 @@
     .pagination {
         display: flex;
         justify-content: center;
+        align-items: center;
+    }
+
+    .page-info{
+        display: flex;
+        justify-content: space-between;
         align-items: center;
     }
 </style>

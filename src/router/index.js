@@ -55,6 +55,10 @@ const routes = [
             {
                 path: '/chat',
                 component: () => import('@/pages/chat'),
+            }, {
+                path: '/comments/:storeId',
+                component: () => import('@/pages/comments'),
+                props: true
             }
         ]
     },
