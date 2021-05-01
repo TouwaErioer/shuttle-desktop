@@ -3,7 +3,7 @@
         <div class="content">
             <el-row>
                 <el-col :span="4" v-for="product in products" :key="product.id">
-                    <el-card :body-style="{ padding: '0px' }" style="margin: 10px;" shadow="hover">
+                    <el-card :body-style="{ padding: '0px' }" style="margin: 10px;" shadow="hover" @click.native="star(product.id)">
                         <div style="display: flex;justify-content: center;align-items: center">
                             <el-image :src="product.image"
                                       class="image" style="height: 150px;width: 150px;" fit="cover"/>
@@ -23,13 +23,10 @@
                                 </div>
                                 <el-rate :value="rateToFixed(product.rate)" disabled show-score text-color="#ff9900"></el-rate>
                             </div>
-                            <div style="display:flex;justify-content: space-between">
+                            <div @click.stop.prevent>
                                 <ProductDialog :product="product" :value="value">
-                                    <el-button size="mini" type="primary" style="width: 100%;" slot="btn">加入购物车
-                                    </el-button>
+                                    <el-button size="mini" style="width: 100%;" slot="btn">加入购物车</el-button>
                                 </ProductDialog>
-                                <el-button icon="el-icon-star-on" type="warning" style="padding:0 10px"
-                                           @click="star(product.id)"/>
                             </div>
                         </div>
                     </el-card>
