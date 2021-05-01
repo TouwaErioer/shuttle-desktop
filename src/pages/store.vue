@@ -29,7 +29,7 @@
                                         <i class="el-icon-medal"></i> 销量：{{store.sales}}
                                     </div>
                                     <div class="rate">
-                                        <el-rate v-model="store.rate" disabled show-score
+                                        <el-rate :value="rateToFixed(store.rate)" disabled show-score
                                                  text-color="#ff9900"></el-rate>
                                     </div>
                                 </div>
@@ -58,11 +58,7 @@
                     </div>
                     <el-dialog title="请评价该商店" :visible.sync="dialogRateVisible" width="20%" center>
                         <div class="rate-dialog">
-                            <el-rate v-model="rate" show-text/>
-                            <div class="rate-button-dialog">
-                                <el-button type="primary" size="mini" :disabled="rate === 0" @click="changeRate">确认
-                                </el-button>
-                            </div>
+                            <el-rate v-model="store.rate" show-text @change="changeRate"/>
                         </div>
                     </el-dialog>
                 </div>
@@ -76,7 +72,7 @@
     import Product from "@/components/product";
     import Comment from "@/components/comment";
     import {findProductsByStoreIdByPagination} from "@/utils/api/product";
-    import {findStoreById} from "@/utils/api/store";
+    import {findStoreById, review} from "@/utils/api/store";
     import {isStarByStoreId, star, unStar} from "@/utils/api/star";
     import common from "@/utils/common";
 
@@ -90,31 +86,38 @@
                 products: [],
                 store: null,
                 pageNo: 1,
-                pageSize: 8,
+                pageSize: 12,
                 total: 0,
                 dialogRateVisible: false,
-                rate: 0,
                 stars: []
             }
         },
         created() {
             this.getProducts(this.pageNo);
-            let storeList = this.$store.getters.getStoreById(parseInt(this.id));
-            if (storeList.length === 0) {
-                findStoreById(this.id).then(res => {
-                    if (res.code === 1) {
-                        this.store = res.data[0];
-                    }
-                });
-            } else this.store = storeList[0];
+            this.getStore();
             this.isStarByStoreId();
         },
         computed: {
             isStar: function () {
                 return this.stars.length !== 0;
+            },
+            rateToFixed: function () {
+                return (rate) => {
+                    return rate >= 4.95 ? 5.0 : rate.toFixed(1);
+                }
             }
         },
         methods: {
+            getStore(){
+                let storeList = this.$store.getters.getStoreById(parseInt(this.id));
+                if (storeList.length === 0) {
+                    findStoreById(this.id).then(res => {
+                        if (res.code === 1) {
+                            this.store = res.data[0];
+                        }
+                    });
+                } else this.store = storeList[0];
+            },
             getProducts(pageNo) {
                 if (this.$store.getters.productsCache(parseInt(this.id))) {
                     this.products = this.$store.getters.getProducts(parseInt(this.id));
@@ -123,6 +126,7 @@
                     findProductsByStoreIdByPagination(this.id, pageNo, this.pageSize).then(res => {
                         if (res.code === 1) {
                             let data = res.data.list;
+                            this.total = res.data.total;
                             this.products = data;
                             this.$store.commit('setProducts', data);
                         }
@@ -174,20 +178,30 @@
                     }).catch();
                 }
             },
-            changeRate() {
-                this.dialogRateVisible = false;
-                this.$notify({
-                    title: '操作成功',
-                    message: '商店评分成功！',
-                    type: 'success'
+            changeRate(rate) {
+                review({
+                    id: this.id,
+                    rate: rate
+                }).then(res => {
+                    if (res.code === 1) {
+                        this.dialogRateVisible = false;
+                        this.$notify({
+                            title: '操作成功',
+                            message: '商店评分成功！',
+                            type: 'success'
+                        });
+                        this.getStore();
+                    }
                 });
             },
             isStarByStoreId() {
                 isStarByStoreId(this.id).then(res => {
                     if (res.code === 1) {
-                        this.stars = res.data;
+                        let data = res.data;
+                        this.stars = data;
+                        this.$store.commit('setStoreStar', data);
                     }
-                })
+                });
             }
         }
     }
@@ -253,16 +267,4 @@
         width: 100%;
     }
 
-    .rate-dialog {
-        width: 100%;
-        height: 100px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        flex-direction: column;
-    }
-
-    .rate-button-dialog {
-        margin-top: 30px;
-    }
 </style>

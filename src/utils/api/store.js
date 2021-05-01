@@ -1,4 +1,4 @@
-import {get} from '@/utils/request/request'
+import {get, post} from '@/utils/request/request'
 
 const API = '/major/store/';
 
@@ -13,3 +13,5 @@ export const findStoreById = (id) => get(API + 'findById/' + id);
 
 // 根据categoryId查询商店
 export const findByCategoryId = (categoryId) => get(API + 'findByCategoryId/' + categoryId);
+
+export const review = (params) => post(API + 'review', params);

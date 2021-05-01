@@ -12,7 +12,7 @@
                             slot="tag" :color="item.services.color" v-if="item.services != null"/>
                 </div>
                 <div class="item-desc">
-                    <el-rate v-model="item.rate" disabled text-color="#ff9900" show-score/>
+                    <el-rate :value="rateToFixed(item.rate)" disabled text-color="#ff9900" show-score/>
                 </div>
                 <div class="item-tag">
                     <div>
@@ -41,12 +41,15 @@
         name: "popular-item",
         components: {ProductDialog},
         props: ['item'],
-
-
         computed:{
             changePrice(){
                 return(price)=>{
                     return common.changePrice(price);
+                }
+            },
+            rateToFixed: function () {
+                return (rate) => {
+                    return rate >= 4.95 ? 5.0 : rate.toFixed(1);
                 }
             }
         },

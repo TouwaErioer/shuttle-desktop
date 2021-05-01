@@ -54,7 +54,8 @@
                     </div>
                 </div>
                 <OrderTable :table-data="tableData" :selection="selection" v-on:sectionValue="getSectionValue"
-                            v-on:deleteOrder="deleteOrder" :type="'order'" v-on:completeOrder="completeOrder"/>
+                            v-on:deleteOrder="deleteOrder" :type="'order'" v-on:completeOrder="completeOrder"
+                            v-on:load="load"/>
                 <div class="delete-btn">
                     <el-button v-if="selection" type="danger" :disabled="sectionValue.length === 0"
                                @click="batchDelete()">批量删除

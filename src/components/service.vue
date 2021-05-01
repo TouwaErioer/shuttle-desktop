@@ -11,7 +11,7 @@
                             <div class="store-title">
                                 <span v-text="store.name"></span> <el-tag v-text="store.category.name" size="mini" effect="dark"/>
                             </div>
-                            <el-rate v-model="store.rate" disabled show-score text-color="#ff9900"></el-rate>
+                            <el-rate :value="rateToFixed(store.rate)" disabled show-score text-color="#ff9900"></el-rate>
                             <div class="sales"><i class="el-icon-medal"></i> 销量：<span v-text="store.sales"></span></div>
                         </div>
                     </el-card>
@@ -39,8 +39,12 @@
                 advanced: '正序'
             }
         },
-        created() {
-
+        computed: {
+            rateToFixed: function () {
+                return (rate) => {
+                    return rate >= 4.95 ? 5.0 : rate.toFixed(1);
+                }
+            }
         },
         methods: {
             pageCurrent(current) {

@@ -21,7 +21,7 @@
                                     <span> 价格：</span>
                                     <span v-text="changePrice(product.price)"/>
                                 </div>
-                                <el-rate v-model="product.rate" disabled show-score text-color="#ff9900"></el-rate>
+                                <el-rate :value="rateToFixed(product.rate)" disabled show-score text-color="#ff9900"></el-rate>
                             </div>
                             <div style="display:flex;justify-content: space-between">
                                 <ProductDialog :product="product" :value="value">
@@ -69,6 +69,11 @@
             changePrice() {
                 return (price) => {
                     return common.changePrice(price);
+                }
+            },
+            rateToFixed: function () {
+                return (rate) => {
+                    return rate >= 4.95 ? 5.0 : rate.toFixed(1);
                 }
             }
         },
@@ -150,7 +155,7 @@
     }
 
     .store-info {
-        padding: 10px;
+        padding: 9px;
         display: flex;
         flex-direction: column;
         justify-content: center;

@@ -150,6 +150,11 @@
                 </div>
             </div>
         </el-dialog>
+        <el-dialog title="请评价该产品" :visible.sync="dialogRateVisible" width="20%" center>
+            <div class="rate-dialog">
+                <el-rate v-model="rate" show-text @change="changeRate"/>
+            </div>
+        </el-dialog>
     </div>
 </template>
 
@@ -157,6 +162,8 @@
 
     import Empty from "@/components/empty";
     import common from "@/utils/common";
+    import {review} from "@/utils/api/product";
+    import {complete} from "@/utils/api/order";
 
     export default {
         name: "order-table",
@@ -167,7 +174,11 @@
                 dialogClientVisible: false,
                 client: {
                     phone: null
-                }
+                },
+                productId: 0,
+                dialogRateVisible: false,
+                rate: 0,
+                orderId: 0
             }
         },
         computed: {
@@ -232,12 +243,53 @@
                 this.$emit('receive', orderId);
             },
             completeOrder(order) {
-                this.$emit('completeOrder', order);
+                this.productId = order.pid;
+                this.orderId = order.id;
+                const data = {
+                    id: order.id,
+                    cid: order.cid,
+                    sid: order.sid,
+                    pid: order.pid,
+                    file: order.file
+                };
+                this.$confirm('请确定商品已配送到，确定完成该订单？', '提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'warning'
+                }).then(() => {
+                    complete(data).then(res => {
+                        if (res.code === 1) {
+                            this.$message.success('签收成功！');
+                            this.dialogRateVisible = true;
+                            this.$emit('load');
+                        } else {
+                            this.$message.error('订单已取消');
+                        }
+                    });
+                }).catch(() => {
+                });
             },
             showClientInfo(client) {
                 this.dialogClientVisible = true;
                 this.client.phone = client.phone;
-            }
+            },
+            changeRate(rate) {
+                review({
+                    id: this.productId,
+                    rate: rate,
+                    orderId: this.orderId
+                }).then(res => {
+                    if (res.code === 1) {
+                        this.dialogRateVisible = false;
+                        this.$notify({
+                            title: '操作成功',
+                            message: '产品评分成功！',
+                            type: 'success'
+                        });
+                        this.getStore();
+                    }
+                });
+            },
         }
     }
 </script>
@@ -259,7 +311,7 @@
         justify-content: center;
     }
 
-    .client-dialog > div{
+    .client-dialog > div {
         margin: 3px 0;
     }
 </style>

@@ -46,9 +46,9 @@ instance.interceptors.response.use(response => {
     loadingInstance.close();
     if (response.data.message === 'token过期') {
         Message({
-                message: 'token过期，请重新登录',
-                type: 'error'
-            });
+            message: 'token过期，请重新登录',
+            type: 'error'
+        });
         localStorage.removeItem('token');
         router.replace('/login').then();
     } else if (response.data.code === 1) {
