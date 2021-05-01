@@ -252,6 +252,7 @@
 
     .operate {
         display: flex;
+        flex-direction: column;
     }
 
     .operate > .el-button{
