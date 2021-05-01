@@ -40,17 +40,21 @@ instance.interceptors.request.use(config => {
     // 对请求错误做些什么
     return Promise.reject(error)
 });
-
+let expired = false;
 /** 添加响应拦截器  **/
 instance.interceptors.response.use(response => {
     loadingInstance.close();
     if (response.data.message === 'token过期') {
-        Message({
-            message: 'token过期，请重新登录',
-            type: 'error'
-        });
-        localStorage.removeItem('token');
-        router.replace('/login').then();
+        if (!expired) {
+            Message({
+                message: 'token过期，请重新登录',
+                type: 'error'
+            });
+            localStorage.removeItem('token');
+            router.replace('/login').then();
+            expired = true;
+        }
+        return Promise.resolve(response.data)
     } else if (response.data.code === 1) {
         return Promise.resolve(response.data)
     } else {
