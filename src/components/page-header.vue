@@ -35,10 +35,6 @@
                             <i class="el-icon-star-off"></i>
                             <div slot="title">收藏</div>
                         </el-menu-item>
-                        <el-menu-item index="/luck">
-                            <i class="el-icon-orange"></i>
-                            <div slot="title">随机</div>
-                        </el-menu-item>
                     </el-menu>
                 </div>
             </div>

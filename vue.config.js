@@ -5,8 +5,7 @@ const externals = {
     'axios': 'axios',
     'element-ui':'ELEMENT',
     'qs.js':'qs',
-    'moment':'moment',
-    'luck-draw':'luck-draw'
+    'moment':'moment'
 };
 const cdn = {
     css: [
@@ -19,8 +18,7 @@ const cdn = {
         'https://cdn.jsdelivr.net/npm/axios@0.21.1/dist/axios.min.js',
         'https://unpkg.com/element-ui/lib/index.js',
         'https://cdn.jsdelivr.net/npm/qs@6.10.1/dist/qs.js',
-        'https://cdn.jsdelivr.net/npm/moment@2.29.1/min/moment-with-locales.min.js',
-        'https://cdn.jsdelivr.net/npm/vue-luck-draw@3.4/dist/vue-luck-draw.umd.min.js'
+        'https://cdn.jsdelivr.net/npm/moment@2.29.1/min/moment-with-locales.min.js'
     ]
 };
 
