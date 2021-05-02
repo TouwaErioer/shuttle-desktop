@@ -38,7 +38,8 @@
                                 <el-button icon="el-icon-circle-check" type="warning" @click="dialogRateVisible = true">
                                     评分
                                 </el-button>
-                                <el-button type="primary" icon="el-icon-chat-dot-square" @click="$router.push('/comments/' + id)">
+                                <el-button type="primary" icon="el-icon-chat-dot-square"
+                                           @click="$router.push('/comments/' + id)">
                                     评论
                                 </el-button>
                                 <el-button :type="isStar ? 'success' : 'info'" @click="star">
@@ -51,7 +52,8 @@
                     <div class="shadow" style="width: 100%;display: flex;flex-direction: column;margin: 20px 0;">
                         <div class="product">
                             <Product :products="products" :pageNo="pageNo"
-                                     :pageSize="pageSize" :total="total"/>
+                                     :pageSize="pageSize" :total="total"
+                                     v-on:getProducts="getProducts($event,pageNo)"/>
                         </div>
                     </div>
                     <el-dialog title="请评价该商店" :visible.sync="dialogRateVisible" width="20%" center>
@@ -105,7 +107,7 @@
             }
         },
         methods: {
-            getStore(){
+            getStore() {
                 let storeList = this.$store.getters.getStoreById(parseInt(this.id));
                 if (storeList.length === 0) {
                     findStoreById(this.id).then(res => {
@@ -116,16 +118,16 @@
                 } else this.store = storeList[0];
             },
             getProducts(pageNo) {
-                if (this.$store.getters.productsCache(parseInt(this.id))) {
+                if (this.$store.getters.productsCache(parseInt(this.id)) && pageNo === 1) {
                     this.products = this.$store.getters.getProducts(parseInt(this.id));
-                    this.total = this.products.length;
+                    // this.total = this.products.length;
                 } else {
                     findProductsByStoreIdByPagination(this.id, pageNo, this.pageSize).then(res => {
                         if (res.code === 1) {
                             let data = res.data.list;
                             this.total = res.data.total;
                             this.products = data;
-                            this.$store.commit('setProducts', data);
+                            if (pageNo === 1) this.$store.commit('setProducts', data);
                         }
                     });
                 }
@@ -255,7 +257,7 @@
         flex-direction: column;
     }
 
-    .operate > .el-button{
+    .operate > .el-button {
         margin: 5px 0;
     }
 

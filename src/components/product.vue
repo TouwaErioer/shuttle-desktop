@@ -3,7 +3,8 @@
         <div class="content">
             <el-row>
                 <el-col :span="4" v-for="product in products" :key="product.id">
-                    <el-card :body-style="{ padding: '0px' }" style="margin: 10px;" shadow="hover" @click.native="star(product.id)">
+                    <el-card :body-style="{ padding: '0px' }" style="margin: 10px;" shadow="hover"
+                             @click.native="star(product.id)">
                         <div style="display: flex;justify-content: center;align-items: center">
                             <el-image :src="product.image"
                                       class="image" style="height: 150px;width: 150px;" fit="cover"/>
@@ -21,7 +22,8 @@
                                     <span> 价格：</span>
                                     <span v-text="changePrice(product.price)"/>
                                 </div>
-                                <el-rate :value="rateToFixed(product.rate)" disabled show-score text-color="#ff9900"></el-rate>
+                                <el-rate :value="rateToFixed(product.rate)" disabled show-score
+                                         text-color="#ff9900"></el-rate>
                             </div>
                             <div @click.stop.prevent>
                                 <ProductDialog :product="product" :value="value">
@@ -76,7 +78,7 @@
         },
         methods: {
             pageCurrent(current) {
-                this.$parent.getProducts(current);
+                this.$emit('getProducts', current);
             },
             star(id) {
                 isStarByProductId(id).then(res => {
