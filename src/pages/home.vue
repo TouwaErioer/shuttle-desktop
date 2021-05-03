@@ -161,15 +161,15 @@
                 }
             },
             getStores(pageNo) {
-                if (this.$store.getters.storesCache(parseInt(this.radio))) {
+                if (this.$store.getters.storesCache(parseInt(this.radio)) && pageNo === 1) {
                     this.stores = this.$store.getters.getStoresBySid(parseInt(this.radio));
-                    this.total = this.stores.length;
+                    // this.total = this.stores.length;
                 } else {
                     findStoreByServiceId(parseInt(this.radio), pageNo, this.pageSize, this.advanced, this.sort).then(res => {
                         if (res.code === 1) {
                             this.stores = res.data.list;
                             this.total = res.data.total;
-                            this.$store.commit('setStores', this.stores);
+                            if (pageNo === 1) this.$store.commit('setStores', this.stores);
                         }
                     });
                 }
