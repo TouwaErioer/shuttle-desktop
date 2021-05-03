@@ -18,9 +18,6 @@ const mutations = {
     setCategories(state, categories) {
         state.categories.push(...categories)
     },
-    clearCategories(state){
-        state.categories = [];
-    }
 };
 
 export default {

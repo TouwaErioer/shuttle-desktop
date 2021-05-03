@@ -33,5 +33,6 @@ common.getService = function () {
 common.getServiceById = function (serviceId) {
     const services = JSON.parse(sessionStorage.getItem('serviceList'));
     return services.find(service => service.id === serviceId);
-}
+};
+
 export default common

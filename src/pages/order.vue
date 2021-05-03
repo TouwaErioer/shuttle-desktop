@@ -374,7 +374,7 @@
                     });
                 }).catch(() => {
                 });
-            },
+            }
         },
         watch: {
             radio: function () {

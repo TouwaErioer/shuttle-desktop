@@ -35,7 +35,7 @@
                             <i class="el-icon-star-off"></i>
                             <div slot="title">收藏</div>
                         </el-menu-item>
-                        <el-menu-item index="/add">
+                        <el-menu-item index="/approve">
                             <i class="el-icon-circle-plus-outline"></i>
                             <div slot="title">添加</div>
                         </el-menu-item>

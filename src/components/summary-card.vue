@@ -7,9 +7,17 @@
         />
         <div v-text="userInfo.name" style="color: #e6a23c;margin: 10px;font-size: 18px;"/>
         <div class="count">
-            <div v-for="item in countItems" :key="item" class="count-item">
-                <div class="count-item-num" v-text="item.count"/>
-                <div class="count-item-name" v-text="item.name"/>
+            <div class="count-item">
+                <div class="count-item-num" v-text="this.userInfo.score"/>
+                <div class="count-item-name">剩余点数</div>
+            </div>
+            <div class="count-item">
+                <div class="count-item-num" v-text="this.userPerfect ? '已完善' : '未完善'"/>
+                <div class="count-item-name">个人信息</div>
+            </div>
+            <div class="count-item">
+                <div class="count-item-num" v-text="this.userInfo.address === null ? '无' : this.userInfo.address"/>
+                <div class="count-item-name">详细地址</div>
             </div>
         </div>
     </div>
@@ -21,16 +29,15 @@
         data() {
             return {
                 userInfo: {},
-                countItems: [
-                    {name: "待接单", count: 1},
-                    {name: "已接单", count: 2},
-                    {name: "已完成", count: 6},
-                    {name: "已下单", count: 3},
-                ],
+                countItems: null,
             };
         },
         created() {
             this.userInfo = JSON.parse(localStorage.getItem("userInfo"));
+            this.countItems = [
+                {name: "剩余点数", count: this.userInfo.score},
+                {name: "个人信息", count: this.userPerfect ? '已完善' : '未完善'},
+            ]
         },
         computed: {
             avatarUrl: function () {
@@ -39,6 +46,9 @@
                 }
                 return `https://api.multiavatar.com/${this.userInfo.name}.png`;
             },
+            userPerfect: function () {
+                return this.userInfo.phone !== null && this.userInfo.address !== null && this.userInfo.name !== null;
+            }
         },
     };
 </script>
@@ -62,8 +72,10 @@
             > .count-item-num {
                 color: #409eff;
                 text-align: center;
-                font-size: 20px;
                 font-weight: bolder;
+            }
+            > .count-item-name{
+                color: #999;
             }
         }
     }

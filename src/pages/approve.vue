@@ -118,7 +118,7 @@
     import common from "@/utils/common";
 
     export default {
-        name: "add",
+        name: "approve",
         components: {Page, PageHeader},
         data() {
             return {

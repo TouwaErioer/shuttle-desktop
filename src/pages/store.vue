@@ -120,7 +120,7 @@
             getProducts(pageNo) {
                 if (this.$store.getters.productsCache(parseInt(this.id)) && pageNo === 1) {
                     this.products = this.$store.getters.getProducts(parseInt(this.id));
-                    // this.total = this.products.length;
+                    this.total = this.products.length;
                 } else {
                     findProductsByStoreIdByPagination(this.id, pageNo, this.pageSize).then(res => {
                         if (res.code === 1) {

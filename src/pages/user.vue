@@ -405,10 +405,6 @@
         background-color: #f8f8f8;
     }
 
-    .right-div {
-        margin: 20px 0;
-    }
-
 
     .cells {
         padding: 0 10px;

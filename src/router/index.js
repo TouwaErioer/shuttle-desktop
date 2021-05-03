@@ -32,8 +32,8 @@ const routes = [
                 component: () => import('@/pages/receive')
             },
             {
-                path: '/add',
-                component: () => import('@/pages/add')
+                path: '/approve',
+                component: () => import('@/pages/approve')
             },
             {
                 path: '/user',
