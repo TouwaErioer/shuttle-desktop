@@ -120,14 +120,17 @@
             getProducts(pageNo) {
                 if (this.$store.getters.productsCache(parseInt(this.id)) && pageNo === 1) {
                     this.products = this.$store.getters.getProducts(parseInt(this.id));
-                    this.total = this.products.length;
+                    this.total = this.$store.getters.getTotal(this.id);
                 } else {
                     findProductsByStoreIdByPagination(this.id, pageNo, this.pageSize).then(res => {
                         if (res.code === 1) {
-                            let data = res.data.list;
-                            this.total = res.data.total;
-                            this.products = data;
-                            if (pageNo === 1) this.$store.commit('setProducts', data);
+                            let data = res.data;
+                            this.total = data.total;
+                            this.products = data.list;
+                            if (pageNo === 1) {
+                                this.$store.commit('setProducts', data.list);
+                                this.$store.commit('setProductTotal', {storeId: this.id, total: data.total});
+                            }
                         }
                     });
                 }
@@ -145,12 +148,12 @@
                             uid: common.getUserInfo().id
                         }).then(res => {
                             if (res.code === 1) {
+                                this.load();
                                 this.$notify({
                                     title: '操作成功',
                                     message: '已取消收藏',
                                     type: 'success'
                                 });
-                                this.isStarByStoreId();
                             }
                         });
                     }).catch();
@@ -166,7 +169,7 @@
                             type: false
                         }).then(res => {
                             if (res.code === 1) {
-                                this.isStarByStoreId();
+                                this.load();
                                 this.$notify({
                                     title: '操作成功',
                                     message: '收藏商店成功！',
@@ -194,11 +197,15 @@
                 });
             },
             isStarByStoreId() {
+                if (this.$store.getters.starCache(this.id)) this.stars = this.$store.getters.getStar(this.id);
+                else this.load();
+            },
+            load(){
                 isStarByStoreId(this.id).then(res => {
                     if (res.code === 1) {
                         let data = res.data;
                         this.stars = data;
-                        this.$store.commit('setStoreStar', data);
+                        this.$store.commit('setStars', {storeId: this.id, star: data});
                     }
                 });
             }
