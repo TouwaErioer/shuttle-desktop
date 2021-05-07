@@ -3,14 +3,14 @@
         <div @click="addToCart()">
             <slot name="btn"/>
         </div>
-        <el-dialog title="提示" :visible.sync="dialogInputVisible" center>
+        <el-dialog title="提示" :visible.sync="dialogInputVisible" width="20%" center>
             <div class="dialog">
                 <el-input placeholder="请输入取件号" v-model="value" class="dialog-control"
                           suffix-icon="el-icon-chat-line-square" type="number"/>
                 <el-button size="medium" @click="checkInputDialog">确认</el-button>
             </div>
         </el-dialog>
-        <el-dialog title="提示" :visible.sync="dialogUploadVisible" center>
+        <el-dialog title="提示" :visible.sync="dialogUploadVisible" width="20%" center>
             <div class="dialog">
                 <el-upload class="upload dialog-control"
                            action="/api/file/upload"
