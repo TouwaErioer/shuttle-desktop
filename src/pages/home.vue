@@ -3,7 +3,8 @@
         <el-scrollbar slot="center">
             <div class="center-box">
                 <div class="center-container" style="padding-top: 30px;">
-                    <el-carousel :interval="3000" type="card" height="200px" class="shadow" style="width: 73%;margin: 20px 0">
+                    <el-carousel :interval="3000" type="card" height="200px" class="shadow"
+                                 style="width: 73%;margin: 20px 0">
                         <el-carousel-item v-for="ad in ads" :key="ad.id">
                             <el-image :src="ad.image" @click="$router.push('/store/' + ad.storeId)"/>
                         </el-carousel-item>
@@ -16,12 +17,14 @@
                     <div class="service shadow">
                         <div style="width: 100%;display: flex;justify-content: space-between">
                             <el-radio-group v-model="radio" style="padding-left: 20px">
-                                <el-radio-button typeof="info" v-for="service in services" :key="service.id" :label="service.id">
+                                <el-radio-button typeof="info" v-for="service in services" :key="service.id"
+                                                 :label="service.id">
                                     <i :class="service.icon"></i> <span v-text="service.name"></span>
                                 </el-radio-button>
                             </el-radio-group>
 
-                            <el-button icon="el-icon-setting" @click="option = true" style="margin-right: 20px;">选项</el-button>
+                            <el-button icon="el-icon-setting" @click="option = true" style="margin-right: 20px;">选项
+                            </el-button>
                         </div>
                         <Service :stores="stores" :span="6"/>
                         <el-pagination layout="prev, pager, next" :page-size="pageSize" :total="total"
@@ -135,16 +138,28 @@
                 });
             },
             getPopular() {
-                findPopularProduct(5).then(res => {
-                    if (res.code === 1) {
-                        this.popularProduct = res.data;
-                    }
-                });
-                findPopularStore(5).then(res => {
-                    if (res.code === 1) {
-                        this.popularStore = res.data;
-                    }
-                });
+                if (this.$store.getters.PopularCache('product')) {
+                    this.popularProduct = this.$store.getters.getPopularProducts();
+                } else {
+                    findPopularProduct(5).then(res => {
+                        if (res.code === 1) {
+                            let data = res.data;
+                            this.popularProduct = data;
+                            this.$store.commit('setPopularProducts', data);
+                        }
+                    });
+                }
+                if (this.$store.getters.PopularCache('store')) {
+                    this.popularStore = this.$store.getters.getPopularStores();
+                } else {
+                    findPopularStore(5).then(res => {
+                        if (res.code === 1) {
+                            let data = res.data;
+                            this.popularStore = data;
+                            this.$store.commit('setPopularStores', data);
+                        }
+                    });
+                }
             },
             getAds() {
                 let ads = JSON.parse(sessionStorage.getItem('ads'));
@@ -163,7 +178,7 @@
             getStores(pageNo) {
                 if (this.$store.getters.storesCache(parseInt(this.radio)) && pageNo === 1) {
                     this.stores = this.$store.getters.getStoresBySid(parseInt(this.radio));
-                    // this.total = this.stores.length;
+                    this.total = this.stores.length;
                 } else {
                     findStoreByServiceId(parseInt(this.radio), pageNo, this.pageSize, this.advanced, this.sort).then(res => {
                         if (res.code === 1) {

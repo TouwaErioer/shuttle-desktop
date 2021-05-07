@@ -1,5 +1,6 @@
 const state = () => ({
-    products: []
+    products: [],
+    total: new Map()
 });
 
 const getters = {
@@ -11,12 +12,21 @@ const getters = {
             if (product.storeId === storeId) return true;
         }
         return false;
+    },
+    getTotal: (state) => (storeId) => {
+        if (state.total.has(storeId)) {
+            return state.total.get(storeId);
+        }
+        return 0;
     }
 };
 
 const mutations = {
     setProducts(state, products) {
         state.products.push(...products);
+    },
+    setProductTotal(state, payload) {
+        state.total.set(payload.storeId, payload.total);
     }
 };
 
