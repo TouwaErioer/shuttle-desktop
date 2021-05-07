@@ -15,6 +15,11 @@
         },
         created() {
             window.addEventListener('beforeunload', e => this.update(e));
+            let tableHeight = localStorage.getItem("tableHeight");
+            if (tableHeight === null) {
+                const tableHeight = document.body.clientHeight - 223;
+                localStorage.setItem('tableHeight', tableHeight.toString());
+            }
         },
         methods: {
             // 刷新或关闭调用

@@ -89,7 +89,7 @@
                 activeName: 'first',
                 tableData: [],
                 total: 0,
-                pageSize: 8,
+                pageSize: 0,
                 pageNo: 1,
                 radio: '已下单',
                 date: null,
@@ -144,6 +144,8 @@
         },
         created() {
             this.userInfo = common.getUserInfo();
+            const tableHeight = parseInt(localStorage.getItem('tableHeight'));
+            this.pageSize = parseInt((tableHeight / 57).toString());
         },
         computed: {
             getService() {

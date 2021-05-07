@@ -103,7 +103,7 @@
                 activeName: 'first',
                 tableData: [],
                 total: 0,
-                pageSize: 9,
+                pageSize: 0,
                 pageNo: 1,
                 radio: '待接单',
                 date: null,
@@ -161,6 +161,8 @@
         created() {
             this.enableWs();
             this.userInfo = common.getUserInfo();
+            const tableHeight = parseInt(localStorage.getItem('tableHeight'));
+            this.pageSize = parseInt((tableHeight / 57).toString());
         },
         computed: {
             getService() {
@@ -205,7 +207,7 @@
                 }
             },
             findByReceive() {
-                findByReceive(this.pageNo).then(res => {
+                findByReceive(this.pageNo, this.pageSize).then(res => {
                     if (res.code === 1) {
                         this.tableData = res.data.list;
                         this.total = res.data.total;

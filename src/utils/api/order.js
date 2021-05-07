@@ -37,7 +37,7 @@ export const searchByReceive = (userId, pageNo, pageSize, start, end, serviceId,
     '&end=' + end + '&serviceId=' + serviceId + '&address=' + address);
 
 // 查询全部的待接订单
-export const findByReceive = (pageNo) => get(API + 'findByReceive?pageNo=' + pageNo);
+export const findByReceive = (pageNo, pageSize) => get(API + 'findByReceive?pageNo=' + pageNo + "&pageSize=" + pageSize);
 
 // 查询用户已完成的订单
 export const findBySidOrCompleted = (userId, pageNo, pageSize) => get(API + 'findBySidOrCompleted/' + userId + '?pageNo=' + pageNo + '&pageSize=' + pageSize);
