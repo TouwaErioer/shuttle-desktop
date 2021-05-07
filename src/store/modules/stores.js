@@ -1,5 +1,6 @@
 const state = () => ({
-    stores: []
+    stores: [],
+    total: new Map()
 });
 
 const getters = {
@@ -33,6 +34,9 @@ const getters = {
         const stores = state.stores.filter(store => store.serviceId === serviceId);
         if (category === 'all') return stores;
         else return stores.filter(store => store.category.name === category);
+    },
+    getStoreTotal: (state) => (serviceId) => {
+        return state.total.get(serviceId);
     }
 };
 
@@ -42,6 +46,9 @@ const mutations = {
     },
     clearStores(state) {
         state.stores = [];
+    },
+    setTotal(state, payload) {
+        state.total.set(payload.serviceId, payload.total);
     }
 };
 
