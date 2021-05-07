@@ -91,34 +91,34 @@
                     </div>
                     <div class="right">
                         <div class="right-container" v-if="showName">
-                            <img src="../assets/undraw_Profile_data_re_v81r.svg" class="svg">
+                            <img src="../assets/undraw_Profile_data_re_v81r.svg" class="svg" alt="svg">
                             <el-input style="width: 300px;" v-model="inputValue.name" placeholder="输入昵称，回车以保存"
                                       @change="updateUserInfo"/>
                         </div>
                         <div class="right-container" v-if="showPhone">
-                            <img src="../assets/undraw_phone_call_grmk.svg" class="svg">
+                            <img src="../assets/undraw_phone_call_grmk.svg" class="svg" alt="svg">
                             <el-input style="width: 300px;" v-model="inputValue.phone" placeholder="请输入手机号，回车以保存"
                                       @change="updateUserInfo"/>
                         </div>
                         <div class="right-container" v-if="showEmail">
-                            <img src="../assets/undraw_phone_call_grmk.svg" class="svg">
+                            <img src="../assets/undraw_Newsletter_re_wrob.svg" class="svg" alt="svg">
                             <el-input style="width: 300px;" v-model="inputValue.email" placeholder="请输入邮箱，回车以保存"
                                       @change="updateUserInfo"/>
                         </div>
                         <div class="right-container" v-if="showAddress">
-                            <img src="../assets/undraw_delivery_address_03n0.svg" class="svg">
+                            <img src="../assets/undraw_delivery_address_03n0.svg" class="svg" alt="svg">
                             <el-input style="width: 300px;" v-model="inputValue.address" placeholder="请输入地址，回车以保存"
                                       @change="updateUserInfo"/>
                         </div>
                         <div class="right-container" v-if="showResetPassword">
-                            <img src="../assets/undraw_secure_login_pdn4.svg" class="svg">
+                            <img src="../assets/undraw_secure_login_pdn4.svg" class="svg" alt="svg">
                             <el-input style="width: 300px;" v-model="resetPassword" placeholder="请输入新密码"
                                       type="password"/>
                             <el-input style="width: 300px;margin-top: 20px" v-model="reResetPassword"
                                       placeholder="请再次输入新密码，回车以修改" @change="reset" type="password"/>
                         </div>
                         <div class="right-container" v-if="showRecharge">
-                            <img src="../assets/undraw_pay_online_b1hk.svg" class="svg">
+                            <img src="../assets/undraw_pay_online_b1hk.svg" class="svg" alt="svg">
                             <div style="width: 50%;">
                                 <el-input placeholder="请输入充值金额" v-model="total" suffix-icon="el-icon-wallet"/>
                                 <el-divider>
@@ -134,9 +134,13 @@
                                     <div><i class="el-icon-coin"></i> 余额：</div>
                                     <div style="color: #e6a23c" v-text="score + '积分'"></div>
                                 </div>
-                                <form action="/api/user/recharge" method="post" class="recharge-form">
-                                    <input :value="userInfo.id" name="userId" style="display: none"/>
-                                    <input :value="total" name="total" style="display: none" required/>
+                                <form :action="'/api/user/recharge'" method="post" class="recharge-form">
+                                    <label>
+                                        <input :value="userInfo.id" name="userId" style="display: none"/>
+                                    </label>
+                                    <label>
+                                        <input :value="total" name="total" style="display: none" required/>
+                                    </label>
                                     <button type="submit" class="btn" @click="check"
                                             :style="total === ''?'background-color: #a0cfff':''">
                                         充值
@@ -197,18 +201,6 @@
             getUserInfo() {
                 this.userInfo = JSON.parse(localStorage.getItem('userInfo'))
             },
-            setName: function (res) {
-                this.userInfo.name = res;
-                this.updateUserInfo()
-            },
-            setPhone: function (res) {
-                this.userInfo.phone = res;
-                this.updateUserInfo()
-            },
-            setLocal: function (res) {
-                this.userInfo.address = res;
-                this.updateUserInfo()
-            },
             updateUserInfo() {
                 let value = this.inputValue;
                 value.id = this.userInfo.id;
@@ -246,21 +238,9 @@
                     }).then(res => {
                         if (res.code === 1) {
                             this.$message.success('修改成功！');
-                            this.dialogResetPasswordVisible = false;
                         }
                     })
                 } else this.$message.error('两次密码不一致')
-            },
-            clickAvatar() {
-                this.$confirm('头像根据昵称改变', '提示', {
-                    type: 'info'
-                }).then(() => {
-                }).catch(() => {
-                });
-            },
-            changeInput(value) {
-                if (value === '') this.disabled = true;
-                else this.disabled = false;
             },
             showRight(action) {
                 if (action === 'name') {
@@ -346,7 +326,7 @@
                 return `https://api.multiavatar.com/${this.userInfo.name}.png`;
             },
             empty() {
-                return !this.showName && !this.showAddress && !this.showPhone && !this.showResetPassword && !this.showExit && !this.showRecharge;
+                return !this.showName && !this.showAddress && !this.showPhone && !this.showResetPassword && !this.showRecharge && !this.showEmail;
             }
         },
     }
@@ -448,19 +428,10 @@
         font-weight: bolder;
     }
 
-    .recharge {
-        width: 100%;
-    }
-
     .recharge-form {
         width: 100%;
         display: flex;
         justify-content: center;
-    }
-
-    .tip {
-        color: #909399;
-        padding: 0 30px;
     }
 
     .balance {
