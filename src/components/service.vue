@@ -5,8 +5,8 @@
                 <el-col :span="span" v-for="store in stores" :key="store.id">
                     <el-card :body-style="{ padding: '0px' }" style="margin: 10px;" shadow="hover"
                              @click.native="$router.push('/store/' + store.id)">
-                        <img :src="store.image"
-                             class="image" style="height: 160px">
+                        <el-image :src="store.image"
+                             class="image" style="height: 160px"/>
                         <div class="store-info">
                             <div class="store-title">
                                 <span v-text="store.name"></span> <el-tag v-text="store.category.name" size="mini" effect="dark"/>
@@ -66,7 +66,8 @@
     }
 
     .content {
-        padding: 10px 10px;
+        padding: 10px;
+        height: 515px;
     }
 
     .store-info {
